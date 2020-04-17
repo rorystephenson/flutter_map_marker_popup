@@ -46,7 +46,7 @@ class _MapPageState extends State<MapPage> {
 
   List<MarkerWithPopup> _markers;
 
-  PopupLayerController _popupLayerController = PopupLayerController();
+  PopupLayerController<LatLng> _popupLayerController = PopupLayerController<LatLng>();
 
   @override
   void initState() {
@@ -75,7 +75,7 @@ class _MapPageState extends State<MapPage> {
         zoom: 5.0,
         center: _centerPosition,
         onTap: (pos) => _popupLayerController.hidePopup(),
-        plugins: [PopupMarkerPlugin()],
+        plugins: [PopupMarkerPlugin<LatLng>()],
       ),
       layers: [
         TileLayerOptions(
@@ -85,7 +85,7 @@ class _MapPageState extends State<MapPage> {
         MarkerLayerOptions(
           markers: _markers,
         ),
-        PopupMarkerLayerOptions(
+        PopupMarkerLayerOptions<LatLng>(
           popupWidth: 200.0,
           popupHeight: 100.0,
           popupVerticalOffset: -_markerSize,

@@ -1,3 +1,7 @@
-## [0.0.1] - TODO: Add release date.
+## [0.0.1] - 17/04/20
 
-* TODO: Describe initial release.
+* Initial release.
+
+## [0.0.2] - 17/04/20
+
+* Allow constraining of the uuid type.
