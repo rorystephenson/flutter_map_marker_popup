@@ -1,7 +1,6 @@
 library flutter_map_marker_popup;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/marker_with_popup.dart';
+export 'src/popup_layer_controller.dart';
+export 'src/popup_marker_layer_options.dart';
+export 'src/popup_marker_layer_plugin.dart';

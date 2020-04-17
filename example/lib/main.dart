@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong/latlong.dart';
+import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 
 void main() => runApp(MyApp());
 
@@ -7,105 +10,100 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Marker Popup Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MapPage(),
+      builder: (context, navigator) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text("Marker Popup Demo"),
+          ),
+          body: navigator,
+        );
+      },
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
+class MapPage extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MapPageState createState() => _MapPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _MapPageState extends State<MapPage> {
+  static const _markerSize = 40.0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  static final LatLng _centerPosition = LatLng(44.421, 10.404);
+  static final LatLng _secondPosition = LatLng(45.683, 10.839);
+  static final LatLng _thirdPosition = LatLng(45.246, 5.783);
+  static final List<LatLng> points = [
+    _centerPosition,
+    _secondPosition,
+    _thirdPosition,
+  ];
+
+  List<MarkerWithPopup> _markers;
+
+  PopupLayerController _popupLayerController = PopupLayerController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _markers = points
+        .map(
+          (LatLng point) => MarkerWithPopup(
+            uuid: point,
+            showMarker: (_, uuid, point) =>
+                _popupLayerController.togglePopup(uuid, point),
+            point: point,
+            width: _markerSize,
+            height: _markerSize,
+            builder: (_) => Icon(Icons.location_on, size: _markerSize),
+            anchorPos: AnchorPos.align(AnchorAlign.top),
+          ),
+        )
+        .toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+    return FlutterMap(
+      options: new MapOptions(
+        zoom: 5.0,
+        center: _centerPosition,
+        onTap: (pos) => _popupLayerController.hidePopup(),
+        plugins: [PopupMarkerPlugin()],
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
+      layers: [
+        TileLayerOptions(
+          urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          subdomains: ['a', 'b', 'c'],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        MarkerLayerOptions(
+          markers: _markers,
+        ),
+        PopupMarkerLayerOptions(
+          popupWidth: 200.0,
+          popupHeight: 100.0,
+          popupVerticalOffset: -_markerSize,
+          popupLayerController: _popupLayerController,
+          popupBuilder: (context, uuid) => Container(
+            width: 200.0,
+            height: 100.0,
+            child: Text(uuid.toString()),
+            color: Colors.red,
+          ),
+        ),
+      ],
     );
+  }
+
+  @override
+  void dispose() {
+    _popupLayerController.dispose();
+    super.dispose();
   }
 }
