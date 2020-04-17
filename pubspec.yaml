@@ -11,7 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_map: ">=0.8.0"
+  flutter_map: ">=0.8.0 <1.0.0"
+
+  latlong: ">=0.6.0 <1.0.0"
 
 dev_dependencies:
   flutter_test:
