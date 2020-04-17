@@ -1,6 +1,6 @@
 name: flutter_map_marker_popup
-description: Marker popups for flutter_map.
-version: 0.0.2
+description: A plugin for flutter_map which makes it easier to show tappable popups for markers. Provides methods to show/hide and find the currently showing popup.
+version: 0.0.3
 homepage: https://github.com/rorystephenson/flutter_map_marker_popup
 
 environment:
