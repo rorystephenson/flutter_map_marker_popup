@@ -1,8 +1,7 @@
 name: flutter_map_marker_popup
-description: A new Flutter package project.
+description: Marker popups for flutter_map.
 version: 0.0.1
-author:
-homepage:
+homepage: https://github.com/rorystephenson/flutter_map_marker_popup
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
