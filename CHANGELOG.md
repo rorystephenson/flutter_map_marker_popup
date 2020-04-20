@@ -16,3 +16,7 @@
 * Complete rewrite. Now PopupMarkerLayer is a replacement for MarkerLayer and
   is not compatible with the clustering plugin. Popups for the clustering plugin
   will be proposed via PR on the marker clustering project.
+
+## [0.1.1] - 20/04/20
+
+* Add example gif
