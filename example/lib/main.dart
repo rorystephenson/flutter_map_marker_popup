@@ -1,63 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_marker_popup_example/example_popup.dart';
 import 'package:latlong/latlong.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  final GlobalKey<_MapPageState> _mapPageStateKey = GlobalKey<_MapPageState>();
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Marker Popup Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MapPage(),
-      builder: (context, navigator) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text("Marker Popup Demo"),
-          ),
-          body: navigator,
-        );
-      },
-    );
+        title: 'Marker Popup Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: MapPage(_mapPageStateKey),
+        builder: (context, navigator) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text("Marker Popup Demo"),
+            ),
+            body: navigator,
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                _mapPageStateKey.currentState.showPopupForFirstMarker();
+              },
+              child: Icon(Icons.mode_comment),
+              backgroundColor: Colors.green,
+            ),
+          );
+        });
   }
 }
 
 class MapPage extends StatefulWidget {
+  MapPage(GlobalKey<_MapPageState> key) : super(key: key);
   @override
   _MapPageState createState() => _MapPageState();
 }
 
 class _MapPageState extends State<MapPage> {
-  static const _markerSize = 40.0;
-
-  static final LatLng _centerPosition = LatLng(44.421, 10.404);
-  static final LatLng _secondPosition = LatLng(45.683, 10.839);
-  static final LatLng _thirdPosition = LatLng(45.246, 5.783);
-  static final List<LatLng> points = [
-    _centerPosition,
-    _secondPosition,
-    _thirdPosition,
+  static final List<LatLng> _points = [
+    LatLng(44.421, 10.404),
+    LatLng(45.683, 10.839),
+    LatLng(45.246, 5.783),
   ];
 
-  List<MarkerWithPopup> _markers;
+  static const _markerSize = 40.0;
+  List<Marker> _markers;
 
-  PopupLayerController<LatLng> _popupLayerController = PopupLayerController<LatLng>();
+  // Used to trigger showing/hiding of popups.
+  final PopupController _popupLayerController = PopupController();
 
   @override
   void initState() {
     super.initState();
 
-    _markers = points
+    _markers = _points
         .map(
-          (LatLng point) => MarkerWithPopup(
-            uuid: point,
-            showMarker: (_, uuid, point) =>
-                _popupLayerController.togglePopup(uuid, point),
+          (LatLng point) => Marker(
             point: point,
             width: _markerSize,
             height: _markerSize,
@@ -73,37 +77,26 @@ class _MapPageState extends State<MapPage> {
     return FlutterMap(
       options: new MapOptions(
         zoom: 5.0,
-        center: _centerPosition,
-        onTap: (pos) => _popupLayerController.hidePopup(),
-        plugins: [PopupMarkerPlugin<LatLng>()],
+        center: _points.first,
+        plugins: [PopupMarkerPlugin()],
+        onTap: (_) => _popupLayerController.hidePopup(), // Hide popup when the map is tapped.
       ),
       layers: [
         TileLayerOptions(
           urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
           subdomains: ['a', 'b', 'c'],
         ),
-        MarkerLayerOptions(
+        PopupMarkerLayerOptions(
           markers: _markers,
-        ),
-        PopupMarkerLayerOptions<LatLng>(
-          popupWidth: 200.0,
-          popupHeight: 100.0,
-          popupVerticalOffset: -_markerSize,
-          popupLayerController: _popupLayerController,
-          popupBuilder: (context, uuid) => Container(
-            width: 200.0,
-            height: 100.0,
-            child: Text(uuid.toString()),
-            color: Colors.red,
-          ),
+          popupSnap: PopupSnap.top,
+          popupController: _popupLayerController,
+          popupBuilder: (BuildContext _, Marker marker) => ExamplePopup(marker),
         ),
       ],
     );
   }
 
-  @override
-  void dispose() {
-    _popupLayerController.dispose();
-    super.dispose();
+  void showPopupForFirstMarker() {
+    _popupLayerController.togglePopup(_markers.first);
   }
 }

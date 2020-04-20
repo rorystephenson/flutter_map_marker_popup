@@ -1,34 +1,22 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_map_marker_popup/src/popup_layer_controller.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map_marker_popup/src/popup_controller.dart';
+import 'package:flutter_map_marker_popup/src/popup_snap.dart';
 
-class PopupMarkerLayerOptions<T> extends LayerOptions {
-  final PopupLayerController<T> popupLayerController;
+typedef PopupBuilder = Widget Function(BuildContext, Marker);
 
-  final Widget Function(BuildContext context, T uuid) popupBuilder;
-  final double popupWidth;
-  final double popupHeight;
-
-  final Anchor anchor;
+class PopupMarkerLayerOptions extends LayerOptions {
+  final List<Marker> markers;
+  final PopupBuilder popupBuilder;
+  final PopupController popupController;
+  final PopupSnap popupSnap;
 
   PopupMarkerLayerOptions({
-    rebuild,
-    @required this.popupLayerController,
+    this.markers = const [],
     @required this.popupBuilder,
-    @required this.popupWidth,
-    @required this.popupHeight,
-    Anchor anchor,
-    popupVerticalOffset: 0.0,
-    popupHorizontalOffset: 0.0,
-  })  : this.anchor = Anchor.forPos(
-          AnchorPos.exactly(
-            Anchor(
-              popupHorizontalOffset + (popupWidth / 2),
-              popupVerticalOffset,
-            ),
-          ),
-          popupWidth,
-          popupHeight,
-        ),
+    this.popupSnap = PopupSnap.top,
+    popupController,
+    rebuild,
+  })  : this.popupController = popupController ?? PopupController(),
         super(rebuild: rebuild);
 }
