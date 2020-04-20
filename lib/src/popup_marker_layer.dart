@@ -1,66 +1,82 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 
+import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
-
-import 'package:flutter_map_marker_popup/src/map_popup.dart';
-import 'package:flutter_map_marker_popup/src/popup_layer_controller.dart';
+import 'package:flutter_map_marker_popup/src/marker_popup.dart';
 import 'package:flutter_map_marker_popup/src/popup_marker_layer_options.dart';
 
-class PopupMarkerLayer<T> extends StatelessWidget {
-  final PopupLayerController<T> _popupLayerController;
+class PopupMarkerLayer extends StatelessWidget {
+  /// For normal layer behaviour
+  final PopupMarkerLayerOptions layerOpts;
   final MapState map;
   final Stream<Null> stream;
 
-  final Widget Function(BuildContext context, T uuid) popupBuilder;
-  final double popupWidth;
-  final double popupHeight;
-  final Anchor anchor;
+  PopupMarkerLayer(this.layerOpts, this.map, this.stream);
 
-  PopupMarkerLayer(
-      PopupMarkerLayerOptions<T> popupMarkerLayerOptions, this.map, this.stream)
-      : this._popupLayerController =
-            popupMarkerLayerOptions.popupLayerController,
-        this.popupBuilder = popupMarkerLayerOptions.popupBuilder,
-        this.popupWidth = popupMarkerLayerOptions.popupWidth,
-        this.popupHeight = popupMarkerLayerOptions.popupHeight,
-        this.anchor = popupMarkerLayerOptions.anchor;
+  bool _boundsContainsMarker(Marker marker) {
+    var pixelPoint = map.project(marker.point);
+
+    final width = marker.width - marker.anchor.left;
+    final height = marker.height - marker.anchor.top;
+
+    var sw = CustomPoint(pixelPoint.x + width, pixelPoint.y - height);
+    var ne = CustomPoint(pixelPoint.x - width, pixelPoint.y + height);
+    return map.pixelBounds.containsPartialBounds(Bounds(sw, ne));
+  }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<int>(
       stream: stream, // a Stream<int> or null
-      builder: (_, __) {
-        return StreamBuilder<MapPopup<T>>(
-          stream: _popupLayerController.popupStream,
-          builder: (context, snapshot) {
-            Positioned popupWidget;
+      builder: (BuildContext _, AsyncSnapshot<int> __) {
+        var markers = <Widget>[];
 
-            MapPopup<T> popup = snapshot.hasData ? snapshot.data : null;
+        for (var markerOpt in layerOpts.markers) {
+          var pos = map.project(markerOpt.point);
+          pos = pos.multiplyBy(map.getZoomScale(map.zoom, map.zoom)) -
+              map.getPixelOrigin();
 
-            if (popup != null) {
-              var pos = map.project(popup.point);
+          var pixelPosX =
+              (pos.x - (markerOpt.width - markerOpt.anchor.left)).toDouble();
+          var pixelPosY =
+              (pos.y - (markerOpt.height - markerOpt.anchor.top)).toDouble();
 
-              pos = pos.multiplyBy(map.getZoomScale(map.zoom, map.zoom)) -
+          if (!_boundsContainsMarker(markerOpt)) {
+            continue;
+          }
+
+          var bottomPos = map.pixelBounds.max;
+          bottomPos =
+              bottomPos.multiplyBy(map.getZoomScale(map.zoom, map.zoom)) -
                   map.getPixelOrigin();
 
-              var pixelPosX = (pos.x - (popupWidth - anchor.left)).toDouble();
-              var pixelPosY = (pos.y - (popupHeight - anchor.top)).toDouble();
-
-              popupWidget = Positioned(
-                width: popupWidth,
-                height: popupHeight,
-                left: pixelPosX,
-                top: pixelPosY,
-                child: popupBuilder(context, popup.uuid),
-              );
-            }
-
-            return Container(
-              child: Stack(
-                children: popupWidget == null ? [] : [popupWidget],
+          markers.add(
+            Positioned(
+              width: markerOpt.width,
+              height: markerOpt.height,
+              left: pixelPosX,
+              top: pixelPosY,
+              child: GestureDetector(
+                onTap: () => layerOpts.popupController.togglePopup(markerOpt),
+                child: markerOpt.builder(context),
               ),
-            );
-          },
+            ),
+          );
+        }
+
+        markers.add(
+          MarkerPopup(
+            mapState: map,
+            popupController: layerOpts.popupController,
+            snap: layerOpts.popupSnap,
+            popupBuilder: layerOpts.popupBuilder,
+          ),
+        );
+
+        return Container(
+          child: Stack(
+            children: markers,
+          ),
         );
       },
     );
