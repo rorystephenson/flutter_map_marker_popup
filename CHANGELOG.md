@@ -25,3 +25,7 @@
 
 * Possible to hide any of a list of markers. If the popup is showing for any of the provided markers it will be hidden. Otherwise nothing happens.
 * Added `extension_api.dart` to be imported by plugins extending this one. This is initially for `flutter_map_marker_cluster`.
+
+## [0.1.3] - 22/04/20
+
+* Move `PopupBuilder` to its own file and export it in `extension_api.dart` so that it can be used without having to import the layer options.
