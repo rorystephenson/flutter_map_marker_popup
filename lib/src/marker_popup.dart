@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_popup/src/popup_container.dart';
 import 'package:flutter_map_marker_popup/src/popup_controller.dart';
+import 'package:flutter_map_marker_popup/src/popup_event.dart';
+import 'package:flutter_map_marker_popup/src/popup_event_actions.dart';
 import 'package:flutter_map_marker_popup/src/popup_marker_layer_options.dart';
 import 'package:flutter_map_marker_popup/src/popup_position.dart';
 import 'package:flutter_map_marker_popup/src/popup_snap.dart';
@@ -52,9 +54,10 @@ class _MarkerPopupState extends State<MarkerPopup> {
   void initState() {
     super.initState();
 
-    _popupController.streamController = StreamController<Marker>.broadcast();
+    _popupController.streamController =
+        StreamController<PopupEvent>.broadcast();
     _popupController.streamController.stream
-        .listen((Marker tapped) => _markerTapped(tapped));
+        .listen((PopupEvent popupEvent) => _handleAction(popupEvent));
   }
 
   @override
@@ -81,7 +84,30 @@ class _MarkerPopupState extends State<MarkerPopup> {
     );
   }
 
-  void _markerTapped(Marker marker) {
+  void _handleAction(PopupEvent event) {
+    switch (event.action) {
+      case PopupEventActions.hideAny:
+        return _hideAny();
+      case PopupEventActions.hideInList:
+        return _hideInList(event.markers);
+      case PopupEventActions.toggle:
+        return _toggle(event.marker);
+    }
+  }
+
+  void _hideAny() {
+    if (_selectedMarker != null) {
+      setState(() {
+        _selectedMarker = null;
+      });
+    }
+  }
+
+  void _hideInList(List<Marker> markers) {
+    if (markers.contains(_selectedMarker)) _hideAny();
+  }
+
+  void _toggle(Marker marker) {
     setState(() {
       _selectedMarker = _selectedMarker == marker ? null : marker;
     });

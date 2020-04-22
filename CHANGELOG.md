@@ -20,3 +20,8 @@
 ## [0.1.1] - 20/04/20
 
 * Add example gif
+
+## [0.1.2] - 22/04/20
+
+* Possible to hide any of a list of markers. If the popup is showing for any of the provided markers it will be hidden. Otherwise nothing happens.
+* Added `extension_api.dart` to be imported by plugins extending this one. This is initially for `flutter_map_marker_cluster`.
