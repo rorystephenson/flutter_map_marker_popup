@@ -29,3 +29,8 @@
 ## [0.1.3] - 22/04/20
 
 * Move `PopupBuilder` to its own file and export it in `extension_api.dart` so that it can be used without having to import the layer options.
+
+## [0.1.4] - 23/04/20
+
+* Fix bug where the popup state did not change when selected another marker when the popup was already showing.
+* Add showPopupFor(Marker) method to PopupController if the user wants plain show behaviour instead of toggle behaviour.

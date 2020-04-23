@@ -18,4 +18,8 @@ class PopupEvent {
   PopupEvent.toggle(this.marker)
       : this.markers = null,
         this.action = PopupEventActions.toggle;
+
+  PopupEvent.show(this.marker)
+      : this.markers = null,
+        this.action = PopupEventActions.show;
 }

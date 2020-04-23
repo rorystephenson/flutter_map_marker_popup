@@ -10,10 +10,18 @@ class PopupMarkerLayerOptions extends LayerOptions {
   final PopupController popupController;
   final PopupSnap popupSnap;
 
+  /// Show the list of markers on the map with a popup that is shown when a
+  /// marker is tapped or via the popupController.
+  ///
+  /// popupSnap:       To which edge of the marker the popup should snap to.
+  /// popupBuilder:    A function that builds the popup for the given context
+  ///                  and for the given Marker.
+  /// popupController: Optional. Provide a PopupController instance to control
+  ///                  popup functionality programmatically.
   PopupMarkerLayerOptions({
     this.markers = const [],
-    @required this.popupBuilder,
     this.popupSnap = PopupSnap.top,
+    @required this.popupBuilder,
     popupController,
     rebuild,
   })  : this.popupController = popupController ?? PopupController(),

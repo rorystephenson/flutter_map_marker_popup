@@ -41,6 +41,7 @@ class _MarkerPopupState extends State<MarkerPopup> {
   final PopupBuilder _popupBuilder;
   final PopupSnap _snap;
 
+  UniqueKey _popupKey; // Changing forces child rebuild.
   Marker _selectedMarker;
 
   _MarkerPopupState(
@@ -76,9 +77,9 @@ class _MarkerPopupState extends State<MarkerPopup> {
       bottom: popupContainer.bottom,
       child: Align(
         alignment: popupContainer.alignment,
-        child: _popupBuilder(
-          context,
-          _selectedMarker,
+        child: Builder(
+          key: _popupKey,
+          builder: (context) => _popupBuilder(context, _selectedMarker),
         ),
       ),
     );
@@ -92,13 +93,25 @@ class _MarkerPopupState extends State<MarkerPopup> {
         return _hideInList(event.markers);
       case PopupEventActions.toggle:
         return _toggle(event.marker);
+      case PopupEventActions.show:
+        return _showForMarker(event.marker);
     }
   }
 
   void _hideAny() {
     if (_selectedMarker != null) {
       setState(() {
+        _popupKey = null;
         _selectedMarker = null;
+      });
+    }
+  }
+
+  void _showForMarker(Marker marker) {
+    if (marker != null && _selectedMarker != marker) {
+      setState(() {
+        _popupKey = UniqueKey();
+        _selectedMarker = marker;
       });
     }
   }
@@ -108,9 +121,9 @@ class _MarkerPopupState extends State<MarkerPopup> {
   }
 
   void _toggle(Marker marker) {
-    setState(() {
-      _selectedMarker = _selectedMarker == marker ? null : marker;
-    });
+    if (marker != null) {
+      _selectedMarker == marker ? _hideAny() : _showForMarker(marker);
+    }
   }
 
   @override

@@ -79,7 +79,8 @@ class _MapPageState extends State<MapPage> {
         zoom: 5.0,
         center: _points.first,
         plugins: [PopupMarkerPlugin()],
-        onTap: (_) => _popupLayerController.hidePopup(), // Hide popup when the map is tapped.
+        onTap: (_) => _popupLayerController
+            .hidePopup(), // Hide popup when the map is tapped.
       ),
       layers: [
         TileLayerOptions(
