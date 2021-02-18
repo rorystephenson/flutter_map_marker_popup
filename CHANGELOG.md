@@ -1,3 +1,9 @@
+## [0.2.0] - 18/02/21
+
+* New dialog-snapping options added. Can now be snapped to the map rather than
+  just the marker. Old marker snapping options have been deprecated in favour of
+  more specific enums, so `left` now becomes `markerLeft` etc.
+
 ## [0.1.4] - 23/04/20
 
 * Fix bug where the popup state did not change when selected another marker when the popup was already showing.
