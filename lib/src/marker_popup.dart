@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_popup/src/popup_builder.dart';
-import 'package:flutter_map_marker_popup/src/popup_container.dart';
 import 'package:flutter_map_marker_popup/src/popup_controller.dart';
 import 'package:flutter_map_marker_popup/src/popup_event.dart';
 import 'package:flutter_map_marker_popup/src/popup_event_actions.dart';
@@ -27,10 +26,10 @@ class MarkerPopup extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _MarkerPopupState(
-      this.mapState,
-      this.popupController,
-      this.snap,
-      this.popupBuilder,
+      mapState,
+      popupController,
+      snap,
+      popupBuilder,
     );
   }
 }
@@ -65,8 +64,11 @@ class _MarkerPopupState extends State<MarkerPopup> {
   Widget build(BuildContext context) {
     if (_selectedMarker == null) return Container();
 
-    final PopupContainer popupContainer =
-        PopupPosition.container(_mapState, _selectedMarker, _snap);
+    final popupContainer = PopupPosition.container(
+      _mapState,
+      _selectedMarker,
+      _snap,
+    );
 
     return Positioned(
       width: popupContainer.width,

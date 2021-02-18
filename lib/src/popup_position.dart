@@ -9,7 +9,7 @@ class PopupPosition {
     Marker marker,
     PopupSnap snap,
   ) {
-    final CustomPoint markerPosition = _markerPosition(mapState, marker);
+    final markerPosition = _markerPosition(mapState, marker);
 
     return _containerFor(
       mapState.size,
@@ -19,8 +19,12 @@ class PopupPosition {
     );
   }
 
-  static PopupContainer _containerFor(CustomPoint visibleSize,
-      CustomPoint markerPosition, CustomPoint markerSize, PopupSnap snap) {
+  static PopupContainer _containerFor(
+    CustomPoint visibleSize,
+    CustomPoint markerPosition,
+    CustomPoint markerSize,
+    PopupSnap snap,
+  ) {
     // Note: We always add the popup even if it might not be visible. This
     //       ensures the popup state is maintained even when it is not visible.
     switch (snap) {
@@ -59,8 +63,11 @@ class PopupPosition {
     }
   }
 
-  static PopupContainer _snapToMarkerLeft(CustomPoint visibleSize,
-      CustomPoint markerPosition, CustomPoint markerSize) {
+  static PopupContainer _snapToMarkerLeft(
+    CustomPoint visibleSize,
+    CustomPoint markerPosition,
+    CustomPoint markerSize,
+  ) {
     return PopupContainer(
       size: visibleSize,
       right: visibleSize.x - markerPosition.x,
@@ -69,8 +76,11 @@ class PopupPosition {
     );
   }
 
-  static PopupContainer _snapToMarkerTop(CustomPoint visibleSize,
-      CustomPoint markerPosition, CustomPoint markerSize) {
+  static PopupContainer _snapToMarkerTop(
+    CustomPoint visibleSize,
+    CustomPoint markerPosition,
+    CustomPoint markerSize,
+  ) {
     return PopupContainer(
       size: visibleSize,
       alignment: Alignment.bottomCenter,
@@ -79,8 +89,11 @@ class PopupPosition {
     );
   }
 
-  static PopupContainer _snapToMarkerRight(CustomPoint visibleSize,
-      CustomPoint markerPosition, CustomPoint markerSize) {
+  static PopupContainer _snapToMarkerRight(
+    CustomPoint visibleSize,
+    CustomPoint markerPosition,
+    CustomPoint markerSize,
+  ) {
     return PopupContainer(
       size: visibleSize,
       alignment: Alignment.centerLeft,
@@ -89,8 +102,11 @@ class PopupPosition {
     );
   }
 
-  static PopupContainer _snapToMarkerBottom(CustomPoint visibleSize,
-      CustomPoint markerPosition, CustomPoint markerSize) {
+  static PopupContainer _snapToMarkerBottom(
+    CustomPoint visibleSize,
+    CustomPoint markerPosition,
+    CustomPoint markerSize,
+  ) {
     return PopupContainer(
       size: visibleSize,
       alignment: Alignment.topCenter,
@@ -99,8 +115,11 @@ class PopupPosition {
     );
   }
 
-  static PopupContainer _snapToMarkerCenter(CustomPoint visibleSize,
-      CustomPoint markerPosition, CustomPoint markerSize) {
+  static PopupContainer _snapToMarkerCenter(
+    CustomPoint visibleSize,
+    CustomPoint markerPosition,
+    CustomPoint markerSize,
+  ) {
     return PopupContainer(
       size: visibleSize,
       alignment: Alignment.center,
@@ -109,8 +128,10 @@ class PopupPosition {
     );
   }
 
-  static PopupContainer _snapToMap(CustomPoint visibleSize,
-      Alignment alignment) {
+  static PopupContainer _snapToMap(
+    CustomPoint visibleSize,
+    Alignment alignment,
+  ) {
     return PopupContainer(
       alignment: alignment,
       left: 0,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong/latlong.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
+import 'package:latlong/latlong.dart';
 
 import 'example_popup.dart';
 
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         builder: (context, navigator) {
           return Scaffold(
             appBar: AppBar(
-              title: Text("Marker Popup Demo"),
+              title: Text('Marker Popup Demo'),
             ),
             body: navigator,
             floatingActionButton: FloatingActionButton(
@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
 
 class MapPage extends StatefulWidget {
   MapPage(GlobalKey<_MapPageState> key) : super(key: key);
+
   @override
   _MapPageState createState() => _MapPageState();
 }
@@ -76,7 +77,7 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return FlutterMap(
-      options: new MapOptions(
+      options: MapOptions(
         zoom: 5.0,
         center: _points.first,
         plugins: [PopupMarkerPlugin()],

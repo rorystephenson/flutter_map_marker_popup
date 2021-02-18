@@ -24,6 +24,6 @@ class PopupMarkerLayerOptions extends LayerOptions {
     @required this.popupBuilder,
     popupController,
     rebuild,
-  })  : this.popupController = popupController ?? PopupController(),
+  })  : popupController = popupController ?? PopupController(),
         super(rebuild: rebuild);
 }

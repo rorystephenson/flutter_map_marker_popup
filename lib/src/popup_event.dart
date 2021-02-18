@@ -7,19 +7,19 @@ class PopupEvent {
   final PopupEventActions action;
 
   PopupEvent.hideInList(this.markers)
-      : this.marker = null,
-        this.action = PopupEventActions.hideInList;
+      : marker = null,
+        action = PopupEventActions.hideInList;
 
   PopupEvent.hideAny()
-      : this.marker = null,
-        this.markers = null,
-        this.action = PopupEventActions.hideAny;
+      : marker = null,
+        markers = null,
+        action = PopupEventActions.hideAny;
 
   PopupEvent.toggle(this.marker)
-      : this.markers = null,
-        this.action = PopupEventActions.toggle;
+      : markers = null,
+        action = PopupEventActions.toggle;
 
   PopupEvent.show(this.marker)
-      : this.markers = null,
-        this.action = PopupEventActions.show;
+      : markers = null,
+        action = PopupEventActions.show;
 }

@@ -7,7 +7,7 @@ class ExamplePopup extends StatefulWidget {
   ExamplePopup(this.marker, {Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _ExamplePopupState(this.marker);
+  State<StatefulWidget> createState() => _ExamplePopupState(marker);
 }
 
 class _ExamplePopupState extends State<ExamplePopup> {
@@ -54,7 +54,7 @@ class _ExamplePopupState extends State<ExamplePopup> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text(
-              "Popup for a marker!",
+              'Popup for a marker!',
               overflow: TextOverflow.fade,
               softWrap: false,
               style: const TextStyle(
@@ -64,11 +64,11 @@ class _ExamplePopupState extends State<ExamplePopup> {
             ),
             const Padding(padding: EdgeInsets.symmetric(vertical: 4.0)),
             Text(
-              "Position: ${_marker.point.latitude}, ${_marker.point.longitude}",
+              'Position: ${_marker.point.latitude}, ${_marker.point.longitude}',
               style: const TextStyle(fontSize: 12.0),
             ),
             Text(
-              "Marker size: ${_marker.width}, ${_marker.height}",
+              'Marker size: ${_marker.width}, ${_marker.height}',
               style: const TextStyle(fontSize: 12.0),
             ),
           ],
