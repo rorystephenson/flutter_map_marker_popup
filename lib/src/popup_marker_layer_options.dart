@@ -20,7 +20,7 @@ class PopupMarkerLayerOptions extends LayerOptions {
   ///                  popup functionality programmatically.
   PopupMarkerLayerOptions({
     this.markers = const [],
-    this.popupSnap = PopupSnap.top,
+    this.popupSnap = PopupSnap.markerTop,
     @required this.popupBuilder,
     popupController,
     rebuild,

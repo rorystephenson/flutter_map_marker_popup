@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_map_marker_popup_example/example_popup.dart';
 import 'package:latlong/latlong.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
+
+import 'example_popup.dart';
 
 void main() => runApp(MyApp());
 
@@ -89,7 +90,7 @@ class _MapPageState extends State<MapPage> {
         ),
         PopupMarkerLayerOptions(
           markers: _markers,
-          popupSnap: PopupSnap.top,
+          popupSnap: PopupSnap.markerTop,
           popupController: _popupLayerController,
           popupBuilder: (BuildContext _, Marker marker) => ExamplePopup(marker),
         ),

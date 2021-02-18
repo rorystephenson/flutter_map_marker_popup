@@ -24,22 +24,42 @@ class PopupPosition {
     // Note: We always add the popup even if it might not be visible. This
     //       ensures the popup state is maintained even when it is not visible.
     switch (snap) {
+      // ignore: deprecated_member_use_from_same_package
       case PopupSnap.left:
-        return _snapLeft(visibleSize, markerPosition, markerSize);
+      case PopupSnap.markerLeft:
+        return _snapToMarkerLeft(visibleSize, markerPosition, markerSize);
+      // ignore: deprecated_member_use_from_same_package
       case PopupSnap.top:
-        return _snapTop(visibleSize, markerPosition, markerSize);
+      case PopupSnap.markerTop:
+        return _snapToMarkerTop(visibleSize, markerPosition, markerSize);
+      // ignore: deprecated_member_use_from_same_package
       case PopupSnap.right:
-        return _snapRight(visibleSize, markerPosition, markerSize);
+      case PopupSnap.markerRight:
+        return _snapToMarkerRight(visibleSize, markerPosition, markerSize);
+      // ignore: deprecated_member_use_from_same_package
       case PopupSnap.bottom:
-        return _snapBottom(visibleSize, markerPosition, markerSize);
+      case PopupSnap.markerBottom:
+        return _snapToMarkerBottom(visibleSize, markerPosition, markerSize);
+      // ignore: deprecated_member_use_from_same_package
       case PopupSnap.center:
-        return _snapCenter(visibleSize, markerPosition, markerSize);
+      case PopupSnap.markerCenter:
+        return _snapToMarkerCenter(visibleSize, markerPosition, markerSize);
+      case PopupSnap.mapLeft:
+        return _snapToMap(visibleSize, Alignment.centerLeft);
+      case PopupSnap.mapTop:
+        return _snapToMap(visibleSize, Alignment.topCenter);
+      case PopupSnap.mapRight:
+        return _snapToMap(visibleSize, Alignment.centerRight);
+      case PopupSnap.mapBottom:
+        return _snapToMap(visibleSize, Alignment.bottomCenter);
+      case PopupSnap.mapCenter:
+        return _snapToMap(visibleSize, Alignment.center);
       default:
-        return _snapTop(visibleSize, markerPosition, markerSize);
+        return _snapToMarkerTop(visibleSize, markerPosition, markerSize);
     }
   }
 
-  static PopupContainer _snapLeft(CustomPoint visibleSize,
+  static PopupContainer _snapToMarkerLeft(CustomPoint visibleSize,
       CustomPoint markerPosition, CustomPoint markerSize) {
     return PopupContainer(
       size: visibleSize,
@@ -49,7 +69,7 @@ class PopupPosition {
     );
   }
 
-  static PopupContainer _snapTop(CustomPoint visibleSize,
+  static PopupContainer _snapToMarkerTop(CustomPoint visibleSize,
       CustomPoint markerPosition, CustomPoint markerSize) {
     return PopupContainer(
       size: visibleSize,
@@ -59,7 +79,7 @@ class PopupPosition {
     );
   }
 
-  static PopupContainer _snapRight(CustomPoint visibleSize,
+  static PopupContainer _snapToMarkerRight(CustomPoint visibleSize,
       CustomPoint markerPosition, CustomPoint markerSize) {
     return PopupContainer(
       size: visibleSize,
@@ -69,7 +89,7 @@ class PopupPosition {
     );
   }
 
-  static PopupContainer _snapBottom(CustomPoint visibleSize,
+  static PopupContainer _snapToMarkerBottom(CustomPoint visibleSize,
       CustomPoint markerPosition, CustomPoint markerSize) {
     return PopupContainer(
       size: visibleSize,
@@ -79,13 +99,24 @@ class PopupPosition {
     );
   }
 
-  static PopupContainer _snapCenter(CustomPoint visibleSize,
+  static PopupContainer _snapToMarkerCenter(CustomPoint visibleSize,
       CustomPoint markerPosition, CustomPoint markerSize) {
     return PopupContainer(
       size: visibleSize,
       alignment: Alignment.center,
       left: markerPosition.x - (visibleSize.x / 2) + (markerSize.x / 2),
       top: markerPosition.y - (visibleSize.y / 2) + (markerSize.y / 2),
+    );
+  }
+
+  static PopupContainer _snapToMap(CustomPoint visibleSize,
+      Alignment alignment) {
+    return PopupContainer(
+      alignment: alignment,
+      left: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
     );
   }
 

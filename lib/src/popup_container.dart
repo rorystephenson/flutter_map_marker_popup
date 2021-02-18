@@ -16,6 +16,6 @@ class PopupContainer {
     this.right,
     this.bottom,
     this.alignment,
-  })  : this.width = size.x,
-        this.height = size.y;
+  })  : this.width = size?.x,
+        this.height = size?.y;
 }
