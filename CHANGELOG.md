@@ -1,3 +1,11 @@
+## [0.2.1] - 05/03/21
+
+* Move demo gif to separate repo so that the gif is not included when downloading this package.
+* Updated demo gif to show new snapping behaviour.
+* Added some thanks and links to related repos in READEME.md.
+* Add documentation to make pub.dev happy.
+* Add trailing newline to PopupSnap to make pub.dev happy.
+
 ## [0.2.0] - 18/02/21
 
 * New dialog-snapping options added. Can now be snapped to the map rather than
