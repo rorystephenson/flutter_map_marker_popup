@@ -9,12 +9,6 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^0.1.2
 
-  # latlong2: any
-  # flutter_map:
-  #   git:
-  #     url: git://github.com/escamoteur/flutter_map.git
-  #     ref: nullsafety
-
   flutter_map_marker_popup:
     path: ../
 

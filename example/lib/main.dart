@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
@@ -80,7 +81,7 @@ class _MapPageState extends State<MapPage> {
   ];
 
   static const _markerSize = 40.0;
-  late List<Marker> _markers;
+  List<Marker> _markers;
 
   /// Used to trigger showing/hiding of popups.
   final PopupController _popupLayerController = PopupController();
