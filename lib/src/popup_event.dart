@@ -2,8 +2,8 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_popup/src/popup_event_actions.dart';
 
 class PopupEvent {
-  final Marker marker;
-  final List<Marker> markers;
+  final Marker? marker;
+  final List<Marker>? markers;
   final PopupEventActions action;
 
   PopupEvent.hideInList(this.markers)

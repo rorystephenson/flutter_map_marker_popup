@@ -16,11 +16,11 @@ class MarkerPopup extends StatefulWidget {
   final MapState mapState;
 
   MarkerPopup({
-    @required this.mapState,
-    @required this.popupController,
-    @required this.snap,
-    @required this.popupBuilder,
-    Key key,
+    required this.mapState,
+    required this.popupController,
+    required this.snap,
+    required this.popupBuilder,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -40,8 +40,8 @@ class _MarkerPopupState extends State<MarkerPopup> {
   final PopupBuilder _popupBuilder;
   final PopupSnap _snap;
 
-  UniqueKey _popupKey; // Changing forces child rebuild.
-  Marker _selectedMarker;
+  UniqueKey? _popupKey; // Changing forces child rebuild.
+  Marker? _selectedMarker;
 
   _MarkerPopupState(
     this._mapState,
@@ -56,7 +56,7 @@ class _MarkerPopupState extends State<MarkerPopup> {
 
     _popupController.streamController =
         StreamController<PopupEvent>.broadcast();
-    _popupController.streamController.stream
+    _popupController.streamController!.stream
         .listen((PopupEvent popupEvent) => _handleAction(popupEvent));
   }
 
@@ -66,7 +66,7 @@ class _MarkerPopupState extends State<MarkerPopup> {
 
     final popupContainer = PopupPosition.container(
       _mapState,
-      _selectedMarker,
+      _selectedMarker!,
       _snap,
     );
 
@@ -78,10 +78,10 @@ class _MarkerPopupState extends State<MarkerPopup> {
       right: popupContainer.right,
       bottom: popupContainer.bottom,
       child: Align(
-        alignment: popupContainer.alignment,
+        alignment: popupContainer.alignment!,
         child: Builder(
           key: _popupKey,
-          builder: (context) => _popupBuilder(context, _selectedMarker),
+          builder: (context) => _popupBuilder(context, _selectedMarker!),
         ),
       ),
     );
@@ -92,7 +92,7 @@ class _MarkerPopupState extends State<MarkerPopup> {
       case PopupEventActions.hideAny:
         return _hideAny();
       case PopupEventActions.hideInList:
-        return _hideInList(event.markers);
+        return _hideInList(event.markers!);
       case PopupEventActions.toggle:
         return _toggle(event.marker);
       case PopupEventActions.show:
@@ -109,7 +109,7 @@ class _MarkerPopupState extends State<MarkerPopup> {
     }
   }
 
-  void _showForMarker(Marker marker) {
+  void _showForMarker(Marker? marker) {
     if (marker != null && _selectedMarker != marker) {
       setState(() {
         _popupKey = UniqueKey();
@@ -122,7 +122,7 @@ class _MarkerPopupState extends State<MarkerPopup> {
     if (markers.contains(_selectedMarker)) _hideAny();
   }
 
-  void _toggle(Marker marker) {
+  void _toggle(Marker? marker) {
     if (marker != null) {
       _selectedMarker == marker ? _hideAny() : _showForMarker(marker);
     }
@@ -130,7 +130,7 @@ class _MarkerPopupState extends State<MarkerPopup> {
 
   @override
   void dispose() {
-    _popupController.streamController.close();
+    _popupController.streamController!.close();
     super.dispose();
   }
 }

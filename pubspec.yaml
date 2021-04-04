@@ -1,10 +1,10 @@
 name: flutter_map_marker_popup
 description: A plugin for flutter_map to show a customisable popup Widget when a marker is tapped. Also provides methods to show/hide popups.
-version: 0.2.1
+version: 0.3.0-nullsafety.0
 homepage: https://github.com/rorystephenson/flutter_map_marker_popup
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -12,7 +12,7 @@ dependencies:
 
   flutter_map: ">=0.8.0 <1.0.0"
 
-  latlong: ">=0.6.0 <1.0.0"
+  latlong2: any
 
 dev_dependencies:
   pedantic: ^1.9.0
@@ -24,7 +24,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
   # To add assets to your package, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg
@@ -35,7 +34,6 @@ flutter:
   #
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
-
   # To add custom fonts to your package, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a

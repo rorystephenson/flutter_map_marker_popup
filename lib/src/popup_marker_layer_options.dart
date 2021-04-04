@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_popup/src/popup_builder.dart';
 import 'package:flutter_map_marker_popup/src/popup_controller.dart';
@@ -26,10 +25,10 @@ class PopupMarkerLayerOptions extends LayerOptions {
   /// layer.
   PopupMarkerLayerOptions({
     this.markers = const [],
-    @required this.popupBuilder,
+    required this.popupBuilder,
     this.popupSnap = PopupSnap.markerTop,
-    PopupController popupController,
-    Stream<Null> rebuild,
+    PopupController? popupController,
+    Stream<Null>? rebuild,
   })  : popupController = popupController ?? PopupController(),
         super(rebuild: rebuild);
 }
