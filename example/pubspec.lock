@@ -73,9 +73,9 @@ packages:
     dependency: "direct overridden"
     description:
       path: "."
-      ref: nullsafety
-      resolved-ref: "3a4ff10952d3656aba150cca8c55fd4cce8144ae"
-      url: "git://github.com/escamoteur/flutter_map.git"
+      ref: "issues/829-nullsafety"
+      resolved-ref: "2ff083d5f57cc372a8b5b46c8d8fe806326a1bcb"
+      url: "git://github.com/fleaflet/flutter_map.git"
     source: git
     version: "0.12.0"
   flutter_map_marker_popup:
