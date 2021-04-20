@@ -63,12 +63,14 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_image:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: flutter_image
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.0"
+      path: "."
+      ref: null-safety
+      resolved-ref: b3d792066477efc57c7baa57098cfc3a0164de41
+      url: "https://github.com/flutter/flutter_image"
+    source: git
+    version: "4.0.0"
   flutter_map:
     dependency: "direct overridden"
     description:
@@ -96,7 +98,7 @@ packages:
       name: intl
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.16.1"
+    version: "0.17.0"
   latlong2:
     dependency: transitive
     description:
@@ -145,7 +147,7 @@ packages:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.9.2"
+    version: "1.11.0"
   positioned_tap_detector_2:
     dependency: transitive
     description:
@@ -166,7 +168,7 @@ packages:
       name: quiver
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -258,4 +260,3 @@ packages:
     version: "2.0.0"
 sdks:
   dart: ">=2.12.0 <3.0.0"
-  flutter: ">=1.10.15-pre.144"

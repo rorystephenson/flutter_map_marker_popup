@@ -26,9 +26,9 @@ class PopupMarkerLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<int>(
-      stream: stream as Stream<int>?, // a Stream<int> or null
-      builder: (BuildContext _, AsyncSnapshot<int> __) {
+    return StreamBuilder<int?>(
+      stream: stream, // a Stream<int> or null
+      builder: (BuildContext _, AsyncSnapshot<int?> __) {
         var markers = <Widget>[];
 
         for (var markerOpt in layerOpts.markers) {
