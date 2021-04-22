@@ -5,6 +5,18 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_popup/src/marker_popup.dart';
 import 'package:flutter_map_marker_popup/src/popup_marker_layer_options.dart';
 
+class PopupMarkerLayerWidget extends StatelessWidget {
+  final PopupMarkerLayerOptions options;
+
+  PopupMarkerLayerWidget({Key key, @required this.options}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final mapState = MapState.of(context);
+    return PopupMarkerLayer(options, mapState, mapState.onMoved);
+  }
+}
+
 class PopupMarkerLayer extends StatelessWidget {
   /// For normal layer behaviour
   final PopupMarkerLayerOptions layerOpts;
@@ -14,13 +26,13 @@ class PopupMarkerLayer extends StatelessWidget {
   PopupMarkerLayer(this.layerOpts, this.map, this.stream);
 
   bool _boundsContainsMarker(Marker marker) {
-    var pixelPoint = map.project(marker.point);
+    final pixelPoint = map.project(marker.point);
 
     final width = marker.width - marker.anchor.left;
     final height = marker.height - marker.anchor.top;
 
-    var sw = CustomPoint(pixelPoint.x + width, pixelPoint.y - height);
-    var ne = CustomPoint(pixelPoint.x - width, pixelPoint.y + height);
+    final sw = CustomPoint(pixelPoint.x + width, pixelPoint.y - height);
+    final ne = CustomPoint(pixelPoint.x - width, pixelPoint.y + height);
     return map.pixelBounds.containsPartialBounds(Bounds(sw, ne));
   }
 

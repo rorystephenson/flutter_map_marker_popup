@@ -30,43 +30,46 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       body: FlutterMap(
         options: MapOptions(
-          plugins: <MapPlugin>[PopupMarkerPlugin()],
           center: LatLng(48.857661, 2.295135),
           zoom: 13.0,
           interactive: true,
           onTap: (_) => _popupLayerController.hidePopup(),
         ),
-        layers: <LayerOptions>[
-          TileLayerOptions(
-            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            subdomains: <String>['a', 'b', 'c'],
+        children: <Widget>[
+          TileLayerWidget(
+            options: TileLayerOptions(
+              urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+              subdomains: <String>['a', 'b', 'c'],
+            ),
           ),
-          PopupMarkerLayerOptions(
-            markers: <Marker>[
-              MonumentMarker(
-                monument: Monument(
-                  name: 'Eiffel Tower',
-                  imagePath:
-                      'https://cdn.lifestyleasia.com/wp-content/uploads/2019/10/21224220/Winer-Parisienne.jpg',
-                  lat: 48.857661,
-                  long: 2.295135,
+          PopupMarkerLayerWidget(
+            options: PopupMarkerLayerOptions(
+              markers: <Marker>[
+                MonumentMarker(
+                  monument: Monument(
+                    name: 'Eiffel Tower',
+                    imagePath:
+                        'https://cdn.lifestyleasia.com/wp-content/uploads/2019/10/21224220/Winer-Parisienne.jpg',
+                    lat: 48.857661,
+                    long: 2.295135,
+                  ),
                 ),
-              ),
-              Marker(
-                anchorPos: AnchorPos.align(AnchorAlign.top),
-                point: LatLng(48.859661, 2.305135),
-                height: Monument.size,
-                width: Monument.size,
-                builder: (BuildContext ctx) => Icon(Icons.shop),
-              ),
-            ],
-            popupController: _popupLayerController,
-            popupBuilder: (_, Marker marker) {
-              if (marker is MonumentMarker) {
-                return MonumentMarkerPopup(monument: marker.monument);
-              }
-              return Card(child: const Text('Not a monument'));
-            },
+                Marker(
+                  anchorPos: AnchorPos.align(AnchorAlign.top),
+                  point: LatLng(48.859661, 2.305135),
+                  height: Monument.size,
+                  width: Monument.size,
+                  builder: (BuildContext ctx) => Icon(Icons.shop),
+                ),
+              ],
+              popupController: _popupLayerController,
+              popupBuilder: (_, Marker marker) {
+                if (marker is MonumentMarker) {
+                  return MonumentMarkerPopup(monument: marker.monument);
+                }
+                return Card(child: const Text('Not a monument'));
+              },
+            ),
           ),
         ],
       ),

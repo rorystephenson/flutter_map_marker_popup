@@ -108,20 +108,24 @@ class _MapPageState extends State<MapPage> {
       options: MapOptions(
         zoom: 5.0,
         center: _points.first,
-        plugins: [PopupMarkerPlugin()],
         onTap: (_) => _popupLayerController
             .hidePopup(), // Hide popup when the map is tapped.
       ),
-      layers: [
-        TileLayerOptions(
-          urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-          subdomains: ['a', 'b', 'c'],
+      children: [
+        TileLayerWidget(
+          options: TileLayerOptions(
+            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            subdomains: ['a', 'b', 'c'],
+          ),
         ),
-        PopupMarkerLayerOptions(
-          markers: _markers,
-          popupSnap: widget.popupSnap,
-          popupController: _popupLayerController,
-          popupBuilder: (BuildContext _, Marker marker) => ExamplePopup(marker),
+        PopupMarkerLayerWidget(
+          options: PopupMarkerLayerOptions(
+            markers: _markers,
+            popupSnap: widget.popupSnap,
+            popupController: _popupLayerController,
+            popupBuilder: (BuildContext _, Marker marker) =>
+                ExamplePopup(marker),
+          ),
         ),
       ],
     );

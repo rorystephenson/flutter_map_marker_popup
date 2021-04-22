@@ -1,3 +1,9 @@
+## [1.0.0] - TBD
+
+* PopupMarkerPlugin is removed and PopupMarkerPluginWidget is added. This plugin
+  should now be added to FlutterMap as one of the 'children' instead of being
+  added as a plugin.
+
 ## [0.2.1] - 05/03/21
 
 * Move demo gif to separate repo so that the gif is not included when downloading this package.
