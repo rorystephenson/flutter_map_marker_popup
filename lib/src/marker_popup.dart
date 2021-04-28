@@ -15,13 +15,18 @@ class MarkerPopup extends StatefulWidget {
   final PopupSnap snap;
   final MapState mapState;
 
+  /// If true cluter will be counter rotated to the map rotation
+  final bool rotate;
+
   MarkerPopup({
     @required this.mapState,
     @required this.popupController,
     @required this.snap,
     @required this.popupBuilder,
+    this.rotate = false,
     Key key,
-  }) : super(key: key);
+  })  : assert(rotate != null),
+        super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -68,6 +73,7 @@ class _MarkerPopupState extends State<MarkerPopup> {
       _mapState,
       _selectedMarker,
       _snap,
+      rotate: widget.rotate,
     );
 
     return Positioned(
