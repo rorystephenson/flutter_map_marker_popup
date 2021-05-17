@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-class PopupContainer {
+class PopupLayout {
   final double width;
   final double height;
   final double left;
@@ -9,13 +9,14 @@ class PopupContainer {
   final double bottom;
   final Alignment alignment;
 
-  PopupContainer({
+  PopupLayout({
     size,
     this.left,
     this.top,
     this.right,
     this.bottom,
     this.alignment,
-  })  : width = size?.x,
+  })
+      : width = size?.x,
         height = size?.y;
 }

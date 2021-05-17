@@ -125,6 +125,9 @@ class _MapPageState extends State<MapPage> {
             popupController: _popupLayerController,
             popupBuilder: (BuildContext _, Marker marker) =>
                 ExamplePopup(marker),
+            popupAnimation: PopupAnimation.fade(
+              duration: Duration(milliseconds: 700),
+            ),
           ),
         ),
       ],

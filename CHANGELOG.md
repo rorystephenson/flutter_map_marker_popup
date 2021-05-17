@@ -1,8 +1,14 @@
-## [1.0.0] - TBD
+## [0.3.0] - 17/05/21
 
 * PopupMarkerPlugin is removed and PopupMarkerPluginWidget is added. This plugin
   should now be added to FlutterMap as one of the 'children' instead of being
   added as a plugin.
+* Showing/hiding of popups can now use a fade animation with a customisable duration and curve.
+* Removed deprecated PopupSnap values, they have been replaced as follows:
+  * left -> markerLeft
+  * top -> markerTop
+  * right -> markerRight
+  * bottom -> markerBottom
 
 ## [0.2.1] - 05/03/21
 

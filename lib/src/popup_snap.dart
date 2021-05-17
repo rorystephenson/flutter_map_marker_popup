@@ -1,15 +1,4 @@
 enum PopupSnap {
-  @Deprecated('use markerLeft instead')
-  left,
-  @Deprecated('use markerTop instead')
-  top,
-  @Deprecated('use markerRight instead')
-  right,
-  @Deprecated('use markerBottom instead')
-  bottom,
-  @Deprecated('use markerCenter instead')
-  center,
-
   /// Snap the popup to the marker's left edge.
   markerLeft,
 

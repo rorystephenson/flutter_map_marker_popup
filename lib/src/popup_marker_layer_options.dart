@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map_marker_popup/src/popup_animation.dart';
 import 'package:flutter_map_marker_popup/src/popup_builder.dart';
 import 'package:flutter_map_marker_popup/src/popup_controller.dart';
 import 'package:flutter_map_marker_popup/src/popup_snap.dart';
@@ -18,6 +19,10 @@ class PopupMarkerLayerOptions extends LayerOptions {
   /// Controls the position of the popup relative to the marker or popup.
   final PopupSnap popupSnap;
 
+  /// Allows the use of an animation for showing/hiding popups. Defaults to no
+  /// animation.
+  final PopupAnimation popupAnimation;
+
   /// Show the list of [markers] on the map with a popup that is shown when a
   /// marker is tapped or when triggered via the [popupController].
   ///
@@ -28,6 +33,7 @@ class PopupMarkerLayerOptions extends LayerOptions {
     this.markers = const [],
     @required this.popupBuilder,
     this.popupSnap = PopupSnap.markerTop,
+    this.popupAnimation = const PopupAnimation.none(),
     PopupController popupController,
     Stream<Null> rebuild,
   })  : popupController = popupController ?? PopupController(),
