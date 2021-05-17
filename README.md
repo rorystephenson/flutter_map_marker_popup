@@ -6,7 +6,7 @@ If you have any suggestions/problems please don't hesitate to open an issue.
 
 ## Getting Started
 
-See the `example/` directory for a demo app which resulting in the following:
+See the `example/` directory for a demo app which results in the following:
 
 ![Example](https://github.com/rorystephenson/project_gifs/blob/master/flutter_map_marker_popup_demo.gif)
 

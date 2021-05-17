@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
-import 'package:flutter_map_marker_popup/src/marker_popup.dart';
 import 'package:flutter_map_marker_popup/src/popup_marker_layer_options.dart';
+import 'package:flutter_map_marker_popup/src/simple_popup_container.dart';
+
+import 'animated_popup_container.dart';
 
 class PopupMarkerLayerWidget extends StatelessWidget {
   final PopupMarkerLayerOptions options;
@@ -44,23 +46,17 @@ class PopupMarkerLayer extends StatelessWidget {
         var markers = <Widget>[];
 
         for (var markerOpt in layerOpts.markers) {
-          var pos = map.project(markerOpt.point);
-          pos = pos.multiplyBy(map.getZoomScale(map.zoom, map.zoom)) -
+          if (!_boundsContainsMarker(markerOpt)) continue;
+
+          final pos = map
+                  .project(markerOpt.point)
+                  .multiplyBy(map.getZoomScale(map.zoom, map.zoom)) -
               map.getPixelOrigin();
 
-          var pixelPosX =
+          final pixelPosX =
               (pos.x - (markerOpt.width - markerOpt.anchor.left)).toDouble();
-          var pixelPosY =
+          final pixelPosY =
               (pos.y - (markerOpt.height - markerOpt.anchor.top)).toDouble();
-
-          if (!_boundsContainsMarker(markerOpt)) {
-            continue;
-          }
-
-          var bottomPos = map.pixelBounds.max;
-          bottomPos =
-              bottomPos.multiplyBy(map.getZoomScale(map.zoom, map.zoom)) -
-                  map.getPixelOrigin();
 
           markers.add(
             Positioned(
@@ -76,14 +72,7 @@ class PopupMarkerLayer extends StatelessWidget {
           );
         }
 
-        markers.add(
-          MarkerPopup(
-            mapState: map,
-            popupController: layerOpts.popupController,
-            snap: layerOpts.popupSnap,
-            popupBuilder: layerOpts.popupBuilder,
-          ),
-        );
+        markers.add(_popupContainer());
 
         return Container(
           child: Stack(
@@ -92,5 +81,24 @@ class PopupMarkerLayer extends StatelessWidget {
         );
       },
     );
+  }
+
+  Widget _popupContainer() {
+    if (layerOpts.popupAnimation.enabled) {
+      return AnimatedPopupContainer(
+        mapState: map,
+        popupController: layerOpts.popupController,
+        snap: layerOpts.popupSnap,
+        popupBuilder: layerOpts.popupBuilder,
+        popupAnimation: layerOpts.popupAnimation,
+      );
+    } else {
+      return SimplePopupContainer(
+        mapState: map,
+        popupController: layerOpts.popupController,
+        snap: layerOpts.popupSnap,
+        popupBuilder: layerOpts.popupBuilder,
+      );
+    }
   }
 }
