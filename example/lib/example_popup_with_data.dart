@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
-import 'package:latlong/latlong.dart';
+import 'package:latlong2/latlong.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MapPage extends StatefulWidget {
-  MapPage({Key key}) : super(key: key);
+  MapPage({Key? key}) : super(key: key);
 
   @override
   _MapPageState createState() => _MapPageState();
@@ -80,7 +80,12 @@ class _MapPageState extends State<MapPage> {
 class Monument {
   static const double size = 25;
 
-  Monument({this.name, this.imagePath, this.lat, this.long});
+  Monument({
+    required this.name,
+    required this.imagePath,
+    required this.lat,
+    required this.long,
+  });
 
   final String name;
   final String imagePath;
@@ -89,7 +94,7 @@ class Monument {
 }
 
 class MonumentMarker extends Marker {
-  MonumentMarker({@required this.monument})
+  MonumentMarker({required this.monument})
       : super(
           anchorPos: AnchorPos.align(AnchorAlign.top),
           height: Monument.size,
@@ -102,7 +107,8 @@ class MonumentMarker extends Marker {
 }
 
 class MonumentMarkerPopup extends StatelessWidget {
-  const MonumentMarkerPopup({Key key, this.monument}) : super(key: key);
+  const MonumentMarkerPopup({Key? key, required this.monument})
+      : super(key: key);
   final Monument monument;
 
   @override

@@ -4,7 +4,7 @@ import 'package:flutter_map/flutter_map.dart';
 class ExamplePopup extends StatefulWidget {
   final Marker marker;
 
-  ExamplePopup(this.marker, {Key key}) : super(key: key);
+  ExamplePopup(this.marker, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ExamplePopupState(marker);
@@ -26,6 +26,9 @@ class _ExamplePopupState extends State<ExamplePopup> {
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
+        onTap: () => setState(() {
+          _currentIcon = (_currentIcon + 1) % _icons.length;
+        }),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -36,9 +39,6 @@ class _ExamplePopupState extends State<ExamplePopup> {
             _cardDescription(context),
           ],
         ),
-        onTap: () => setState(() {
-          _currentIcon = (_currentIcon + 1) % _icons.length;
-        }),
       ),
     );
   }

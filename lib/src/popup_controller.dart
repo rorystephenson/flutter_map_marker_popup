@@ -4,7 +4,7 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_popup/src/popup_event.dart';
 
 class PopupController {
-  StreamController<PopupEvent> streamController;
+  StreamController<PopupEvent>? streamController;
 
   /// Hide the popup if it is showing.
   void hidePopup() {

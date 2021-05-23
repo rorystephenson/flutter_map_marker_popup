@@ -60,7 +60,7 @@ class PopupPosition {
   ) {
     return PopupLayout(
       size: visibleSize,
-      right: visibleSize.x - markerPosition.x,
+      right: (visibleSize.x - markerPosition.x).toDouble(),
       top: markerPosition.y - (visibleSize.y / 2) + (markerSize.y / 2),
       alignment: Alignment.centerRight,
     );
@@ -75,7 +75,7 @@ class PopupPosition {
       size: visibleSize,
       alignment: Alignment.bottomCenter,
       left: markerPosition.x - (visibleSize.x / 2) + (markerSize.x / 2),
-      bottom: visibleSize.y - markerPosition.y,
+      bottom: (visibleSize.y - markerPosition.y).toDouble(),
     );
   }
 
@@ -87,7 +87,7 @@ class PopupPosition {
     return PopupLayout(
       size: visibleSize,
       alignment: Alignment.centerLeft,
-      left: markerPosition.x + markerSize.x,
+      left: (markerPosition.x + markerSize.x).toDouble(),
       top: markerPosition.y - (visibleSize.y / 2) + (markerSize.y / 2),
     );
   }
@@ -101,7 +101,7 @@ class PopupPosition {
       size: visibleSize,
       alignment: Alignment.topCenter,
       left: markerPosition.x - (visibleSize.x / 2) + (markerSize.x / 2),
-      top: markerPosition.y + markerSize.y,
+      top: (markerPosition.y + markerSize.y).toDouble(),
     );
   }
 

@@ -6,12 +6,12 @@ import 'package:flutter_map_marker_popup/src/marker_with_key.dart';
 import 'package:flutter_map_marker_popup/src/popup_snap.dart';
 
 import 'popup_event.dart';
-import 'popup_event_actions.dart';
 import 'popup_position.dart';
 
 mixin PopupContainerMixin {
-  MapState mapState;
-  PopupSnap snap;
+  MapState get mapState;
+
+  PopupSnap get snap;
 
   Widget inPosition(Marker marker, Widget popup) {
     final popupContainer = PopupPosition.layout(
@@ -48,16 +48,12 @@ mixin PopupContainerMixin {
   }
 
   void handleAction(PopupEvent event) {
-    switch (event.action) {
-      case PopupEventActions.hideAny:
-        return hideAny();
-      case PopupEventActions.hideInList:
-        return hideInList(event.markers);
-      case PopupEventActions.toggle:
-        return toggle(event.marker);
-      case PopupEventActions.show:
-        return showForMarker(event.marker);
-    }
+    event.handle(
+      hide: hideAny,
+      toggle: toggle,
+      show: showForMarker,
+      hideInList: hideInList,
+    );
   }
 
   bool markerIsVisible(Marker marker);

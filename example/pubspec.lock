@@ -21,7 +21,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.5.0"
+    version: "2.6.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -70,7 +70,7 @@ packages:
       name: cupertino_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.3"
+    version: "1.0.3"
   fake_async:
     dependency: transitive
     description:
@@ -83,20 +83,15 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_image:
-    dependency: transitive
-    description:
-      name: flutter_image
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.0"
   flutter_map:
     dependency: "direct main"
     description:
-      name: flutter_map
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.12.0"
+      path: "."
+      ref: "issues/829-nullsafety"
+      resolved-ref: d9674b5c4fec7d759462a417c8acc548a3e720e1
+      url: "https://github.com/fleaflet/flutter_map"
+    source: git
+    version: "0.13.0"
   flutter_map_marker_popup:
     dependency: "direct main"
     description:
@@ -109,27 +104,48 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  http:
+    dependency: transitive
+    description:
+      name: http
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.13.3"
+  http_parser:
+    dependency: transitive
+    description:
+      name: http_parser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.0"
   intl:
     dependency: transitive
     description:
       name: intl
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.16.1"
+    version: "0.17.0"
   latlong:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: latlong
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.1"
+  latlong2:
+    dependency: "direct main"
+    description:
+      name: latlong2
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.8.0"
   lists:
     dependency: transitive
     description:
       name: lists
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.6"
+    version: "1.0.0"
   logging:
     dependency: transitive
     description:
@@ -157,7 +173,7 @@ packages:
       name: mgrs_dart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "2.0.0"
   path:
     dependency: transitive
     description:
@@ -171,28 +187,28 @@ packages:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.9.2"
-  positioned_tap_detector:
+    version: "1.11.0"
+  positioned_tap_detector_2:
     dependency: transitive
     description:
-      name: positioned_tap_detector
+      name: positioned_tap_detector_2
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.0"
   proj4dart:
     dependency: transitive
     description:
       name: proj4dart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.5"
+    version: "2.0.0"
   quiver:
     dependency: transitive
     description:
       name: quiver
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.5"
+    version: "3.0.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -204,7 +220,7 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0"
+    version: "1.8.1"
   stack_trace:
     dependency: transitive
     description:
@@ -239,21 +255,21 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.19"
+    version: "0.3.0"
   transparent_image:
     dependency: transitive
     description:
       name: transparent_image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "2.0.0"
   tuple:
     dependency: transitive
     description:
       name: tuple
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "2.0.0"
   typed_data:
     dependency: transitive
     description:
@@ -267,7 +283,7 @@ packages:
       name: unicode
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.4"
+    version: "0.3.0"
   validate:
     dependency: transitive
     description:
@@ -288,7 +304,7 @@ packages:
       name: wkt_parser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.7"
+    version: "2.0.0"
 sdks:
   dart: ">=2.12.0 <3.0.0"
-  flutter: ">=2.0.0"
+  flutter: ">=1.17.0"

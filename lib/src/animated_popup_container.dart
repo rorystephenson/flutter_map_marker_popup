@@ -20,12 +20,12 @@ class AnimatedPopupContainer extends StatefulWidget {
   final PopupAnimation popupAnimation;
 
   AnimatedPopupContainer({
-    @required this.mapState,
-    @required this.popupController,
-    @required this.snap,
-    @required this.popupBuilder,
-    @required this.popupAnimation,
-    Key key,
+    required this.mapState,
+    required this.popupController,
+    required this.snap,
+    required this.popupBuilder,
+    required this.popupAnimation,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -50,9 +50,9 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
 
   final GlobalKey<AnimatedStackState> _animatedStackKey =
       GlobalKey<AnimatedStackState>();
-  AnimatedStackManager<MarkerWithKey> _animatedStackManager;
 
-  StreamSubscription<PopupEvent> _popupEventSubscription;
+  late AnimatedStackManager<MarkerWithKey> _animatedStackManager;
+  late StreamSubscription<PopupEvent> _popupEventSubscription;
 
   _AnimatedPopupContainerState(
     this.mapState,
@@ -73,7 +73,7 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
     );
     _popupController.streamController =
         StreamController<PopupEvent>.broadcast();
-    _popupEventSubscription = _popupController.streamController.stream
+    _popupEventSubscription = _popupController.streamController!.stream
         .listen((PopupEvent popupEvent) => handleAction(popupEvent));
   }
 
@@ -99,8 +99,6 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
     Animation<double> animation, {
     bool allowTap = true,
   }) {
-    if (markerWithKey == null) return Container();
-
     Widget animatedPopup = FadeTransition(
       opacity: animation.drive(CurveTween(curve: widget.popupAnimation.curve)),
       child: popupWithStateKeepAlive(markerWithKey, _popupBuilder),
@@ -126,14 +124,13 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
 
   @override
   bool markerIsVisible(Marker marker) =>
-      marker != null &&
       _animatedStackManager.length > 0 &&
       _animatedStackManager[0].marker == marker;
 
   @override
   void dispose() {
-    _popupController.streamController.close();
-    _popupEventSubscription?.cancel();
+    _popupController.streamController!.close();
+    _popupEventSubscription.cancel();
     super.dispose();
   }
 }

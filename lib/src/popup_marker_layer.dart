@@ -10,11 +10,11 @@ import 'animated_popup_container.dart';
 class PopupMarkerLayerWidget extends StatelessWidget {
   final PopupMarkerLayerOptions options;
 
-  PopupMarkerLayerWidget({Key key, @required this.options}) : super(key: key);
+  PopupMarkerLayerWidget({Key? key, required this.options}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final mapState = MapState.of(context);
+    final mapState = MapState.maybeOf(context)!;
     return PopupMarkerLayer(options, mapState, mapState.onMoved);
   }
 }
@@ -40,9 +40,9 @@ class PopupMarkerLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<int>(
-      stream: stream, // a Stream<int> or null
-      builder: (BuildContext _, AsyncSnapshot<int> __) {
+    return StreamBuilder<Null>(
+      stream: stream,
+      builder: (BuildContext _, AsyncSnapshot<Null> __) {
         var markers = <Widget>[];
 
         for (var markerOpt in layerOpts.markers) {
@@ -84,13 +84,15 @@ class PopupMarkerLayer extends StatelessWidget {
   }
 
   Widget _popupContainer() {
-    if (layerOpts.popupAnimation.enabled) {
+    final popupAnimation = layerOpts.popupAnimation;
+
+    if (popupAnimation != null) {
       return AnimatedPopupContainer(
         mapState: map,
         popupController: layerOpts.popupController,
         snap: layerOpts.popupSnap,
         popupBuilder: layerOpts.popupBuilder,
-        popupAnimation: layerOpts.popupAnimation,
+        popupAnimation: popupAnimation,
       );
     } else {
       return SimplePopupContainer(

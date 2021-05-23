@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
-import 'package:latlong/latlong.dart';
+import 'package:latlong2/latlong.dart';
 
 import 'example_popup.dart';
 
@@ -66,7 +66,7 @@ class MapPageScaffold extends StatelessWidget {
 class MapPage extends StatefulWidget {
   final PopupSnap popupSnap;
 
-  MapPage(this.popupSnap, {Key key}) : super(key: key);
+  MapPage(this.popupSnap, {Key? key}) : super(key: key);
 
   @override
   _MapPageState createState() => _MapPageState();
@@ -80,7 +80,7 @@ class _MapPageState extends State<MapPage> {
   ];
 
   static const _markerSize = 40.0;
-  List<Marker> _markers;
+  late List<Marker> _markers;
 
   /// Used to trigger showing/hiding of popups.
   final PopupController _popupLayerController = PopupController();
