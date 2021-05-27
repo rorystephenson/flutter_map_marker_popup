@@ -6,10 +6,13 @@ import 'package:flutter_map_marker_popup/src/layout/popup_layout.dart';
 import 'package:flutter_map_marker_popup/src/popup_container/marker_with_key.dart';
 import 'package:flutter_map_marker_popup/src/popup_snap.dart';
 
+import '../popup_controller.dart';
 import '../popup_event.dart';
 
 mixin PopupContainerMixin {
   MapState get mapState;
+
+  PopupController get popupController;
 
   PopupSnap get snap;
 
@@ -58,9 +61,9 @@ mixin PopupContainerMixin {
   @nonVirtual
   void handleAction(PopupEvent event) {
     return event.handle(
-      hide: hideAny,
+      hide: wrapHideAny,
       toggle: toggle,
-      show: showForMarker,
+      show: wrapShowForMarker,
       hideInList: hideInList,
     );
   }
@@ -68,22 +71,32 @@ mixin PopupContainerMixin {
   @nonVirtual
   void toggle(Marker marker) {
     if (markerIsVisible(marker)) {
-      hideAny();
+      wrapHideAny(disableAnimation: false);
     } else {
-      showForMarker(marker);
+      wrapShowForMarker(marker, disableAnimation: false);
     }
   }
 
   @nonVirtual
   void hideInList(List<Marker> markers) {
     if (markers.any((marker) => markerIsVisible(marker))) {
-      hideAny();
+      wrapHideAny(disableAnimation: false);
     }
+  }
+
+  void wrapShowForMarker(Marker marker, {required bool disableAnimation}) {
+    popupController.markerWithPopupVisible = marker;
+    showForMarker(marker, disableAnimation: disableAnimation);
+  }
+
+  void wrapHideAny({required bool disableAnimation}) {
+    popupController.markerWithPopupVisible = null;
+    hideAny(disableAnimation: disableAnimation);
   }
 
   bool markerIsVisible(Marker marker);
 
-  void hideAny();
+  void hideAny({required bool disableAnimation});
 
-  void showForMarker(Marker marker);
+  void showForMarker(Marker marker, {required bool disableAnimation});
 }

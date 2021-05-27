@@ -27,47 +27,31 @@ class SimplePopupContainer extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return _SimplePopupContainerState(
-      mapState,
-      popupController,
-      snap,
-      popupBuilder,
-      markerRotate,
-    );
-  }
+  State<StatefulWidget> createState() => _SimplePopupContainerState();
 }
 
 class _SimplePopupContainerState extends State<SimplePopupContainer>
     with PopupContainerMixin {
-  @override
-  final MapState mapState;
-  final PopupController _popupController;
-  final PopupBuilder _popupBuilder;
-  @override
-  final PopupSnap snap;
-  @override
-  final bool markerRotate;
-
   MarkerWithKey? _selectedMarkerWithKey;
 
   late StreamSubscription<PopupEvent> _popupEventSubscription;
 
-  _SimplePopupContainerState(
-    this.mapState,
-    this._popupController,
-    this.snap,
-    this._popupBuilder,
-    this.markerRotate,
-  );
+  @override
+  MapState get mapState => widget.mapState;
+
+  @override
+  PopupController get popupController => widget.popupController;
+
+  @override
+  PopupSnap get snap => widget.snap;
+
+  @override
+  bool get markerRotate => widget.markerRotate;
 
   @override
   void initState() {
     super.initState();
-
-    _popupController.streamController =
-        StreamController<PopupEvent>.broadcast();
-    _popupEventSubscription = _popupController.streamController!.stream
+    _popupEventSubscription = widget.popupController.streamController!.stream
         .listen((PopupEvent popupEvent) => handleAction(popupEvent));
   }
 
@@ -79,12 +63,12 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
 
     return inPosition(
       _currentlySelected.marker,
-      popupWithStateKeepAlive(_currentlySelected, _popupBuilder),
+      popupWithStateKeepAlive(_currentlySelected, widget.popupBuilder),
     );
   }
 
   @override
-  void hideAny() {
+  void hideAny({required bool disableAnimation}) {
     if (_selectedMarkerWithKey != null) {
       setState(() {
         _selectedMarkerWithKey = null;
@@ -93,7 +77,7 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
   }
 
   @override
-  void showForMarker(Marker marker) {
+  void showForMarker(Marker marker, {required bool disableAnimation}) {
     if (!markerIsVisible(marker)) {
       setState(() {
         _selectedMarkerWithKey = MarkerWithKey(marker);
@@ -108,7 +92,6 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
 
   @override
   void dispose() {
-    _popupController.streamController!.close();
     _popupEventSubscription.cancel();
     super.dispose();
   }

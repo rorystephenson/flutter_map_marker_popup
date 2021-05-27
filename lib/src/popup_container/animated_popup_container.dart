@@ -31,27 +31,22 @@ class AnimatedPopupContainer extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return _AnimatedPopupContainerState(
-      mapState,
-      popupController,
-      snap,
-      popupBuilder,
-      markerRotate,
-    );
-  }
+  State<StatefulWidget> createState() => _AnimatedPopupContainerState();
 }
 
 class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
     with PopupContainerMixin {
   @override
-  final MapState mapState;
-  final PopupController _popupController;
-  final PopupBuilder _popupBuilder;
+  MapState get mapState => widget.mapState;
+
   @override
-  final PopupSnap snap;
+  PopupController get popupController => widget.popupController;
+
   @override
-  final bool markerRotate;
+  PopupSnap get snap => widget.snap;
+
+  @override
+  bool get markerRotate => widget.markerRotate;
 
   final GlobalKey<AnimatedStackState> _animatedStackKey =
       GlobalKey<AnimatedStackState>();
@@ -59,13 +54,7 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
   late AnimatedStackManager<MarkerWithKey> _animatedStackManager;
   late StreamSubscription<PopupEvent> _popupEventSubscription;
 
-  _AnimatedPopupContainerState(
-    this.mapState,
-    this._popupController,
-    this.snap,
-    this._popupBuilder,
-    this.markerRotate,
-  );
+  _AnimatedPopupContainerState();
 
   @override
   void initState() {
@@ -77,9 +66,7 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
           _buildPopup(marker, animation, allowTap: false),
       duration: widget.popupAnimation.duration,
     );
-    _popupController.streamController =
-        StreamController<PopupEvent>.broadcast();
-    _popupEventSubscription = _popupController.streamController!.stream
+    _popupEventSubscription = widget.popupController.streamController!.stream
         .listen((PopupEvent popupEvent) => handleAction(popupEvent));
   }
 
@@ -103,7 +90,7 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
   }) {
     Widget animatedPopup = FadeTransition(
       opacity: animation.drive(CurveTween(curve: widget.popupAnimation.curve)),
-      child: popupWithStateKeepAlive(markerWithKey, _popupBuilder),
+      child: popupWithStateKeepAlive(markerWithKey, widget.popupBuilder),
     );
 
     if (!allowTap) animatedPopup = IgnorePointer(child: animatedPopup);
@@ -112,15 +99,22 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
   }
 
   @override
-  void hideAny() {
-    if (_animatedStackManager.isNotEmpty) _animatedStackManager.clear();
+  void hideAny({required bool disableAnimation}) {
+    if (_animatedStackManager.isNotEmpty) {
+      _animatedStackManager.clear(
+          duration: disableAnimation ? Duration.zero : null);
+    }
   }
 
   @override
-  void showForMarker(Marker marker) {
+  void showForMarker(Marker marker, {required bool disableAnimation}) {
     if (!markerIsVisible(marker)) {
-      hideAny();
-      _animatedStackManager.insert(0, MarkerWithKey(marker));
+      hideAny(disableAnimation: disableAnimation);
+      _animatedStackManager.insert(
+        0,
+        MarkerWithKey(marker),
+        duration: disableAnimation ? Duration.zero : null,
+      );
     }
   }
 
@@ -131,7 +125,6 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
 
   @override
   void dispose() {
-    _popupController.streamController!.close();
     _popupEventSubscription.cancel();
     super.dispose();
   }

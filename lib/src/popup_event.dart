@@ -5,28 +5,39 @@ import 'package:flutter_map/plugin_api.dart';
 abstract class PopupEvent {
   PopupEvent._();
 
-  factory PopupEvent.hideAny() => HideAnyPopupEvent._();
+  factory PopupEvent.hideAny({required bool disableAnimation}) =>
+      HideAnyPopupEvent._(
+        disableAnimation: disableAnimation,
+      );
 
   factory PopupEvent.toggle(Marker marker) => TogglePopupEvent._(marker);
 
-  factory PopupEvent.show(Marker marker) => ShowPopupEvent._(marker);
+  factory PopupEvent.show(Marker marker, {required bool disableAnimation}) =>
+      ShowPopupEvent._(
+        marker,
+        disableAnimation: disableAnimation,
+      );
 
   factory PopupEvent.hideInList(List<Marker> markers) =>
       HideInListPopupEvent._(markers);
 
   void handle({
-    required void Function() hide,
+    required void Function({required bool disableAnimation}) hide,
     required void Function(Marker marker) toggle,
-    required void Function(Marker marker) show,
+    required void Function(Marker marker, {required bool disableAnimation})
+        show,
     required void Function(List<Marker> markers) hideInList,
   }) {
     final thisEvent = this;
     if (thisEvent is HideAnyPopupEvent) {
-      return hide();
+      return hide(disableAnimation: thisEvent.disableAnimation);
     } else if (thisEvent is TogglePopupEvent) {
       return toggle(thisEvent.marker);
     } else if (thisEvent is ShowPopupEvent) {
-      return show(thisEvent.marker);
+      return show(
+        thisEvent.marker,
+        disableAnimation: thisEvent.disableAnimation,
+      );
     } else if (thisEvent is HideInListPopupEvent) {
       return hideInList(thisEvent.markers);
     } else {
@@ -36,7 +47,9 @@ abstract class PopupEvent {
 }
 
 class HideAnyPopupEvent extends PopupEvent {
-  HideAnyPopupEvent._() : super._();
+  final bool disableAnimation;
+
+  HideAnyPopupEvent._({required this.disableAnimation}) : super._();
 }
 
 class TogglePopupEvent extends PopupEvent {
@@ -47,8 +60,9 @@ class TogglePopupEvent extends PopupEvent {
 
 class ShowPopupEvent extends PopupEvent {
   final Marker marker;
+  final bool disableAnimation;
 
-  ShowPopupEvent._(this.marker) : super._();
+  ShowPopupEvent._(this.marker, {required this.disableAnimation}) : super._();
 }
 
 class HideInListPopupEvent extends PopupEvent {

@@ -58,27 +58,23 @@ class PopupMarkerLayerOptions extends LayerOptions {
   ///
   /// Important notes about rotation:
   ///
-  /// In order for the popup to be placed correctly relative to the [Marker] you
-  /// must ensure that the marker rotation origin and rotation alignment are
-  /// correctly set with respect to the [Marker]'s anchor. This means that
-  /// whilst rotating:
+  /// **Note**: This only applies if the chosen [PopupSnap] snaps to the
+  /// [Marker]. If you are snapping to the map then the rotation origin and
+  /// rotation alignment have to effect on the popup.
+  ///
+  /// In order for the popup to be placed correctly relative to the [Marker],
+  /// the [Marker] rotation origin and rotation alignment must be correctly
+  /// set with respect to the [Marker]'s anchor. If you are using one of the
+  /// [AnchorAlign] values for the anchor then the rotation origin can be left
+  /// null and the rotation alignment should be set using to the value returned
+  /// by [PopupMarkerLayerOptions.rotationAlignmentFor(anchorAlign)], either
+  /// at the [Marker] level or for all markers using [markerRotateAlignment].
+  ///
+  /// If you are *not* using an [AnchorAlign] for the anchor position you must
+  /// set the rotation origin and rotation alignment such that whilst rotating
+  /// the map:
   ///   * The anchor point does not move relative to the [Marker]'s point.
   ///   * The [Marker]'s orientation matches the rotation.
-  ///
-  /// If you are using one of the AnchorAlign values for the anchor then you
-  /// should leave the rotation origin null and set the rotation alignment to
-  /// the corresponding value below:
-  ///   * [AnchorAlign.left] -> [Alignment.centerRight]
-  ///   * [AnchorAlign.top] -> [Alignment.bottomCenter]
-  ///   * [AnchorAlign.right] -> [Alignment.centerLeft]
-  ///   * [AnchorAlign.bottom] -> [Alignment.topCenter]
-  ///   * [AnchorAlign.center] -> [Alignment.center]
-  ///   * [AnchorAlign.none] -> [Alignment.center]
-  ///
-  /// If you are not using the predefined AnchorAlign values for the anchor then
-  /// it is up to you to determine the correct combination of origin and
-  /// alignment to ensure that the
-  ///
   PopupMarkerLayerOptions({
     this.markers = const [],
     this.markerAndPopupRotate = true,
@@ -91,4 +87,20 @@ class PopupMarkerLayerOptions extends LayerOptions {
     Stream<Null>? rebuild,
   })  : popupController = popupController ?? PopupController(),
         super(rebuild: rebuild);
+
+  static AlignmentGeometry rotationAlignmentFor(AnchorAlign anchorAlign) {
+    switch (anchorAlign) {
+      case AnchorAlign.left:
+        return Alignment.centerRight;
+      case AnchorAlign.top:
+        return Alignment.bottomCenter;
+      case AnchorAlign.right:
+        return Alignment.centerLeft;
+      case AnchorAlign.bottom:
+        return Alignment.topCenter;
+      case AnchorAlign.center:
+      case AnchorAlign.none:
+        return Alignment.center;
+    }
+  }
 }

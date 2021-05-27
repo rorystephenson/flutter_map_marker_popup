@@ -7,6 +7,7 @@ import 'package:flutter_map_marker_popup/src/popup_container/simple_popup_contai
 import 'package:flutter_map_marker_popup/src/popup_marker_layer_options.dart';
 
 import 'popup_container/animated_popup_container.dart';
+import 'popup_event.dart';
 
 class PopupMarkerLayerWidget extends StatelessWidget {
   final PopupMarkerLayerOptions options;
@@ -51,6 +52,9 @@ class _PopupMarkerLayerState extends State<PopupMarkerLayer> {
   void initState() {
     super.initState();
     _pxCache = generatePxCache();
+
+    widget.layerOptions.popupController.streamController =
+        StreamController<PopupEvent>.broadcast();
   }
 
   @override
@@ -58,6 +62,12 @@ class _PopupMarkerLayerState extends State<PopupMarkerLayer> {
     super.didUpdateWidget(oldWidget);
     lastZoom = -1.0;
     _pxCache = generatePxCache();
+  }
+
+  @override
+  void dispose() {
+    widget.layerOptions.popupController.streamController!.close();
+    super.dispose();
   }
 
   @override
@@ -88,24 +98,26 @@ class _PopupMarkerLayerState extends State<PopupMarkerLayer> {
 
           final pos = pxPoint - widget.map.getPixelOrigin();
 
-          final markerRotate = widget.layerOptions.markerAndPopupRotate;
-          final markerRotateOrigin = widget.layerOptions.markerRotateOrigin;
-          final markerRotateAlignment =
-              widget.layerOptions.markerRotateAlignment;
-
           final markerWithGestureDetector = GestureDetector(
             onTap: () =>
                 widget.layerOptions.popupController.togglePopup(marker),
             child: marker.builder(context),
           );
 
+          final markerRotate = widget.layerOptions.markerAndPopupRotate;
+
           Widget markerWidget;
           if (marker.rotate ?? markerRotate) {
+            final markerRotateOrigin =
+                marker.rotateOrigin ?? widget.layerOptions.markerRotateOrigin;
+            final markerRotateAlignment = marker.rotateAlignment ??
+                widget.layerOptions.markerRotateAlignment;
+
             // Counter rotated marker to the map rotation
             markerWidget = Transform.rotate(
               angle: -widget.map.rotationRad,
-              origin: marker.rotateOrigin ?? markerRotateOrigin,
-              alignment: marker.rotateAlignment ?? markerRotateAlignment,
+              origin: markerRotateOrigin,
+              alignment: markerRotateAlignment,
               child: markerWithGestureDetector,
             );
           } else {
@@ -140,21 +152,21 @@ class _PopupMarkerLayerState extends State<PopupMarkerLayer> {
   Widget _popupContainer() {
     final popupAnimation = widget.layerOptions.popupAnimation;
 
-    if (popupAnimation != null) {
+    if (popupAnimation == null) {
+      return SimplePopupContainer(
+        mapState: widget.map,
+        popupController: widget.layerOptions.popupController,
+        snap: widget.layerOptions.popupSnap,
+        popupBuilder: widget.layerOptions.popupBuilder,
+        markerRotate: widget.layerOptions.markerAndPopupRotate,
+      );
+    } else {
       return AnimatedPopupContainer(
         mapState: widget.map,
         popupController: widget.layerOptions.popupController,
         snap: widget.layerOptions.popupSnap,
         popupBuilder: widget.layerOptions.popupBuilder,
         popupAnimation: popupAnimation,
-        markerRotate: widget.layerOptions.markerAndPopupRotate,
-      );
-    } else {
-      return SimplePopupContainer(
-        mapState: widget.map,
-        popupController: widget.layerOptions.popupController,
-        snap: widget.layerOptions.popupSnap,
-        popupBuilder: widget.layerOptions.popupBuilder,
         markerRotate: widget.layerOptions.markerAndPopupRotate,
       );
     }
