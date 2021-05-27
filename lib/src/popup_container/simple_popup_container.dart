@@ -15,12 +15,14 @@ class SimplePopupContainer extends StatefulWidget {
   final PopupBuilder popupBuilder;
   final PopupSnap snap;
   final MapState mapState;
+  final bool markerRotate;
 
   SimplePopupContainer({
     required this.mapState,
     required this.popupController,
     required this.snap,
     required this.popupBuilder,
+    required this.markerRotate,
     Key? key,
   }) : super(key: key);
 
@@ -31,6 +33,7 @@ class SimplePopupContainer extends StatefulWidget {
       popupController,
       snap,
       popupBuilder,
+      markerRotate,
     );
   }
 }
@@ -43,6 +46,8 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
   final PopupBuilder _popupBuilder;
   @override
   final PopupSnap snap;
+  @override
+  final bool markerRotate;
 
   MarkerWithKey? _selectedMarkerWithKey;
 
@@ -53,6 +58,7 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
     this._popupController,
     this.snap,
     this._popupBuilder,
+    this.markerRotate,
   );
 
   @override

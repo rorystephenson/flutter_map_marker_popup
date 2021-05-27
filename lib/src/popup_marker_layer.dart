@@ -1,11 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map_marker_popup/src/popup_container/simple_popup_container.dart';
 import 'package:flutter_map_marker_popup/src/popup_marker_layer_options.dart';
-import 'package:flutter_map_marker_popup/src/simple_popup_container.dart';
 
-import 'animated_popup_container.dart';
+import 'popup_container/animated_popup_container.dart';
 
 class PopupMarkerLayerWidget extends StatelessWidget {
   final PopupMarkerLayerOptions options;
@@ -19,59 +20,112 @@ class PopupMarkerLayerWidget extends StatelessWidget {
   }
 }
 
-class PopupMarkerLayer extends StatelessWidget {
-  /// For normal layer behaviour
-  final PopupMarkerLayerOptions layerOpts;
+class PopupMarkerLayer extends StatefulWidget {
+  final PopupMarkerLayerOptions layerOptions;
   final MapState map;
-  final Stream<Null> stream;
+  final Stream<Null>? stream;
 
-  PopupMarkerLayer(this.layerOpts, this.map, this.stream);
+  PopupMarkerLayer(this.layerOptions, this.map, this.stream)
+      : super(key: layerOptions.key);
 
-  bool _boundsContainsMarker(Marker marker) {
-    final pixelPoint = map.project(marker.point);
+  @override
+  _PopupMarkerLayerState createState() => _PopupMarkerLayerState();
+}
 
-    final width = marker.width - marker.anchor.left;
-    final height = marker.height - marker.anchor.top;
+class _PopupMarkerLayerState extends State<PopupMarkerLayer> {
+  var lastZoom = -1.0;
 
-    final sw = CustomPoint(pixelPoint.x + width, pixelPoint.y - height);
-    final ne = CustomPoint(pixelPoint.x - width, pixelPoint.y + height);
-    return map.pixelBounds.containsPartialBounds(Bounds(sw, ne));
+  /// List containing cached pixel positions of markers
+  /// Should be discarded when zoom changes
+  // Has a fixed length of markerOpts.markers.length - better performance:
+  // https://stackoverflow.com/questions/15943890/is-there-a-performance-benefit-in-using-fixed-length-lists-in-dart
+  var _pxCache = <CustomPoint>[];
+
+  // Calling this every time markerOpts change should guarantee proper length
+  List<CustomPoint> generatePxCache() => List.generate(
+        widget.layerOptions.markers.length,
+        (i) => widget.map.project(widget.layerOptions.markers[i].point),
+      );
+
+  @override
+  void initState() {
+    super.initState();
+    _pxCache = generatePxCache();
+  }
+
+  @override
+  void didUpdateWidget(covariant PopupMarkerLayer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    lastZoom = -1.0;
+    _pxCache = generatePxCache();
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Null>(
-      stream: stream,
-      builder: (BuildContext _, AsyncSnapshot<Null> __) {
+    return StreamBuilder<int?>(
+      stream: widget.stream, // a Stream<int> or null
+      builder: (BuildContext context, AsyncSnapshot<int?> snapshot) {
         var markers = <Widget>[];
+        final sameZoom = widget.map.zoom == lastZoom;
+        for (var i = 0; i < widget.layerOptions.markers.length; i++) {
+          var marker = widget.layerOptions.markers[i];
 
-        for (var markerOpt in layerOpts.markers) {
-          if (!_boundsContainsMarker(markerOpt)) continue;
+          // Decide whether to use cached point or calculate it
+          var pxPoint =
+              sameZoom ? _pxCache[i] : widget.map.project(marker.point);
+          if (!sameZoom) {
+            _pxCache[i] = pxPoint;
+          }
 
-          final pos = map
-                  .project(markerOpt.point)
-                  .multiplyBy(map.getZoomScale(map.zoom, map.zoom)) -
-              map.getPixelOrigin();
+          final width = marker.width - marker.anchor.left;
+          final height = marker.height - marker.anchor.top;
+          var sw = CustomPoint(pxPoint.x + width, pxPoint.y - height);
+          var ne = CustomPoint(pxPoint.x - width, pxPoint.y + height);
 
-          final pixelPosX =
-              (pos.x - (markerOpt.width - markerOpt.anchor.left)).toDouble();
-          final pixelPosY =
-              (pos.y - (markerOpt.height - markerOpt.anchor.top)).toDouble();
+          if (!widget.map.pixelBounds.containsPartialBounds(Bounds(sw, ne))) {
+            continue;
+          }
+
+          final pos = pxPoint - widget.map.getPixelOrigin();
+
+          final markerRotate = widget.layerOptions.markerAndPopupRotate;
+          final markerRotateOrigin = widget.layerOptions.markerRotateOrigin;
+          final markerRotateAlignment =
+              widget.layerOptions.markerRotateAlignment;
+
+          final markerWithGestureDetector = GestureDetector(
+            onTap: () =>
+                widget.layerOptions.popupController.togglePopup(marker),
+            child: marker.builder(context),
+          );
+
+          Widget markerWidget;
+          if (marker.rotate ?? markerRotate) {
+            // Counter rotated marker to the map rotation
+            markerWidget = Transform.rotate(
+              angle: -widget.map.rotationRad,
+              origin: marker.rotateOrigin ?? markerRotateOrigin,
+              alignment: marker.rotateAlignment ?? markerRotateAlignment,
+              child: markerWithGestureDetector,
+            );
+          } else {
+            markerWidget = markerWithGestureDetector;
+          }
 
           markers.add(
             Positioned(
-              width: markerOpt.width,
-              height: markerOpt.height,
-              left: pixelPosX,
-              top: pixelPosY,
-              child: GestureDetector(
-                onTap: () => layerOpts.popupController.togglePopup(markerOpt),
-                child: markerOpt.builder(context),
-              ),
+              key: marker.key,
+              width: marker.width,
+              height: marker.height,
+              left: pos.x - width,
+              top: pos.y - height,
+              child: markerWidget,
             ),
           );
         }
+        lastZoom = widget.map.zoom;
 
+        /// Add the popup.
         markers.add(_popupContainer());
 
         return Container(
@@ -84,22 +138,24 @@ class PopupMarkerLayer extends StatelessWidget {
   }
 
   Widget _popupContainer() {
-    final popupAnimation = layerOpts.popupAnimation;
+    final popupAnimation = widget.layerOptions.popupAnimation;
 
     if (popupAnimation != null) {
       return AnimatedPopupContainer(
-        mapState: map,
-        popupController: layerOpts.popupController,
-        snap: layerOpts.popupSnap,
-        popupBuilder: layerOpts.popupBuilder,
+        mapState: widget.map,
+        popupController: widget.layerOptions.popupController,
+        snap: widget.layerOptions.popupSnap,
+        popupBuilder: widget.layerOptions.popupBuilder,
         popupAnimation: popupAnimation,
+        markerRotate: widget.layerOptions.markerAndPopupRotate,
       );
     } else {
       return SimplePopupContainer(
-        mapState: map,
-        popupController: layerOpts.popupController,
-        snap: layerOpts.popupSnap,
-        popupBuilder: layerOpts.popupBuilder,
+        mapState: widget.map,
+        popupController: widget.layerOptions.popupController,
+        snap: widget.layerOptions.popupSnap,
+        popupBuilder: widget.layerOptions.popupBuilder,
+        markerRotate: widget.layerOptions.markerAndPopupRotate,
       );
     }
   }

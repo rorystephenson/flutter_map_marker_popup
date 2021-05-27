@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
+import 'package:flutter_map_marker_popup_example/font/accurate_map_icons.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'example_popup.dart';
@@ -44,8 +45,7 @@ class MapPageScaffold extends StatelessWidget {
       child: FloatingActionButton.extended(
         label: Text(_isFirstSnap ? 'Snap mapBottom' : 'Snap markerTop'),
         onPressed: () {
-          final newSnap =
-              _isFirstSnap ? PopupSnap.mapBottom : PopupSnap.markerTop;
+          final newSnap = _isFirstSnap ? PopupSnap.mapBottom : _firstSnap;
           Navigator.pushReplacement(
             context,
             PageRouteBuilder(
@@ -60,7 +60,9 @@ class MapPageScaffold extends StatelessWidget {
     );
   }
 
-  bool get _isFirstSnap => popupSnap == PopupSnap.markerTop;
+  bool get _isFirstSnap => popupSnap == _firstSnap;
+
+  PopupSnap get _firstSnap => PopupSnap.markerTop;
 }
 
 class MapPage extends StatefulWidget {
@@ -95,8 +97,12 @@ class _MapPageState extends State<MapPage> {
             point: point,
             width: _markerSize,
             height: _markerSize,
-            builder: (_) => Icon(Icons.location_on, size: _markerSize),
+            builder: (_) => Icon(
+              AccurateMapIcons.location_on_bottom_aligned,
+              size: _markerSize,
+            ),
             anchorPos: AnchorPos.align(AnchorAlign.top),
+            rotateAlignment: Alignment.bottomCenter,
           ),
         )
         .toList();

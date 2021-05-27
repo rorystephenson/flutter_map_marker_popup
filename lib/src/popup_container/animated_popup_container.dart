@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_popup/src/popup_animation.dart';
 import 'package:flutter_map_marker_popup/src/popup_builder.dart';
-import 'package:flutter_map_marker_popup/src/popup_container_mixin.dart';
+import 'package:flutter_map_marker_popup/src/popup_container/popup_container_mixin.dart';
 import 'package:flutter_map_marker_popup/src/popup_controller.dart';
 import 'package:flutter_map_marker_popup/src/popup_event.dart';
 import 'package:flutter_map_marker_popup/src/popup_snap.dart';
@@ -18,6 +18,7 @@ class AnimatedPopupContainer extends StatefulWidget {
   final PopupSnap snap;
   final MapState mapState;
   final PopupAnimation popupAnimation;
+  final bool markerRotate;
 
   AnimatedPopupContainer({
     required this.mapState,
@@ -25,6 +26,7 @@ class AnimatedPopupContainer extends StatefulWidget {
     required this.snap,
     required this.popupBuilder,
     required this.popupAnimation,
+    required this.markerRotate,
     Key? key,
   }) : super(key: key);
 
@@ -35,6 +37,7 @@ class AnimatedPopupContainer extends StatefulWidget {
       popupController,
       snap,
       popupBuilder,
+      markerRotate,
     );
   }
 }
@@ -47,6 +50,8 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
   final PopupBuilder _popupBuilder;
   @override
   final PopupSnap snap;
+  @override
+  final bool markerRotate;
 
   final GlobalKey<AnimatedStackState> _animatedStackKey =
       GlobalKey<AnimatedStackState>();
@@ -59,6 +64,7 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
     this._popupController,
     this.snap,
     this._popupBuilder,
+    this.markerRotate,
   );
 
   @override
@@ -79,11 +85,7 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
+    return Positioned.fill(
       child: AnimatedStack(
         key: _animatedStackKey,
         itemBuilder: (context, index, animation) => _buildPopup(

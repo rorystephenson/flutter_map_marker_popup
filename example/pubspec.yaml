@@ -23,6 +23,10 @@ dependency_overrides:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: AccurateMapIcon
+      fonts:
+        - asset: fonts/AccurateMapIcon.ttf
 
 dev_dependencies:
   pedantic: ^1.11.0
