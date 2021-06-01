@@ -84,13 +84,16 @@ mixin PopupContainerMixin {
     }
   }
 
+  @nonVirtual
   void wrapShowForMarker(Marker marker, {required bool disableAnimation}) {
-    popupController.markerWithPopupVisible = marker;
-    showForMarker(marker, disableAnimation: disableAnimation);
+    final markerWithKey = MarkerWithKey(marker);
+    popupController.selectedMarkerWithKey = markerWithKey;
+    showForMarker(markerWithKey, disableAnimation: disableAnimation);
   }
 
+  @nonVirtual
   void wrapHideAny({required bool disableAnimation}) {
-    popupController.markerWithPopupVisible = null;
+    popupController.selectedMarkerWithKey = null;
     hideAny(disableAnimation: disableAnimation);
   }
 
@@ -98,5 +101,8 @@ mixin PopupContainerMixin {
 
   void hideAny({required bool disableAnimation});
 
-  void showForMarker(Marker marker, {required bool disableAnimation});
+  void showForMarker(
+    MarkerWithKey markerWithKey, {
+    required bool disableAnimation,
+  });
 }

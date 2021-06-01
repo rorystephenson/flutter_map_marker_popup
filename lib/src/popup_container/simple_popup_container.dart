@@ -53,6 +53,7 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
     super.initState();
     _popupEventSubscription = widget.popupController.streamController!.stream
         .listen((PopupEvent popupEvent) => handleAction(popupEvent));
+    _selectedMarkerWithKey = widget.popupController.selectedMarkerWithKey;
   }
 
   @override
@@ -77,10 +78,13 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
   }
 
   @override
-  void showForMarker(Marker marker, {required bool disableAnimation}) {
-    if (!markerIsVisible(marker)) {
+  void showForMarker(
+    MarkerWithKey markerWithKey, {
+    required bool disableAnimation,
+  }) {
+    if (!markerIsVisible(markerWithKey.marker)) {
       setState(() {
-        _selectedMarkerWithKey = MarkerWithKey(marker);
+        _selectedMarkerWithKey = markerWithKey;
       });
     }
   }

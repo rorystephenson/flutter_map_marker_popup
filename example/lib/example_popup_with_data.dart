@@ -32,7 +32,7 @@ class _MapPageState extends State<MapPage> {
         options: MapOptions(
           center: LatLng(48.857661, 2.295135),
           zoom: 13.0,
-          interactive: true,
+          interactiveFlags: InteractiveFlag.all,
           onTap: (_) => _popupLayerController.hidePopup(),
         ),
         children: <Widget>[

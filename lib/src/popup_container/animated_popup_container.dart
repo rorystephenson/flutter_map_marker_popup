@@ -60,11 +60,15 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
   void initState() {
     super.initState();
 
+    final selectedMarkerWithKey = popupController.selectedMarkerWithKey;
+
     _animatedStackManager = AnimatedStackManager<MarkerWithKey>(
       animatedStackKey: _animatedStackKey,
       removedItemBuilder: (marker, _, animation) =>
           _buildPopup(marker, animation, allowTap: false),
       duration: widget.popupAnimation.duration,
+      initialItems:
+          selectedMarkerWithKey == null ? [] : [selectedMarkerWithKey],
     );
     _popupEventSubscription = widget.popupController.streamController!.stream
         .listen((PopupEvent popupEvent) => handleAction(popupEvent));
@@ -74,6 +78,7 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
   Widget build(BuildContext context) {
     return Positioned.fill(
       child: AnimatedStack(
+        initialItemCount: _animatedStackManager.length,
         key: _animatedStackKey,
         itemBuilder: (context, index, animation) => _buildPopup(
           _animatedStackManager[index],
@@ -107,12 +112,15 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
   }
 
   @override
-  void showForMarker(Marker marker, {required bool disableAnimation}) {
-    if (!markerIsVisible(marker)) {
+  void showForMarker(
+    MarkerWithKey markerWithKey, {
+    required bool disableAnimation,
+  }) {
+    if (!markerIsVisible(markerWithKey.marker)) {
       hideAny(disableAnimation: disableAnimation);
       _animatedStackManager.insert(
         0,
-        MarkerWithKey(marker),
+        markerWithKey,
         duration: disableAnimation ? Duration.zero : null,
       );
     }

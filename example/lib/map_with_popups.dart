@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
+import 'package:flutter_map_marker_popup_example/font/accurate_map_icons.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'example_popup.dart';
-import 'font/accurate_map_icons.dart';
 
 class MapWithPopups extends StatefulWidget {
   final PopupSnap snap;
@@ -25,13 +25,6 @@ class MapWithPopups extends StatefulWidget {
 }
 
 class _MapWithPopupsState extends State<MapWithPopups> {
-  static final List<LatLng> _points = [
-    LatLng(44.421, 10.404),
-    LatLng(45.683, 10.839),
-    LatLng(45.246, 5.783),
-  ];
-
-  static const _markerSize = 40.0;
   late List<Marker> _markers;
 
   /// Used to trigger showing/hiding of popups.
@@ -48,17 +41,17 @@ class _MapWithPopupsState extends State<MapWithPopups> {
   void didUpdateWidget(covariant MapWithPopups oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.markerAnchorAlign != oldWidget.markerAnchorAlign) {
-      final markerWithPopup = _popupLayerController.markerWithPopupVisible;
+      final markerWithPopup = _popupLayerController.selectedMarker;
 
       setState(() {
         _markers = _buildMarkers();
       });
 
-      /// When changing the markers we should hide the old popup since the
-      /// marker might have changed in such a way that the popup should change
-      /// (e.g. anchor point change). If we can match one of the new markers to
-      /// the old marker that had the popup then we can show the popup for
-      /// that marker.
+      /// When changing the Markers we should hide the old popup if the Markers
+      /// might have changed in such a way that the popup should change (e.g.
+      /// anchor point change). If we can match one of the new Markers to the
+      /// old Marker that had the popup then we can show the popup for that
+      /// Marker.
       if (markerWithPopup != null) {
         final markerWithPopupIndex = _markers
             .indexWhere((marker) => marker.point == markerWithPopup.point);
@@ -76,20 +69,48 @@ class _MapWithPopupsState extends State<MapWithPopups> {
   }
 
   List<Marker> _buildMarkers() {
-    return _points
-        .map(
-          (LatLng point) => Marker(
-            point: point,
-            width: _markerSize,
-            height: _markerSize,
-            builder: (_) => Icon(
-              AccurateMapIcons.location_on_bottom_aligned,
-              size: _markerSize,
-            ),
-            anchorPos: AnchorPos.align(widget.markerAnchorAlign),
+    return [
+      Marker(
+        point: LatLng(44.421, 10.404),
+        width: 40,
+        height: 40,
+        builder: (_) => Icon(
+          AccurateMapIcons.location_on_bottom_aligned,
+          size: 40,
+        ),
+        anchorPos: AnchorPos.align(widget.markerAnchorAlign),
+      ),
+      Marker(
+        point: LatLng(45.683, 10.839),
+        width: 20,
+        height: 40,
+        builder: (_) => Container(
+          decoration: BoxDecoration(
+            color: Colors.black54,
+            border: Border.all(color: Colors.black, width: 0.0),
+            borderRadius: BorderRadius.all(Radius.elliptical(20, 40)),
           ),
-        )
-        .toList();
+          width: 20,
+          height: 40,
+        ),
+        anchorPos: AnchorPos.align(widget.markerAnchorAlign),
+      ),
+      Marker(
+        point: LatLng(45.246, 5.783),
+        width: 40,
+        height: 20,
+        builder: (_) => Container(
+          decoration: BoxDecoration(
+            color: Colors.blue.withOpacity(0.5),
+            border: Border.all(color: Colors.black, width: 0.0),
+            borderRadius: BorderRadius.all(Radius.elliptical(40, 20)),
+          ),
+          width: 40,
+          height: 20,
+        ),
+        anchorPos: AnchorPos.align(widget.markerAnchorAlign),
+      ),
+    ];
   }
 
   @override
@@ -97,7 +118,7 @@ class _MapWithPopupsState extends State<MapWithPopups> {
     return FlutterMap(
       options: MapOptions(
         zoom: 5.0,
-        center: _points.first,
+        center: LatLng(44.421, 10.404),
         onTap: (_) => _popupLayerController
             .hidePopup(), // Hide popup when the map is tapped.
       ),
@@ -113,15 +134,14 @@ class _MapWithPopupsState extends State<MapWithPopups> {
             markers: _markers,
             popupSnap: widget.snap,
             popupController: _popupLayerController,
-            popupBuilder: (BuildContext _, Marker marker) =>
+            popupBuilder: (BuildContext context, Marker marker) =>
                 ExamplePopup(marker),
             markerAndPopupRotate: widget.rotate,
             markerRotateAlignment: PopupMarkerLayerOptions.rotationAlignmentFor(
-                widget.markerAnchorAlign),
+              widget.markerAnchorAlign,
+            ),
             popupAnimation: widget.fade
-                ? PopupAnimation.fade(
-                    duration: Duration(milliseconds: 700),
-                  )
+                ? PopupAnimation.fade(duration: Duration(milliseconds: 700))
                 : null,
           ),
         ),
