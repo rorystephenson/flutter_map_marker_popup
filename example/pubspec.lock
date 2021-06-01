@@ -7,14 +7,7 @@ packages:
       name: animated_stack_widget
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.2"
-  ansicolor:
-    dependency: transitive
-    description:
-      name: ansicolor
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.1"
+    version: "0.0.2+1"
   async:
     dependency: transitive
     description:
@@ -57,13 +50,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0"
-  console_log_handler:
-    dependency: transitive
-    description:
-      name: console_log_handler
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.6"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -125,13 +111,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.17.0"
-  latlong:
-    dependency: transitive
-    description:
-      name: latlong
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.6.1"
   latlong2:
     dependency: "direct main"
     description:
@@ -146,13 +125,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-  logging:
-    dependency: transitive
-    description:
-      name: logging
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.11.4"
   matcher:
     dependency: transitive
     description:
@@ -284,13 +256,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.0"
-  validate:
-    dependency: transitive
-    description:
-      name: validate
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.7.0"
   vector_math:
     dependency: transitive
     description:
