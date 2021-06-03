@@ -3,37 +3,31 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
-import 'package:flutter_map_marker_popup/src/popup_container/simple_popup_container.dart';
-import 'package:flutter_map_marker_popup/src/popup_marker_layer_options.dart';
 
-import 'popup_container/animated_popup_container.dart';
-import 'popup_event.dart';
+import '../flutter_map_marker_popup.dart';
 
-class PopupMarkerLayerWidget extends StatelessWidget {
-  final PopupMarkerLayerOptions options;
+class MarkerLayer extends StatefulWidget {
+  final MarkerLayerOptions layerOptions;
 
-  PopupMarkerLayerWidget({Key? key, required this.options}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final mapState = MapState.maybeOf(context)!;
-    return PopupMarkerLayer(options, mapState, mapState.onMoved);
-  }
-}
-
-class PopupMarkerLayer extends StatefulWidget {
-  final PopupMarkerLayerOptions layerOptions;
   final MapState map;
+
   final Stream<Null>? stream;
 
-  PopupMarkerLayer(this.layerOptions, this.map, this.stream)
-      : super(key: layerOptions.key);
+  final PopupController popupController;
+
+  MarkerLayer(
+    this.layerOptions,
+    this.map,
+    this.stream,
+    this.popupController, {
+    Key? key,
+  }) : super(key: key);
 
   @override
-  _PopupMarkerLayerState createState() => _PopupMarkerLayerState();
+  _MarkerLayerState createState() => _MarkerLayerState();
 }
 
-class _PopupMarkerLayerState extends State<PopupMarkerLayer> {
+class _MarkerLayerState extends State<MarkerLayer> {
   var lastZoom = -1.0;
 
   /// List containing cached pixel positions of markers
@@ -52,22 +46,13 @@ class _PopupMarkerLayerState extends State<PopupMarkerLayer> {
   void initState() {
     super.initState();
     _pxCache = generatePxCache();
-
-    widget.layerOptions.popupController.streamController =
-        StreamController<PopupEvent>.broadcast();
   }
 
   @override
-  void didUpdateWidget(covariant PopupMarkerLayer oldWidget) {
+  void didUpdateWidget(covariant MarkerLayer oldWidget) {
     super.didUpdateWidget(oldWidget);
     lastZoom = -1.0;
     _pxCache = generatePxCache();
-  }
-
-  @override
-  void dispose() {
-    widget.layerOptions.popupController.streamController!.close();
-    super.dispose();
   }
 
   @override
@@ -99,19 +84,18 @@ class _PopupMarkerLayerState extends State<PopupMarkerLayer> {
           final pos = pxPoint - widget.map.getPixelOrigin();
 
           final markerWithGestureDetector = GestureDetector(
-            onTap: () =>
-                widget.layerOptions.popupController.togglePopup(marker),
+            onTap: () => widget.popupController.togglePopup(marker),
             child: marker.builder(context),
           );
 
-          final markerRotate = widget.layerOptions.markerAndPopupRotate;
+          final markerRotate = widget.layerOptions.rotate;
 
           Widget markerWidget;
-          if (marker.rotate ?? markerRotate) {
+          if (marker.rotate ?? markerRotate ?? false) {
             final markerRotateOrigin =
-                marker.rotateOrigin ?? widget.layerOptions.markerRotateOrigin;
-            final markerRotateAlignment = marker.rotateAlignment ??
-                widget.layerOptions.markerRotateAlignment;
+                marker.rotateOrigin ?? widget.layerOptions.rotateOrigin;
+            final markerRotateAlignment =
+                marker.rotateAlignment ?? widget.layerOptions.rotateAlignment;
 
             // Counter rotated marker to the map rotation
             markerWidget = Transform.rotate(
@@ -137,9 +121,6 @@ class _PopupMarkerLayerState extends State<PopupMarkerLayer> {
         }
         lastZoom = widget.map.zoom;
 
-        /// Add the popup.
-        markers.add(_popupContainer());
-
         return Container(
           child: Stack(
             children: markers,
@@ -147,28 +128,5 @@ class _PopupMarkerLayerState extends State<PopupMarkerLayer> {
         );
       },
     );
-  }
-
-  Widget _popupContainer() {
-    final popupAnimation = widget.layerOptions.popupAnimation;
-
-    if (popupAnimation == null) {
-      return SimplePopupContainer(
-        mapState: widget.map,
-        popupController: widget.layerOptions.popupController,
-        snap: widget.layerOptions.popupSnap,
-        popupBuilder: widget.layerOptions.popupBuilder,
-        markerRotate: widget.layerOptions.markerAndPopupRotate,
-      );
-    } else {
-      return AnimatedPopupContainer(
-        mapState: widget.map,
-        popupController: widget.layerOptions.popupController,
-        snap: widget.layerOptions.popupSnap,
-        popupBuilder: widget.layerOptions.popupBuilder,
-        popupAnimation: popupAnimation,
-        markerRotate: widget.layerOptions.markerAndPopupRotate,
-      );
-    }
   }
 }

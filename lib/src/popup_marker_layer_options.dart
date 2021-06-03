@@ -7,10 +7,7 @@ import 'package:flutter_map_marker_popup/src/popup_builder.dart';
 import 'package:flutter_map_marker_popup/src/popup_controller.dart';
 import 'package:flutter_map_marker_popup/src/popup_snap.dart';
 
-class PopupMarkerLayerOptions extends LayerOptions {
-  /// The list of markers to show on the map.
-  final List<Marker> markers;
-
+class PopupMarkerLayerOptions extends MarkerLayerOptions {
   /// Used to construct the popup.
   final PopupBuilder popupBuilder;
 
@@ -20,30 +17,6 @@ class PopupMarkerLayerOptions extends LayerOptions {
 
   /// Controls the position of the popup relative to the marker or popup.
   final PopupSnap popupSnap;
-
-  /// Enable/Disable rotation for all [Marker]s and their respective popups.
-  /// Currently a [Marker] and its popup both have rotation enabled or neither
-  /// of them. If a [Marker] has rotation enabled then the popup will be counter
-  /// rotated so that it maintains its original orientation. If the [Marker] has
-  /// rotation disabled then the popup is not rotated.
-  ///
-  /// This can be overridden per-[Marker] by setting the [Marker]'s rotate.
-  final bool markerAndPopupRotate;
-
-  /// The origin of the coordinate system (relative to the upper left corner of
-  /// the [Marker]) in which to apply the rotation.
-  ///
-  /// See important notes about rotation in [PopupMarkerLayerOptions].
-  final Offset? markerRotateOrigin;
-
-  /// The alignment of the rotation origin, relative to the size of the
-  /// [Marker].
-  ///
-  /// If it is specified at the same time as the [rotateOrigin], both are
-  /// applied.
-  ///
-  /// See important notes about rotation in [PopupMarkerLayerOptions].
-  final AlignmentGeometry? markerRotateAlignment;
 
   /// Allows the use of an animation for showing/hiding popups. Defaults to no
   /// animation.
@@ -76,17 +49,23 @@ class PopupMarkerLayerOptions extends LayerOptions {
   ///   * The anchor point does not move relative to the [Marker]'s point.
   ///   * The [Marker]'s orientation matches the rotation.
   PopupMarkerLayerOptions({
-    this.markers = const [],
-    this.markerAndPopupRotate = true,
-    this.markerRotateAlignment,
-    this.markerRotateOrigin,
+    List<Marker> markers = const [],
+    bool? markerRotate = true,
+    AlignmentGeometry? markerRotateAlignment,
+    Offset? markerRotateOrigin,
     required this.popupBuilder,
     this.popupSnap = PopupSnap.markerTop,
     this.popupAnimation,
     PopupController? popupController,
     Stream<Null>? rebuild,
   })  : popupController = popupController ?? PopupController(),
-        super(rebuild: rebuild);
+        super(
+          markers: markers,
+          rotate: markerRotate,
+          rotateAlignment: markerRotateAlignment,
+          rotateOrigin: markerRotateOrigin,
+          rebuild: rebuild,
+        );
 
   static AlignmentGeometry rotationAlignmentFor(AnchorAlign anchorAlign) {
     switch (anchorAlign) {

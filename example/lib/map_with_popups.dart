@@ -136,7 +136,7 @@ class _MapWithPopupsState extends State<MapWithPopups> {
             popupController: _popupLayerController,
             popupBuilder: (BuildContext context, Marker marker) =>
                 ExamplePopup(marker),
-            markerAndPopupRotate: widget.rotate,
+            markerRotate: widget.rotate,
             markerRotateAlignment: PopupMarkerLayerOptions.rotationAlignmentFor(
               widget.markerAnchorAlign,
             ),
