@@ -1,3 +1,10 @@
+## [1.0.0] - 07/06/21
+
+* Null safe
+* Support rotation
+* Many fixes and some extra control over the visible popup via PopupController
+
+
 ## [0.3.0] - 17/05/21
 
 * PopupMarkerPlugin is removed and PopupMarkerPluginWidget is added. This plugin
