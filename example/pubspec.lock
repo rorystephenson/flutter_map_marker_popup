@@ -72,12 +72,10 @@ packages:
   flutter_map:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "issues/829-nullsafety"
-      resolved-ref: d9674b5c4fec7d759462a417c8acc548a3e720e1
-      url: "https://github.com/fleaflet/flutter_map"
-    source: git
-    version: "0.13.0"
+      name: flutter_map
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.13.1"
   flutter_map_marker_popup:
     dependency: "direct main"
     description:
@@ -272,4 +270,4 @@ packages:
     version: "2.0.0"
 sdks:
   dart: ">=2.12.0 <3.0.0"
-  flutter: ">=1.17.0"
+  flutter: ">=2.0.0"

@@ -10,14 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_map: ">=0.12.0 <1.0.0"
+  flutter_map: ">=0.13.1 <1.0.0"
   animated_stack_widget: ^0.0.2+1
-
-dependency_overrides:
-  flutter_map:
-    git:
-      url: https://github.com/fleaflet/flutter_map
-      ref: issues/829-nullsafety
 
 dev_dependencies:
   pedantic: ^1.11.0
