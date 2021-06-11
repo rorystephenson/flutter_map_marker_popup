@@ -8,7 +8,7 @@ If you have any suggestions/problems please don't hesitate to open an issue.
 
 See the `example/` directory for a demo app which results in the following:
 
-![Example](https://github.com/rorystephenson/project_gifs/blob/master/flutter_map_marker_popup_demo.gif)
+![Example](https://github.com/rorystephenson/project_gifs/blob/master/flutter_map_marker_popup/demo.gif)
 
 ## Clustering
 

@@ -1,3 +1,7 @@
+## [1.0.0+1] - 11/06/21
+
+* Add updated demo gif.
+
 ## [1.0.0] - 07/06/21
 
 * Null safe
