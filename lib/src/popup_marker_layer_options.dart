@@ -57,6 +57,8 @@ class PopupMarkerLayerOptions extends MarkerLayerOptions {
     this.popupSnap = PopupSnap.markerTop,
     this.popupAnimation,
     PopupController? popupController,
+    // Forced by flutter_map
+    // ignore: prefer_void_to_null
     Stream<Null>? rebuild,
   })  : popupController = popupController ?? PopupController(),
         super(

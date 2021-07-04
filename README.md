@@ -6,7 +6,9 @@ If you have any suggestions/problems please don't hesitate to open an issue.
 
 ## Getting Started
 
-See the `example/` directory for a demo app which results in the following:
+For a minimal code example have a look at [SimpleMapWithPopups](https://github.com/rorystephenson/flutter_map_marker_popup/blob/master/example/lib/simple_map_with_popups.dart).
+
+For a complete example which demonstrates all of the various options available try running the demo app in the `example/` directory which results in the following:
 
 ![Example](https://github.com/rorystephenson/project_gifs/blob/master/flutter_map_marker_popup/demo.gif)
 

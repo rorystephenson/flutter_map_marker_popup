@@ -1,3 +1,8 @@
+## [1.0.0+2] - 04/07/21
+
+* Add simple example.
+* Remove pedantic lints in favour of flutter's built in lints.
+
 ## [1.0.0+1] - 11/06/21
 
 * Add updated demo gif.

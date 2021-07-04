@@ -11,11 +11,13 @@ class MarkerLayer extends StatefulWidget {
 
   final MapState map;
 
+  // Forced to use this type by flutter_map
+  // ignore: prefer_void_to_null
   final Stream<Null>? stream;
 
   final PopupController popupController;
 
-  MarkerLayer(
+  const MarkerLayer(
     this.layerOptions,
     this.map,
     this.stream,
@@ -121,11 +123,7 @@ class _MarkerLayerState extends State<MarkerLayer> {
         }
         lastZoom = widget.map.zoom;
 
-        return Container(
-          child: Stack(
-            children: markers,
-          ),
-        );
+        return Stack(children: markers);
       },
     );
   }

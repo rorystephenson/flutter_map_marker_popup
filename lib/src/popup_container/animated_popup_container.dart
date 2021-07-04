@@ -20,7 +20,7 @@ class AnimatedPopupContainer extends StatefulWidget {
   final PopupAnimation popupAnimation;
   final bool markerRotate;
 
-  AnimatedPopupContainer({
+  const AnimatedPopupContainer({
     required this.mapState,
     required this.popupController,
     required this.snap,

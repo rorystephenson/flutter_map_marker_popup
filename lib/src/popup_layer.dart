@@ -11,6 +11,9 @@ import 'popup_event.dart';
 
 class PopupLayer extends StatefulWidget {
   final MapState mapState;
+
+  // Forced by flutter_map
+  // ignore: prefer_void_to_null
   final Stream<Null>? stream;
   final PopupBuilder popupBuilder;
   final PopupSnap popupSnap;
@@ -18,7 +21,7 @@ class PopupLayer extends StatefulWidget {
   final PopupAnimation? popupAnimation;
   final bool markerRotate;
 
-  PopupLayer({
+  const PopupLayer({
     required this.mapState,
     this.stream,
     required this.popupBuilder,

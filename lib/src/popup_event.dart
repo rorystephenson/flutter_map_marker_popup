@@ -3,7 +3,7 @@ import 'package:flutter_map/plugin_api.dart';
 
 @immutable
 abstract class PopupEvent {
-  PopupEvent._();
+  const PopupEvent._();
 
   factory PopupEvent.hideAny({required bool disableAnimation}) =>
       HideAnyPopupEvent._(
@@ -49,24 +49,25 @@ abstract class PopupEvent {
 class HideAnyPopupEvent extends PopupEvent {
   final bool disableAnimation;
 
-  HideAnyPopupEvent._({required this.disableAnimation}) : super._();
+  const HideAnyPopupEvent._({required this.disableAnimation}) : super._();
 }
 
 class TogglePopupEvent extends PopupEvent {
   final Marker marker;
 
-  TogglePopupEvent._(this.marker) : super._();
+  const TogglePopupEvent._(this.marker) : super._();
 }
 
 class ShowPopupEvent extends PopupEvent {
   final Marker marker;
   final bool disableAnimation;
 
-  ShowPopupEvent._(this.marker, {required this.disableAnimation}) : super._();
+  const ShowPopupEvent._(this.marker, {required this.disableAnimation})
+      : super._();
 }
 
 class HideInListPopupEvent extends PopupEvent {
   final List<Marker> markers;
 
-  HideInListPopupEvent._(this.markers) : super._();
+  const HideInListPopupEvent._(this.markers) : super._();
 }

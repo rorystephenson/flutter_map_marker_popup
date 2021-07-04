@@ -17,7 +17,7 @@ class SimplePopupContainer extends StatefulWidget {
   final MapState mapState;
   final bool markerRotate;
 
-  SimplePopupContainer({
+  const SimplePopupContainer({
     required this.mapState,
     required this.popupController,
     required this.snap,
