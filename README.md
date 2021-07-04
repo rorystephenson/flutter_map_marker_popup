@@ -15,6 +15,7 @@ For a complete example which demonstrates all of the various options available t
 ## FAQ
 
 * Why is the popup not showing when I tap the marker?
+
    Make sure you don't have a GestureDetector in your Marker's builder which is preventing this plugin from detecting the Marker tap.
 
 ## Clustering
