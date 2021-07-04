@@ -12,6 +12,11 @@ For a complete example which demonstrates all of the various options available t
 
 ![Example](https://github.com/rorystephenson/project_gifs/blob/master/flutter_map_marker_popup/demo.gif)
 
+## FAQ
+
+* Why is the popup not showing when I tap the marker?
+   Make sure you don't have a GestureDetector in your Marker's builder which is preventing this plugin from detecting the Marker tap.
+
 ## Clustering
 
 If you want both marker popups and marker clustering, this plugin's popup functionality has been integrated in to the wonderful [flutter_map_marker_cluster](https://github.com/lpongetti/flutter_map_marker_cluster) plugin.
