@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
 
 import '../flutter_map_marker_popup.dart';
+import 'lat_lng_tween.dart';
 
 class MarkerLayer extends StatefulWidget {
-  final MarkerLayerOptions layerOptions;
+  final PopupMarkerLayerOptions layerOptions;
 
   final MapState map;
 
@@ -29,7 +29,8 @@ class MarkerLayer extends StatefulWidget {
   _MarkerLayerState createState() => _MarkerLayerState();
 }
 
-class _MarkerLayerState extends State<MarkerLayer> {
+class _MarkerLayerState extends State<MarkerLayer>
+    with SingleTickerProviderStateMixin {
   var lastZoom = -1.0;
 
   /// List containing cached pixel positions of markers
@@ -37,6 +38,8 @@ class _MarkerLayerState extends State<MarkerLayer> {
   // Has a fixed length of markerOpts.markers.length - better performance:
   // https://stackoverflow.com/questions/15943890/is-there-a-performance-benefit-in-using-fixed-length-lists-in-dart
   var _pxCache = <CustomPoint>[];
+
+  late AnimationController _centerMarkerController;
 
   // Calling this every time markerOpts change should guarantee proper length
   List<CustomPoint> generatePxCache() => List.generate(
@@ -48,6 +51,10 @@ class _MarkerLayerState extends State<MarkerLayer> {
   void initState() {
     super.initState();
     _pxCache = generatePxCache();
+    _centerMarkerController = AnimationController(
+      vsync: this,
+      duration: widget.layerOptions.markerCenterAnimation?.duration,
+    );
   }
 
   @override
@@ -86,7 +93,10 @@ class _MarkerLayerState extends State<MarkerLayer> {
           final pos = pxPoint - widget.map.getPixelOrigin();
 
           final markerWithGestureDetector = GestureDetector(
-            onTap: () => widget.popupController.togglePopup(marker),
+            onTap: () {
+              _centerMarker(marker);
+              widget.popupController.togglePopup(marker);
+            },
             child: marker.builder(context),
           );
 
@@ -126,5 +136,39 @@ class _MarkerLayerState extends State<MarkerLayer> {
         return Stack(children: markers);
       },
     );
+  }
+
+  void _centerMarker(Marker marker) {
+    final markerLayerAnimation = widget.layerOptions.markerCenterAnimation;
+    if (markerLayerAnimation == null) return;
+
+    final center = widget.map.center;
+    final tween = LatLngTween(begin: center, end: marker.point);
+
+    Animation<double> animation = CurvedAnimation(
+      parent: _centerMarkerController,
+      curve: markerLayerAnimation.curve,
+    );
+
+    void listener() {
+      widget.map.move(
+        tween.evaluate(animation),
+        widget.map.zoom,
+        source: MapEventSource.custom,
+      );
+    }
+
+    _centerMarkerController.addListener(listener);
+    _centerMarkerController.forward().then((_) {
+      _centerMarkerController
+        ..removeListener(listener)
+        ..reset();
+    });
+  }
+
+  @override
+  void dispose() {
+    _centerMarkerController.dispose();
+    super.dispose();
   }
 }

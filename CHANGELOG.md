@@ -1,3 +1,7 @@
+## [1.0.1] - 27/08/21
+
+* Add an option to center the map on the marker when showing the popup.
+
 ## [1.0.0+2] - 04/07/21
 
 * Add simple example.

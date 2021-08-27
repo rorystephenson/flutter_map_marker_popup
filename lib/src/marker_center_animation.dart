@@ -1,11 +1,11 @@
 import 'package:flutter/animation.dart';
 
-class PopupAnimation {
+class MarkerCenterAnimation {
   final Duration duration;
   final Curve curve;
 
-  const PopupAnimation.fade({
-    this.duration = const Duration(milliseconds: 300),
+  const MarkerCenterAnimation({
+    this.duration = const Duration(milliseconds: 500),
     this.curve = Curves.ease,
   });
 }
