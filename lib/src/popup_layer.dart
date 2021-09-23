@@ -27,11 +27,12 @@ class PopupLayer extends StatefulWidget {
     this.stream,
     required this.popupBuilder,
     required this.popupSnap,
-    required this.popupController,
+    required PopupController popupController,
     this.popupAnimation,
     required this.markerRotate,
     Key? key,
-  }) : super(key: key);
+  })  : popupController = popupController as PopupControllerImpl,
+        super(key: key);
 
   @override
   _PopupLayerState createState() => _PopupLayerState();
