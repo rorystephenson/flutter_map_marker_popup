@@ -1,54 +1,47 @@
-import 'dart:async';
-
 import 'package:flutter_map/plugin_api.dart';
-import 'package:flutter_map_marker_popup/src/popup_container/marker_with_key.dart';
-import 'package:flutter_map_marker_popup/src/popup_event.dart';
+import 'package:flutter_map_marker_popup/src/popup_controller_impl.dart';
 
-class PopupController {
-  StreamController<PopupEvent>? streamController;
+/// Used to programmatically show/hide popups and find out which markers
+/// have visible popups.
 
-  /// The [MarkerWithKey] for which a popup is currently showing if there is
-  /// one. This is for internal use.
-  MarkerWithKey? selectedMarkerWithKey;
+abstract class PopupController {
+  /// The [Marker]s for which a popup is currently showing if there is one.
+  List<Marker> get selectedMarkers;
 
-  /// The [Marker] for which a popup is currently showing if there is one.
-  Marker? get selectedMarker => selectedMarkerWithKey?.marker;
+  factory PopupController({List<Marker> initiallySelectedMarkers}) =
+      PopupControllerImpl;
 
-  /// Used to programmatically add/remove the popup.
+  /// Show the popups for the given [markers]. If a popup is already showing for
+  /// a given marker it remains visible.
   ///
-  /// The [selectedMarker] getter can be used to find the [Marker] for which
-  /// the popup is currently showing if there is a popup showing.
+  /// If [disableAnimation] is true and a popup animation is enabled then the
+  /// animation will not be used when showing the popups.
+  void showPopupsAlsoFor(List<Marker> markers, {bool disableAnimation = false});
+
+  /// Show the popups only for the given [markers]. All other popups will be
+  /// hidden. If a popup is already showing for a given marker it remains
+  /// visible.
   ///
-  /// To show a popup immediately set the [initiallySelectedMarker].
-  PopupController({Marker? initiallySelectedMarker})
-      : selectedMarkerWithKey = initiallySelectedMarker == null
-            ? null
-            : MarkerWithKey(initiallySelectedMarker);
+  /// If [disableAnimation] is true and a popup animation is enabled then the
+  /// animation will not be used when showing/hiding the popups.
+  void showPopupsOnlyFor(List<Marker> markers, {bool disableAnimation = false});
 
-  /// Hide the popup if it is showing.
-  void hidePopup({bool disableAnimation = false}) {
-    streamController?.add(PopupEvent.hideAny(
-      disableAnimation: disableAnimation,
-    ));
-  }
+  /// Hide all popups that are showing.
+  ///
+  /// If [disableAnimation] is true and a popup animation is enabled then the
+  /// animation will not be used when hiding the popups.
+  void hideAllPopups({bool disableAnimation = false});
 
-  /// Hide the popup but only if it is showing for one of the given markers.
-  void hidePopupIfShowingFor(List<Marker> markers) {
-    streamController?.add(PopupEvent.hideInList(markers));
-  }
+  /// Hide popups showing for any of the given markers.
+  ///
+  /// If [disableAnimation] is true and a popup animation is enabled then the
+  /// animation will not be used when hiding the popups.
+  void hidePopupsOnlyFor(List<Marker> markers, {bool disableAnimation = false});
 
-  /// Hide the popup if it is showing for the given marker, otherwise show it
-  /// for that marker.
-  void togglePopup(Marker marker) {
-    streamController?.add(PopupEvent.toggle(marker));
-  }
-
-  /// Show the popup for the given marker. If the popup is already showing for
-  /// that marker nothing happens.
-  void showPopupFor(Marker marker, {bool disableAnimation = false}) {
-    streamController?.add(PopupEvent.show(
-      marker,
-      disableAnimation: disableAnimation,
-    ));
-  }
+  /// Hide the popup if it is showing for the given [marker], otherwise show it
+  /// for that [marker].
+  ///
+  /// If [disableAnimation] is true and a popup animation is enabled then the
+  /// animation will not be used when showing/hiding the popup.
+  void togglePopup(Marker marker, {bool disableAnimation = false});
 }

@@ -1,17 +1,18 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_popup/src/popup_builder.dart';
-import 'package:flutter_map_marker_popup/src/popup_controller.dart';
 import 'package:flutter_map_marker_popup/src/popup_event.dart';
 import 'package:flutter_map_marker_popup/src/popup_snap.dart';
 
+import '../popup_controller_impl.dart';
 import 'marker_with_key.dart';
 import 'popup_container_mixin.dart';
 
 class SimplePopupContainer extends StatefulWidget {
-  final PopupController popupController;
+  final PopupControllerImpl popupController;
   final PopupBuilder popupBuilder;
   final PopupSnap snap;
   final MapState mapState;
@@ -32,7 +33,7 @@ class SimplePopupContainer extends StatefulWidget {
 
 class _SimplePopupContainerState extends State<SimplePopupContainer>
     with PopupContainerMixin {
-  MarkerWithKey? _selectedMarkerWithKey;
+  late Set<MarkerWithKey> _selectedMarkersWithKeys;
 
   late StreamSubscription<PopupEvent> _popupEventSubscription;
 
@@ -40,7 +41,7 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
   MapState get mapState => widget.mapState;
 
   @override
-  PopupController get popupController => widget.popupController;
+  PopupControllerImpl get popupController => widget.popupController;
 
   @override
   PopupSnap get snap => widget.snap;
@@ -53,45 +54,60 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
     super.initState();
     _popupEventSubscription = widget.popupController.streamController!.stream
         .listen((PopupEvent popupEvent) => handleAction(popupEvent));
-    _selectedMarkerWithKey = widget.popupController.selectedMarkerWithKey;
+    _selectedMarkersWithKeys =
+        LinkedHashSet.from(widget.popupController.selectedMarkersWithKeys);
   }
 
   @override
   Widget build(BuildContext context) {
-    final _currentlySelected = _selectedMarkerWithKey;
+    if (_selectedMarkersWithKeys.isEmpty) return Container();
 
-    if (_currentlySelected == null) return Container();
-
-    return inPosition(
-      _currentlySelected.marker,
-      popupWithStateKeepAlive(_currentlySelected, widget.popupBuilder),
+    return Stack(
+      children: _selectedMarkersWithKeys
+          .map((markerWithKey) => inPosition(
+                markerWithKey.marker,
+                popupWithStateKeepAlive(markerWithKey, widget.popupBuilder),
+              ))
+          .toList(),
     );
   }
 
   @override
-  void hideAny({required bool disableAnimation}) {
-    if (_selectedMarkerWithKey != null) {
-      setState(() {
-        _selectedMarkerWithKey = null;
-      });
-    }
-  }
-
-  @override
-  void showForMarker(
-    MarkerWithKey markerWithKey, {
+  void showPopupsAlsoFor(
+    List<MarkerWithKey> markersWithKeys, {
     required bool disableAnimation,
   }) {
-    if (!markerIsVisible(markerWithKey.marker)) {
+    setState(() {
+      _selectedMarkersWithKeys.addAll(markersWithKeys);
+    });
+  }
+
+  @override
+  void showPopupsOnlyFor(
+    List<MarkerWithKey> markersWithKeys, {
+    required bool disableAnimation,
+  }) {
+    setState(() {
+      _selectedMarkersWithKeys.clear();
+      _selectedMarkersWithKeys.addAll(markersWithKeys);
+    });
+  }
+
+  @override
+  void hideAllPopups({required bool disableAnimation}) {
+    if (_selectedMarkersWithKeys.isNotEmpty) {
       setState(() {
-        _selectedMarkerWithKey = markerWithKey;
+        _selectedMarkersWithKeys.clear();
       });
     }
   }
 
   @override
-  bool markerIsVisible(Marker marker) {
-    return _selectedMarkerWithKey?.marker == marker;
+  void hidePopupsOnlyFor(List<Marker> markers,
+      {required bool disableAnimation}) {
+    setState(() {
+      _selectedMarkersWithKeys.removeAll(markers.map(MarkerWithKey.wrap));
+    });
   }
 
   @override

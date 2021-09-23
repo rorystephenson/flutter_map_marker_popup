@@ -25,6 +25,7 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
   bool snapToMarker = true;
   AlignmentGeometry popupAlignment = alignments[1];
   AlignmentGeometry anchorAlignment = alignments[1];
+  bool showMultiplePopups = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +39,7 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
               rotate: rotate,
               fade: fade,
               markerAnchorAlign: _markerAnchorAlign,
+              showMultiplePopups: showMultiplePopups,
             ),
           ),
           Padding(
@@ -148,6 +150,22 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
                           )
                           .toList(),
                     ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '\nShow multiple',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    Switch(
+                        value: showMultiplePopups,
+                        onChanged: (newValue) {
+                          setState(() {
+                            showMultiplePopups = newValue;
+                          });
+                        })
                   ],
                 ),
               ],

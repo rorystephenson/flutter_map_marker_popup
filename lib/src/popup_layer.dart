@@ -7,6 +7,7 @@ import 'package:flutter_map_marker_popup/extension_api.dart';
 import 'package:flutter_map_marker_popup/src/popup_container/simple_popup_container.dart';
 
 import 'popup_container/animated_popup_container.dart';
+import 'popup_controller_impl.dart';
 import 'popup_event.dart';
 
 class PopupLayer extends StatefulWidget {
@@ -17,7 +18,7 @@ class PopupLayer extends StatefulWidget {
   final Stream<Null>? stream;
   final PopupBuilder popupBuilder;
   final PopupSnap popupSnap;
-  final PopupController popupController;
+  final PopupControllerImpl popupController;
   final PopupAnimation? popupAnimation;
   final bool markerRotate;
 

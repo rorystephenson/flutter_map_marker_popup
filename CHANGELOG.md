@@ -1,3 +1,15 @@
+## [2.0.0] - 23/09/21
+
+* Support multiple visible popups at once. The default behaviour remains
+  single-popup but some breaking changes in PopupController were required:
+
+  - hidePopups -> hideAllPopups
+  - hidePopupIfShowingFor -> hidePopupsOnlyFor
+  - showPopup -> showPopupsOnlyFor
+
+  If you wish to show multiple popups at once you will want to change the 
+  default MarkerTapBehavior, see the documentation in PopupMarkerLayerOptions.
+
 ## [1.0.1] - 27/08/21
 
 * Add an option to center the map on the marker when showing the popup.

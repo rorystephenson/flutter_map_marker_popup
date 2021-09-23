@@ -2,12 +2,14 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map_marker_popup/src/marker_tap_behavior.dart';
 import 'package:flutter_map_marker_popup/src/popup_animation.dart';
 import 'package:flutter_map_marker_popup/src/popup_builder.dart';
 import 'package:flutter_map_marker_popup/src/popup_controller.dart';
 import 'package:flutter_map_marker_popup/src/popup_snap.dart';
 
 import 'marker_center_animation.dart';
+import 'popup_controller_impl.dart';
 
 class PopupMarkerLayerOptions extends MarkerLayerOptions {
   /// Used to construct the popup.
@@ -28,7 +30,16 @@ class PopupMarkerLayerOptions extends MarkerLayerOptions {
   /// a marker when it is tapped. Defaults to not centering on the marker.
   final MarkerCenterAnimation? markerCenterAnimation;
 
-  /// Show the list of [markers] on the map with a popup that is shown when a
+  /// The default MarkerTapBehavior is
+  /// [MarkerTapBehavior.togglePopupAndHideRest] which will toggle the popup of
+  /// the tapped marker and hide all other popups. This is a sensible default
+  /// when you only want to show a single popup at a time but if you show
+  /// multiple popups you probably want to use [MarkerTapBehavior.togglePopup].
+  ///
+  /// For more information and other options see [MarkerTapBehavior].
+  final MarkerTapBehavior markerTapBehavior;
+
+  /// Show the list of [markers] on the map with a popups that are shown when a
   /// marker is tapped or when triggered via the [popupController].
   ///
   /// Use [popupBuilder] to build the popup widget and [popupSnap] to control
@@ -64,10 +75,13 @@ class PopupMarkerLayerOptions extends MarkerLayerOptions {
     this.popupAnimation,
     this.markerCenterAnimation,
     PopupController? popupController,
+    MarkerTapBehavior? markerTapBehavior,
     // Forced by flutter_map
     // ignore: prefer_void_to_null
     Stream<Null>? rebuild,
-  })  : popupController = popupController ?? PopupController(),
+  })  : popupController = popupController ?? PopupControllerImpl(),
+        markerTapBehavior =
+            markerTapBehavior ?? MarkerTapBehavior.togglePopupAndHideRest(),
         super(
           markers: markers,
           rotate: markerRotate,

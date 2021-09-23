@@ -6,14 +6,14 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_popup/src/popup_animation.dart';
 import 'package:flutter_map_marker_popup/src/popup_builder.dart';
 import 'package:flutter_map_marker_popup/src/popup_container/popup_container_mixin.dart';
-import 'package:flutter_map_marker_popup/src/popup_controller.dart';
 import 'package:flutter_map_marker_popup/src/popup_event.dart';
 import 'package:flutter_map_marker_popup/src/popup_snap.dart';
 
+import '../popup_controller_impl.dart';
 import 'marker_with_key.dart';
 
 class AnimatedPopupContainer extends StatefulWidget {
-  final PopupController popupController;
+  final PopupControllerImpl popupController;
   final PopupBuilder popupBuilder;
   final PopupSnap snap;
   final MapState mapState;
@@ -40,7 +40,7 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
   MapState get mapState => widget.mapState;
 
   @override
-  PopupController get popupController => widget.popupController;
+  PopupControllerImpl get popupController => widget.popupController;
 
   @override
   PopupSnap get snap => widget.snap;
@@ -60,15 +60,12 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
   void initState() {
     super.initState();
 
-    final selectedMarkerWithKey = popupController.selectedMarkerWithKey;
-
     _animatedStackManager = AnimatedStackManager<MarkerWithKey>(
       animatedStackKey: _animatedStackKey,
       removedItemBuilder: (marker, _, animation) =>
           _buildPopup(marker, animation, allowTap: false),
       duration: widget.popupAnimation.duration,
-      initialItems:
-          selectedMarkerWithKey == null ? [] : [selectedMarkerWithKey],
+      initialItems: popupController.selectedMarkersWithKeys,
     );
     _popupEventSubscription = widget.popupController.streamController!.stream
         .listen((PopupEvent popupEvent) => handleAction(popupEvent));
@@ -104,32 +101,57 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
   }
 
   @override
-  void hideAny({required bool disableAnimation}) {
+  void showPopupsAlsoFor(
+    List<MarkerWithKey> markersWithKeys, {
+    required bool disableAnimation,
+  }) {
+    for (var markerWithKey in markersWithKeys) {
+      if (!_animatedStackManager.contains(markerWithKey)) {
+        _animatedStackManager.insert(
+          _animatedStackManager.length,
+          markerWithKey,
+          duration: disableAnimation ? Duration.zero : null,
+        );
+      }
+    }
+  }
+
+  @override
+  void showPopupsOnlyFor(
+    List<MarkerWithKey> markersWithKeys, {
+    required bool disableAnimation,
+  }) {
+    _animatedStackManager.removeWhere(
+      (markerWithKey) => !markersWithKeys.contains(markerWithKey),
+      duration: disableAnimation ? Duration.zero : null,
+    );
+    for (var markerWithKey in markersWithKeys) {
+      if (!_animatedStackManager.contains(markerWithKey)) {
+        _animatedStackManager.insert(
+          _animatedStackManager.length,
+          markerWithKey,
+          duration: disableAnimation ? Duration.zero : null,
+        );
+      }
+    }
+  }
+
+  @override
+  void hidePopupsOnlyFor(
+    List<Marker> markers, {
+    required bool disableAnimation,
+  }) {
+    _animatedStackManager
+        .removeWhere((markerWithKey) => markers.contains(markerWithKey.marker));
+  }
+
+  @override
+  void hideAllPopups({required bool disableAnimation}) {
     if (_animatedStackManager.isNotEmpty) {
       _animatedStackManager.clear(
           duration: disableAnimation ? Duration.zero : null);
     }
   }
-
-  @override
-  void showForMarker(
-    MarkerWithKey markerWithKey, {
-    required bool disableAnimation,
-  }) {
-    if (!markerIsVisible(markerWithKey.marker)) {
-      hideAny(disableAnimation: disableAnimation);
-      _animatedStackManager.insert(
-        0,
-        markerWithKey,
-        duration: disableAnimation ? Duration.zero : null,
-      );
-    }
-  }
-
-  @override
-  bool markerIsVisible(Marker marker) =>
-      _animatedStackManager.length > 0 &&
-      _animatedStackManager[0].marker == marker;
 
   @override
   void dispose() {

@@ -6,13 +6,13 @@ import 'package:flutter_map_marker_popup/src/layout/popup_layout.dart';
 import 'package:flutter_map_marker_popup/src/popup_container/marker_with_key.dart';
 import 'package:flutter_map_marker_popup/src/popup_snap.dart';
 
-import '../popup_controller.dart';
+import '../popup_controller_impl.dart';
 import '../popup_event.dart';
 
 mixin PopupContainerMixin {
   MapState get mapState;
 
-  PopupController get popupController;
+  PopupControllerImpl get popupController;
 
   PopupSnap get snap;
 
@@ -61,48 +61,77 @@ mixin PopupContainerMixin {
   @nonVirtual
   void handleAction(PopupEvent event) {
     return event.handle(
-      hide: wrapHideAny,
+      showAlsoFor: wrapShowPopupsAlsoFor,
+      showOnlyFor: wrapShowPopupsOnlyFor,
+      hideAll: wrapHideAllPopups,
+      hideOnlyFor: wrapHidePopupsOnlyFor,
       toggle: toggle,
-      show: wrapShowForMarker,
-      hideInList: hideInList,
     );
   }
 
   @nonVirtual
-  void toggle(Marker marker) {
-    if (markerIsVisible(marker)) {
-      wrapHideAny(disableAnimation: false);
+  void wrapShowPopupsAlsoFor(
+    List<Marker> markers, {
+    required bool disableAnimation,
+  }) {
+    final markersWithKeys =
+        markers.map((marker) => MarkerWithKey(marker)).toList();
+    popupController.selectedMarkersWithKeys.addAll(markersWithKeys);
+
+    showPopupsAlsoFor(markersWithKeys, disableAnimation: disableAnimation);
+  }
+
+  @nonVirtual
+  void wrapShowPopupsOnlyFor(
+    List<Marker> markers, {
+    required bool disableAnimation,
+  }) {
+    final markersWithKeys =
+        markers.map((marker) => MarkerWithKey(marker)).toList();
+    popupController.selectedMarkersWithKeys.clear();
+    popupController.selectedMarkersWithKeys.addAll(markersWithKeys);
+
+    showPopupsOnlyFor(markersWithKeys, disableAnimation: disableAnimation);
+  }
+
+  @nonVirtual
+  void wrapHideAllPopups({required bool disableAnimation}) {
+    popupController.selectedMarkersWithKeys.clear();
+    hideAllPopups(disableAnimation: disableAnimation);
+  }
+
+  @nonVirtual
+  void wrapHidePopupsOnlyFor(
+    List<Marker> markers, {
+    required bool disableAnimation,
+  }) {
+    popupController.selectedMarkersWithKeys
+        .removeWhere((markerWithKey) => markers.contains(markerWithKey.marker));
+    hidePopupsOnlyFor(markers, disableAnimation: disableAnimation);
+  }
+
+  @nonVirtual
+  void toggle(Marker marker, {bool disableAnimation = false}) {
+    if (popupController.selectedMarkersWithKeys
+        .contains(MarkerWithKey.wrap(marker))) {
+      wrapHidePopupsOnlyFor([marker], disableAnimation: disableAnimation);
     } else {
-      wrapShowForMarker(marker, disableAnimation: false);
+      wrapShowPopupsAlsoFor([marker], disableAnimation: disableAnimation);
     }
   }
 
-  @nonVirtual
-  void hideInList(List<Marker> markers) {
-    if (markers.any((marker) => markerIsVisible(marker))) {
-      wrapHideAny(disableAnimation: false);
-    }
-  }
-
-  @nonVirtual
-  void wrapShowForMarker(Marker marker, {required bool disableAnimation}) {
-    final markerWithKey = MarkerWithKey(marker);
-    popupController.selectedMarkerWithKey = markerWithKey;
-    showForMarker(markerWithKey, disableAnimation: disableAnimation);
-  }
-
-  @nonVirtual
-  void wrapHideAny({required bool disableAnimation}) {
-    popupController.selectedMarkerWithKey = null;
-    hideAny(disableAnimation: disableAnimation);
-  }
-
-  bool markerIsVisible(Marker marker);
-
-  void hideAny({required bool disableAnimation});
-
-  void showForMarker(
-    MarkerWithKey markerWithKey, {
+  void showPopupsAlsoFor(
+    List<MarkerWithKey> markersWithKeys, {
     required bool disableAnimation,
   });
+
+  void showPopupsOnlyFor(
+    List<MarkerWithKey> markersWithKeys, {
+    required bool disableAnimation,
+  });
+
+  void hideAllPopups({required bool disableAnimation});
+
+  void hidePopupsOnlyFor(List<Marker> markers,
+      {required bool disableAnimation});
 }
