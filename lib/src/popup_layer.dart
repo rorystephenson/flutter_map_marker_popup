@@ -48,6 +48,15 @@ class _PopupLayerState extends State<PopupLayer> {
   }
 
   @override
+  void didUpdateWidget(covariant PopupLayer oldWidget) {
+    if (oldWidget.popupController != widget.popupController) {
+      widget.popupController.streamController =
+          StreamController<PopupEvent>.broadcast();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   void dispose() {
     widget.popupController.streamController?.close();
     widget.popupController.streamController = null;

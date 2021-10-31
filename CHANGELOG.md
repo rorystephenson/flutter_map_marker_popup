@@ -1,3 +1,9 @@
+## [2.0.1] - 31/10/21
+
+* Fix a bug where popup showing/hiding might get stuck if a PopupController was
+  not provided and the popup container layer changed position in the widget
+  tree.
+
 ## [2.0.0] - 23/09/21
 
 * Support multiple visible popups at once. The default behaviour remains

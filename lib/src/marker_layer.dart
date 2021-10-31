@@ -63,6 +63,8 @@ class _MarkerLayerState extends State<MarkerLayer>
     super.didUpdateWidget(oldWidget);
     lastZoom = -1.0;
     _pxCache = generatePxCache();
+    _centerMarkerController.duration =
+        widget.layerOptions.markerCenterAnimation?.duration;
   }
 
   @override

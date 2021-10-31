@@ -59,6 +59,25 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
   }
 
   @override
+  void didUpdateWidget(covariant SimplePopupContainer oldWidget) {
+    if (oldWidget.popupController != widget.popupController) {
+      _popupEventSubscription.cancel();
+      _popupEventSubscription = widget.popupController.streamController!.stream
+          .listen((PopupEvent popupEvent) => handleAction(popupEvent));
+      _selectedMarkersWithKeys
+        ..clear()
+        ..addAll(widget.popupController.selectedMarkersWithKeys);
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    _popupEventSubscription.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (_selectedMarkersWithKeys.isEmpty) return Container();
 
@@ -108,11 +127,5 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
     setState(() {
       _selectedMarkersWithKeys.removeAll(markers.map(MarkerWithKey.wrap));
     });
-  }
-
-  @override
-  void dispose() {
-    _popupEventSubscription.cancel();
-    super.dispose();
   }
 }

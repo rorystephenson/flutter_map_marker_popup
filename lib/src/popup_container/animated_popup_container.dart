@@ -72,6 +72,32 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
   }
 
   @override
+  void didUpdateWidget(covariant AnimatedPopupContainer oldWidget) {
+    if (oldWidget.popupController != widget.popupController) {
+      _popupEventSubscription.cancel();
+      _popupEventSubscription = widget.popupController.streamController!.stream
+          .listen((PopupEvent popupEvent) => handleAction(popupEvent));
+
+      _animatedStackManager.clear(duration: Duration.zero);
+      for (final selectedMarker
+          in widget.popupController.selectedMarkersWithKeys) {
+        _animatedStackManager.insert(
+          _animatedStackManager.length - 1,
+          selectedMarker,
+          duration: Duration.zero,
+        );
+      }
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    _popupEventSubscription.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Positioned.fill(
       child: AnimatedStack(
@@ -151,11 +177,5 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
       _animatedStackManager.clear(
           duration: disableAnimation ? Duration.zero : null);
     }
-  }
-
-  @override
-  void dispose() {
-    _popupEventSubscription.cancel();
-    super.dispose();
   }
 }
