@@ -1,3 +1,7 @@
+## [2.1.0] - 12/01/22
+
+* Add the onPopupEvent callback.
+
 ## [2.0.1] - 31/10/21
 
 * Fix a bug where popup showing/hiding might get stuck if a PopupController was
