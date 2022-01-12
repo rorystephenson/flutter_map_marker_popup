@@ -49,6 +49,7 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ToggleButtons(
+                  textStyle: TextStyle(fontSize: 16),
                   isSelected: [snapToMarker, rotate, fade],
                   onPressed: (int index) {
                     setState(() {
@@ -63,18 +64,14 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
                       child: Row(
                         children: [
                           Icon(Icons.messenger),
-                          Text(' Snap to Marker',
-                              style: TextStyle(fontSize: 18)),
+                          Text(' Snap to Marker'),
                         ],
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Row(
-                        children: [
-                          Icon(Icons.rotate_right),
-                          Text(' Rotate', style: TextStyle(fontSize: 18))
-                        ],
+                        children: [Icon(Icons.rotate_right), Text(' Rotate')],
                       ),
                     ),
                     Padding(
@@ -82,7 +79,7 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
                       child: Row(
                         children: [
                           Icon(Icons.animation),
-                          Text(' Fade', style: TextStyle(fontSize: 18)),
+                          Text(' Fade'),
                         ],
                       ),
                     ),
