@@ -156,6 +156,15 @@ class _MapWithPopupsState extends State<MapWithPopups> {
             markerTapBehavior: widget.showMultiplePopups
                 ? MarkerTapBehavior.togglePopup()
                 : MarkerTapBehavior.togglePopupAndHideRest(),
+            onPopupEvent: (event, selectedMarkers) {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(event.runtimeType.toString()),
+                  duration: Duration(seconds: 1),
+                ),
+              );
+            },
           ),
         ),
       ],
