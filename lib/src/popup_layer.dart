@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_popup/extension_api.dart';
-import 'package:flutter_map_marker_popup/src/popup_container/simple_popup_container.dart';
 
-import 'popup_container/animated_popup_container.dart';
 import 'popup_controller_impl.dart';
 import 'popup_event.dart';
 
