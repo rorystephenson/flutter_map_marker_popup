@@ -19,6 +19,7 @@ class PopupLayer extends StatefulWidget {
   final PopupControllerImpl popupController;
   final PopupAnimation? popupAnimation;
   final bool markerRotate;
+  final Function(PopupEvent event, List<Marker> selectedMarkers)? onPopupEvent;
 
   const PopupLayer({
     required this.mapState,
@@ -28,6 +29,7 @@ class PopupLayer extends StatefulWidget {
     required PopupController popupController,
     this.popupAnimation,
     required this.markerRotate,
+    required this.onPopupEvent,
     Key? key,
   })  : popupController = popupController as PopupControllerImpl,
         super(key: key);
@@ -75,6 +77,7 @@ class _PopupLayerState extends State<PopupLayer> {
             snap: widget.popupSnap,
             popupBuilder: widget.popupBuilder,
             markerRotate: widget.markerRotate,
+            onPopupEvent: widget.onPopupEvent,
           );
         } else {
           return AnimatedPopupContainer(
@@ -84,6 +87,7 @@ class _PopupLayerState extends State<PopupLayer> {
             popupBuilder: widget.popupBuilder,
             popupAnimation: popupAnimation,
             markerRotate: widget.markerRotate,
+            onPopupEvent: widget.onPopupEvent,
           );
         }
       },

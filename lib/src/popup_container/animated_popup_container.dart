@@ -19,6 +19,7 @@ class AnimatedPopupContainer extends StatefulWidget {
   final MapState mapState;
   final PopupAnimation popupAnimation;
   final bool markerRotate;
+  final Function(PopupEvent event, List<Marker> selectedMarkers)? onPopupEvent;
 
   const AnimatedPopupContainer({
     required this.mapState,
@@ -27,6 +28,7 @@ class AnimatedPopupContainer extends StatefulWidget {
     required this.popupBuilder,
     required this.popupAnimation,
     required this.markerRotate,
+    required this.onPopupEvent,
     Key? key,
   }) : super(key: key);
 
@@ -47,6 +49,10 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
 
   @override
   bool get markerRotate => widget.markerRotate;
+
+  @override
+  Function(PopupEvent event, List<Marker> selectedMarkers)? get onPopupEvent =>
+      widget.onPopupEvent;
 
   final GlobalKey<AnimatedStackState> _animatedStackKey =
       GlobalKey<AnimatedStackState>();
