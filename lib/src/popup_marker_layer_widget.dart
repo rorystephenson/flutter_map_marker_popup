@@ -29,6 +29,7 @@ class PopupMarkerLayerWidget extends StatelessWidget {
         popupController: options.popupController as PopupControllerImpl,
         popupAnimation: options.popupAnimation,
         markerRotate: options.rotate ?? false,
+        onPopupEvent: options.onPopupEvent,
       ),
     ]);
   }

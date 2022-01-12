@@ -17,6 +17,7 @@ class SimplePopupContainer extends StatefulWidget {
   final PopupSnap snap;
   final MapState mapState;
   final bool markerRotate;
+  final Function(PopupEvent event, List<Marker> selectedMarkers)? onPopupEvent;
 
   const SimplePopupContainer({
     required this.mapState,
@@ -24,6 +25,7 @@ class SimplePopupContainer extends StatefulWidget {
     required this.snap,
     required this.popupBuilder,
     required this.markerRotate,
+    required this.onPopupEvent,
     Key? key,
   }) : super(key: key);
 
@@ -48,6 +50,10 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
 
   @override
   bool get markerRotate => widget.markerRotate;
+
+  @override
+  Function(PopupEvent event, List<Marker> selectedMarkers)? get onPopupEvent =>
+      widget.onPopupEvent;
 
   @override
   void initState() {

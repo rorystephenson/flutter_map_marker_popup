@@ -17,6 +17,8 @@ mixin PopupContainerMixin {
 
   bool get markerRotate;
 
+  Function(PopupEvent event, List<Marker> selectedMarkers)? get onPopupEvent;
+
   @nonVirtual
   Widget inPosition(Marker marker, Widget popup) {
     final layout = popupLayout(marker);
@@ -59,6 +61,8 @@ mixin PopupContainerMixin {
 
   @nonVirtual
   void handleAction(PopupEvent event) {
+    onPopupEvent?.call(event, popupController.selectedMarkers);
+
     return event.handle(
       showAlsoFor: wrapShowPopupsAlsoFor,
       showOnlyFor: wrapShowPopupsOnlyFor,

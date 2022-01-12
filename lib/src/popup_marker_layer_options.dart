@@ -8,6 +8,7 @@ import 'package:flutter_map_marker_popup/src/popup_snap.dart';
 
 import 'marker_center_animation.dart';
 import 'popup_controller_impl.dart';
+import 'popup_event.dart';
 
 class PopupMarkerLayerOptions extends MarkerLayerOptions {
   /// Used to construct the popup.
@@ -36,6 +37,11 @@ class PopupMarkerLayerOptions extends MarkerLayerOptions {
   ///
   /// For more information and other options see [MarkerTapBehavior].
   final MarkerTapBehavior markerTapBehavior;
+
+  /// An optional callback which can be used to react to [PopupEvent]s. The
+  /// [selectedMarkers] is the list of [Marker]s which are selected *before*
+  /// the [event] is applied.
+  final Function(PopupEvent event, List<Marker> selectedMarkers)? onPopupEvent;
 
   /// Show the list of [markers] on the map with a popups that are shown when a
   /// marker is tapped or when triggered via the [popupController].
@@ -74,6 +80,7 @@ class PopupMarkerLayerOptions extends MarkerLayerOptions {
     this.markerCenterAnimation,
     PopupController? popupController,
     MarkerTapBehavior? markerTapBehavior,
+    this.onPopupEvent,
     // Forced by flutter_map
     // ignore: prefer_void_to_null
     Stream<Null>? rebuild,
