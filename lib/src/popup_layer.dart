@@ -29,7 +29,7 @@ class PopupLayer extends StatefulWidget {
     required PopupController popupController,
     this.popupAnimation,
     required this.markerRotate,
-    required this.onPopupEvent,
+    this.onPopupEvent,
     Key? key,
   })  : popupController = popupController as PopupControllerImpl,
         super(key: key);

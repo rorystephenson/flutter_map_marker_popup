@@ -1,3 +1,9 @@
+## [2.1.1] - 12/01/22
+
+* Set onPopupEvent as an optional parameter for the PopupLayer otherwise a
+  warning is generated when it is used by `flutter_map_marker_cluster`.
+
+
 ## [2.1.0] - 12/01/22
 
 * Add the onPopupEvent callback.
@@ -17,7 +23,7 @@
   - hidePopupIfShowingFor -> hidePopupsOnlyFor
   - showPopup -> showPopupsOnlyFor
 
-  If you wish to show multiple popups at once you will want to change the 
+  If you wish to show multiple popups at once you will want to change the
   default MarkerTapBehavior, see the documentation in PopupMarkerLayerOptions.
 
 ## [1.0.1] - 27/08/21
