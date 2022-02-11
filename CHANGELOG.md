@@ -1,3 +1,7 @@
+## [2.1.1+1] - 11/02/22
+
+* Fix example, the flutter_map onTap required an extra argument.
+
 ## [2.1.1] - 12/01/22
 
 * Set onPopupEvent as an optional parameter for the PopupLayer otherwise a

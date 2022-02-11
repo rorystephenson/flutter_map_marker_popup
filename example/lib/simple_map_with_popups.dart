@@ -21,7 +21,7 @@ class SimpleMapWithPopups extends StatelessWidget {
       options: MapOptions(
         zoom: 5.0,
         center: LatLng(44.421, 10.404),
-        onTap: (_) => _popupLayerController
+        onTap: (_, __) => _popupLayerController
             .hideAllPopups(), // Hide popup when the map is tapped.
       ),
       children: [
