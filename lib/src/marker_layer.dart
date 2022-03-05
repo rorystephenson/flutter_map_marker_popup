@@ -41,6 +41,7 @@ class _MarkerLayerState extends State<MarkerLayer>
   var _pxCache = <CustomPoint>[];
 
   late AnimationController _centerMarkerController;
+  void Function()? _animationListener;
 
   // Calling this every time markerOpts change should guarantee proper length
   List<CustomPoint> generatePxCache() => List.generate(
@@ -167,11 +168,16 @@ class _MarkerLayerState extends State<MarkerLayer>
       );
     }
 
+    _centerMarkerController.removeListener(_animationListener ?? () {});
+    _centerMarkerController.reset();
+    _animationListener = listener;
+
     _centerMarkerController.addListener(listener);
     _centerMarkerController.forward().then((_) {
       _centerMarkerController
         ..removeListener(listener)
         ..reset();
+      _animationListener = null;
     });
   }
 
