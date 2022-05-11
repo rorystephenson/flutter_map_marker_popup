@@ -70,4 +70,14 @@ abstract class SnapToMarkerLayout {
           : PopupContainerTransform.toCenterOfMarker(mapState, marker),
     );
   }
+
+  static PopupLayout custom(MapState mapState, Marker marker, bool markerRotate,
+      Alignment contentAlignment, Alignment rotationAlignment) {
+    return PopupLayout(
+        rotationAlignment: rotationAlignment,
+        contentAlignment: contentAlignment,
+        transformationMatrix: marker.rotate ?? markerRotate
+            ? PopupContainerTransform.toCenterOfRotatedMarker(mapState, marker)
+            : PopupContainerTransform.toCenterOfMarker(mapState, marker));
+  }
 }

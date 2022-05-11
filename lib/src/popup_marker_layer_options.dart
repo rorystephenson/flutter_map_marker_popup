@@ -75,7 +75,7 @@ class PopupMarkerLayerOptions extends MarkerLayerOptions {
     AlignmentGeometry? markerRotateAlignment,
     Offset? markerRotateOrigin,
     required this.popupBuilder,
-    this.popupSnap = PopupSnap.markerTop,
+    this.popupSnap = const DefaultPopupSnap(DefaultPopupSnapType.markerTop),
     this.popupAnimation,
     this.markerCenterAnimation,
     PopupController? popupController,

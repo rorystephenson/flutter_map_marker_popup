@@ -1,4 +1,24 @@
-enum PopupSnap {
+import 'package:flutter/cupertino.dart';
+
+abstract class PopupSnap {
+  const PopupSnap();
+}
+
+class DefaultPopupSnap extends PopupSnap {
+  final DefaultPopupSnapType type;
+
+  const DefaultPopupSnap(this.type);
+}
+
+class CustomPopupSnap extends PopupSnap {
+  final Alignment contentAlignment;
+  final Alignment rotationAlignment;
+
+  CustomPopupSnap(
+      {required this.contentAlignment, required this.rotationAlignment});
+}
+
+enum DefaultPopupSnapType {
   /// Snap the popup to the marker's left edge.
   markerLeft,
 

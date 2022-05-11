@@ -186,19 +186,22 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
   PopupSnap get _popupSnap {
     if (snapToMarker) {
       return <AlignmentGeometry, PopupSnap>{
-        Alignment.centerLeft: PopupSnap.markerLeft,
-        Alignment.topCenter: PopupSnap.markerTop,
-        Alignment.centerRight: PopupSnap.markerRight,
-        Alignment.bottomCenter: PopupSnap.markerBottom,
-        Alignment.center: PopupSnap.markerCenter,
+        Alignment.centerLeft: DefaultPopupSnap(DefaultPopupSnapType.markerLeft),
+        Alignment.topCenter: DefaultPopupSnap(DefaultPopupSnapType.markerTop),
+        Alignment.centerRight:
+            DefaultPopupSnap(DefaultPopupSnapType.markerRight),
+        Alignment.bottomCenter:
+            DefaultPopupSnap(DefaultPopupSnapType.markerBottom),
+        Alignment.center: DefaultPopupSnap(DefaultPopupSnapType.markerCenter),
       }[popupAlignment]!;
     } else {
       return <AlignmentGeometry, PopupSnap>{
-        Alignment.centerLeft: PopupSnap.mapLeft,
-        Alignment.topCenter: PopupSnap.mapTop,
-        Alignment.centerRight: PopupSnap.mapRight,
-        Alignment.bottomCenter: PopupSnap.mapBottom,
-        Alignment.center: PopupSnap.mapCenter,
+        Alignment.centerLeft: DefaultPopupSnap(DefaultPopupSnapType.mapLeft),
+        Alignment.topCenter: DefaultPopupSnap(DefaultPopupSnapType.mapTop),
+        Alignment.centerRight: DefaultPopupSnap(DefaultPopupSnapType.mapRight),
+        Alignment.bottomCenter:
+            DefaultPopupSnap(DefaultPopupSnapType.mapBottom),
+        Alignment.center: DefaultPopupSnap(DefaultPopupSnapType.mapCenter),
       }[popupAlignment]!;
     }
   }

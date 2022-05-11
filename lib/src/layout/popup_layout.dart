@@ -30,29 +30,37 @@ class PopupLayout {
     required PopupSnap snap,
     required bool markerRotate,
   }) {
-    switch (snap) {
-      case PopupSnap.markerLeft:
-        return SnapToMarkerLayout.left(mapState, marker, markerRotate);
-      case PopupSnap.markerTop:
-        return SnapToMarkerLayout.top(mapState, marker, markerRotate);
-      case PopupSnap.markerRight:
-        return SnapToMarkerLayout.right(mapState, marker, markerRotate);
-      case PopupSnap.markerBottom:
-        return SnapToMarkerLayout.bottom(mapState, marker, markerRotate);
-      case PopupSnap.markerCenter:
-        return SnapToMarkerLayout.center(mapState, marker, markerRotate);
-      case PopupSnap.mapLeft:
-        return SnapToMapLayout.left(mapState);
-      case PopupSnap.mapTop:
-        return SnapToMapLayout.top(mapState);
-      case PopupSnap.mapRight:
-        return SnapToMapLayout.right(mapState);
-      case PopupSnap.mapBottom:
-        return SnapToMapLayout.bottom(mapState);
-      case PopupSnap.mapCenter:
-        return SnapToMapLayout.center(mapState);
-      default:
-        return SnapToMarkerLayout.top(mapState, marker, markerRotate);
+    if (snap is DefaultPopupSnap) {
+      switch (snap.type) {
+        case DefaultPopupSnapType.markerLeft:
+          return SnapToMarkerLayout.left(mapState, marker, markerRotate);
+        case DefaultPopupSnapType.markerTop:
+          return SnapToMarkerLayout.top(mapState, marker, markerRotate);
+        case DefaultPopupSnapType.markerRight:
+          return SnapToMarkerLayout.right(mapState, marker, markerRotate);
+        case DefaultPopupSnapType.markerBottom:
+          return SnapToMarkerLayout.bottom(mapState, marker, markerRotate);
+        case DefaultPopupSnapType.markerCenter:
+          return SnapToMarkerLayout.center(mapState, marker, markerRotate);
+        case DefaultPopupSnapType.mapLeft:
+          return SnapToMapLayout.left(mapState);
+        case DefaultPopupSnapType.mapTop:
+          return SnapToMapLayout.top(mapState);
+        case DefaultPopupSnapType.mapRight:
+          return SnapToMapLayout.right(mapState);
+        case DefaultPopupSnapType.mapBottom:
+          return SnapToMapLayout.bottom(mapState);
+        case DefaultPopupSnapType.mapCenter:
+          return SnapToMapLayout.center(mapState);
+        default:
+          return SnapToMarkerLayout.top(mapState, marker, markerRotate);
+      }
     }
+    if (snap is CustomPopupSnap) {
+      return SnapToMarkerLayout.custom(mapState, marker, markerRotate,
+          snap.contentAlignment, snap.rotationAlignment);
+    }
+
+    return SnapToMarkerLayout.top(mapState, marker, markerRotate);
   }
 }
