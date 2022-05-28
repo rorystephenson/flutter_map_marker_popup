@@ -73,9 +73,9 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "876d4f7fca3cb314f86989d78ae1625d8318e7cb"
-      resolved-ref: "876d4f7fca3cb314f86989d78ae1625d8318e7cb"
-      url: "https://github.com/rorystephenson/flutter_map.git"
+      ref: master
+      resolved-ref: "77c91eb19b228aa2425d2a90d42ab820d7710989"
+      url: "https://github.com/fleaflet/flutter_map.git"
     source: git
     version: "0.15.0"
   flutter_map_marker_popup:
