@@ -13,7 +13,7 @@ class PopupLayer extends StatefulWidget {
 
   // Forced by flutter_map
   // ignore: prefer_void_to_null
-  final Stream<Null>? stream;
+  final Stream<void>? stream;
   final PopupBuilder popupBuilder;
   final PopupSnap popupSnap;
   final PopupControllerImpl popupController;
@@ -65,9 +65,9 @@ class _PopupLayerState extends State<PopupLayer> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<int?>(
+    return StreamBuilder<void>(
       stream: widget.stream, // a Stream<int> or null
-      builder: (BuildContext context, AsyncSnapshot<int?> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
         final popupAnimation = widget.popupAnimation;
 
         if (popupAnimation == null) {

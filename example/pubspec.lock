@@ -72,10 +72,12 @@ packages:
   flutter_map:
     dependency: "direct main"
     description:
-      name: flutter_map
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.14.0"
+      path: "."
+      ref: "876d4f7fca3cb314f86989d78ae1625d8318e7cb"
+      resolved-ref: "876d4f7fca3cb314f86989d78ae1625d8318e7cb"
+      url: "https://github.com/rorystephenson/flutter_map.git"
+    source: git
+    version: "0.15.0"
   flutter_map_marker_popup:
     dependency: "direct main"
     description:
@@ -165,13 +167,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.11.0"
+  polylabel:
+    dependency: transitive
+    description:
+      name: polylabel
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   positioned_tap_detector_2:
     dependency: transitive
     description:
       name: positioned_tap_detector_2
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.4"
   proj4dart:
     dependency: transitive
     description:
@@ -233,13 +242,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.8"
-  transparent_image:
-    dependency: transitive
-    description:
-      name: transparent_image
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   tuple:
     dependency: transitive
     description:
