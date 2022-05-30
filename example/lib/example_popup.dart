@@ -4,23 +4,19 @@ import 'package:flutter_map/flutter_map.dart';
 class ExamplePopup extends StatefulWidget {
   final Marker marker;
 
-  ExamplePopup(this.marker, {Key? key}) : super(key: key);
+  const ExamplePopup(this.marker, {Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _ExamplePopupState(marker);
+  State<StatefulWidget> createState() => _ExamplePopupState();
 }
 
 class _ExamplePopupState extends State<ExamplePopup> {
-  final Marker _marker;
-
   final List<IconData> _icons = [
     Icons.star_border,
     Icons.star_half,
     Icons.star
   ];
   int _currentIcon = 0;
-
-  _ExamplePopupState(this._marker);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +29,7 @@ class _ExamplePopupState extends State<ExamplePopup> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(left: 20, right: 10),
+              padding: const EdgeInsets.only(left: 20, right: 10),
               child: Icon(_icons[_currentIcon]),
             ),
             _cardDescription(context),
@@ -47,28 +43,28 @@ class _ExamplePopupState extends State<ExamplePopup> {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Container(
-        constraints: BoxConstraints(minWidth: 100, maxWidth: 200),
+        constraints: const BoxConstraints(minWidth: 100, maxWidth: 200),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text(
+            const Text(
               'Popup for a marker!',
               overflow: TextOverflow.fade,
               softWrap: false,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 14.0,
               ),
             ),
             const Padding(padding: EdgeInsets.symmetric(vertical: 4.0)),
             Text(
-              'Position: ${_marker.point.latitude}, ${_marker.point.longitude}',
+              'Position: ${widget.marker.point.latitude}, ${widget.marker.point.longitude}',
               style: const TextStyle(fontSize: 12.0),
             ),
             Text(
-              'Marker size: ${_marker.width}, ${_marker.height}',
+              'Marker size: ${widget.marker.width}, ${widget.marker.height}',
               style: const TextStyle(fontSize: 12.0),
             ),
           ],

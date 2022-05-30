@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map_marker_popup_example/popup_option_controls.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 /// NOTE:
 /// There are three main files:
@@ -12,12 +12,14 @@ void main() => runApp(MyApp());
 ///  - simple_map_with_popups.dart: A simplified example of using the
 ///    PopupMarkerLayerWidget.
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Marker Popup Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: PopupOptionControls(),
+      home: const PopupOptionControls(),
     );
   }
 }
