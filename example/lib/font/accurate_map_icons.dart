@@ -21,6 +21,6 @@ class AccurateMapIcons {
   static const _kFontFam = 'AccurateMapIcon';
   static const String? _kFontPkg = null;
 
-  static const IconData location_on_bottom_aligned =
+  static const IconData locationOnBottomAligned =
       IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

@@ -3,12 +3,14 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:latlong2/latlong.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Marker with additional data example',
       home: MapPage(),
     );
@@ -16,10 +18,10 @@ class MyApp extends StatelessWidget {
 }
 
 class MapPage extends StatefulWidget {
-  MapPage({Key? key}) : super(key: key);
+  const MapPage({Key? key}) : super(key: key);
 
   @override
-  _MapPageState createState() => _MapPageState();
+  State<MapPage> createState() => _MapPageState();
 }
 
 class _MapPageState extends State<MapPage> {
@@ -59,7 +61,7 @@ class _MapPageState extends State<MapPage> {
                   point: LatLng(48.859661, 2.305135),
                   height: Monument.size,
                   width: Monument.size,
-                  builder: (BuildContext ctx) => Icon(Icons.shop),
+                  builder: (BuildContext ctx) => const Icon(Icons.shop),
                 ),
               ],
               popupController: _popupLayerController,
@@ -67,7 +69,7 @@ class _MapPageState extends State<MapPage> {
                 if (marker is MonumentMarker) {
                   return MonumentMarkerPopup(monument: marker.monument);
                 }
-                return Card(child: const Text('Not a monument'));
+                return const Card(child: Text('Not a monument'));
               },
             ),
           ),
@@ -100,7 +102,7 @@ class MonumentMarker extends Marker {
           height: Monument.size,
           width: Monument.size,
           point: LatLng(monument.lat, monument.long),
-          builder: (BuildContext ctx) => Icon(Icons.camera_alt),
+          builder: (BuildContext ctx) => const Icon(Icons.camera_alt),
         );
 
   final Monument monument;
@@ -113,7 +115,7 @@ class MonumentMarkerPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 200,
       child: Card(
         shape: RoundedRectangleBorder(

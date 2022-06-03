@@ -15,6 +15,8 @@ class SimpleMapWithPopups extends StatelessWidget {
   /// Used to trigger showing/hiding of popups.
   final PopupController _popupLayerController = PopupController();
 
+  SimpleMapWithPopups({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return FlutterMap(
@@ -51,7 +53,7 @@ class SimpleMapWithPopups extends StatelessWidget {
           point: markerPosition,
           width: 40,
           height: 40,
-          builder: (_) => Icon(Icons.location_on, size: 40),
+          builder: (_) => const Icon(Icons.location_on, size: 40),
           anchorPos: AnchorPos.align(AnchorAlign.top),
         ),
       )

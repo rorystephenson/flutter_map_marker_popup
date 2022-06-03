@@ -5,10 +5,10 @@ import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'map_with_popups.dart';
 
 class PopupOptionControls extends StatefulWidget {
-  PopupOptionControls();
+  const PopupOptionControls({Key? key}) : super(key: key);
 
   @override
-  _PopupOptionControlsState createState() => _PopupOptionControlsState();
+  State<PopupOptionControls> createState() => _PopupOptionControlsState();
 }
 
 class _PopupOptionControlsState extends State<PopupOptionControls> {
@@ -43,13 +43,13 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ToggleButtons(
-                  textStyle: TextStyle(fontSize: 16),
+                  textStyle: const TextStyle(fontSize: 16),
                   isSelected: [snapToMarker, rotate, fade],
                   onPressed: (int index) {
                     setState(() {
@@ -60,24 +60,27 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
                   },
                   children: [
                     Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Row(
-                        children: [
+                        children: const [
                           Icon(Icons.messenger),
                           Text(' Snap to Marker'),
                         ],
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Row(
-                        children: [Icon(Icons.rotate_right), Text(' Rotate')],
+                        children: const [
+                          Icon(Icons.rotate_right),
+                          Text(' Rotate')
+                        ],
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Row(
-                        children: [
+                        children: const [
                           Icon(Icons.animation),
                           Text(' Fade'),
                         ],
@@ -88,7 +91,7 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       '\nPopup snap ',
                       style: TextStyle(fontSize: 18),
                     ),
@@ -109,7 +112,7 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
                       ]
                           .map(
                             (icon) => Padding(
-                              padding: EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(8.0),
                               child: Icon(icon),
                             ),
                           )
@@ -120,7 +123,7 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       '\nMarker Anchor',
                       style: TextStyle(fontSize: 18),
                     ),
@@ -141,7 +144,7 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
                       ]
                           .map(
                             (icon) => Padding(
-                              padding: EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(8.0),
                               child: Icon(icon),
                             ),
                           )
@@ -152,7 +155,7 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       '\nShow multiple',
                       style: TextStyle(fontSize: 18),
                     ),

@@ -13,7 +13,7 @@ class MapWithPopups extends StatefulWidget {
   final AnchorAlign markerAnchorAlign;
   final bool showMultiplePopups;
 
-  MapWithPopups({
+  const MapWithPopups({
     required this.snap,
     required this.rotate,
     required this.fade,
@@ -23,7 +23,7 @@ class MapWithPopups extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _MapWithPopupsState createState() => _MapWithPopupsState();
+  State<MapWithPopups> createState() => _MapWithPopupsState();
 }
 
 class _MapWithPopupsState extends State<MapWithPopups> {
@@ -83,8 +83,8 @@ class _MapWithPopupsState extends State<MapWithPopups> {
         point: LatLng(44.421, 10.404),
         width: 40,
         height: 40,
-        builder: (_) => Icon(
-          AccurateMapIcons.location_on_bottom_aligned,
+        builder: (_) => const Icon(
+          AccurateMapIcons.locationOnBottomAligned,
           size: 40,
         ),
         anchorPos: AnchorPos.align(widget.markerAnchorAlign),
@@ -97,7 +97,7 @@ class _MapWithPopupsState extends State<MapWithPopups> {
           decoration: BoxDecoration(
             color: Colors.black54,
             border: Border.all(color: Colors.black, width: 0.0),
-            borderRadius: BorderRadius.all(Radius.elliptical(20, 40)),
+            borderRadius: const BorderRadius.all(Radius.elliptical(20, 40)),
           ),
           width: 20,
           height: 40,
@@ -112,7 +112,7 @@ class _MapWithPopupsState extends State<MapWithPopups> {
           decoration: BoxDecoration(
             color: Colors.blue.withOpacity(0.5),
             border: Border.all(color: Colors.black, width: 0.0),
-            borderRadius: BorderRadius.all(Radius.elliptical(40, 20)),
+            borderRadius: const BorderRadius.all(Radius.elliptical(40, 20)),
           ),
           width: 40,
           height: 20,
@@ -140,7 +140,7 @@ class _MapWithPopupsState extends State<MapWithPopups> {
         ),
         PopupMarkerLayerWidget(
           options: PopupMarkerLayerOptions(
-            markerCenterAnimation: MarkerCenterAnimation(),
+            markerCenterAnimation: const MarkerCenterAnimation(),
             markers: _markers,
             popupSnap: widget.snap,
             popupController: _popupLayerController,
@@ -151,7 +151,8 @@ class _MapWithPopupsState extends State<MapWithPopups> {
               widget.markerAnchorAlign,
             ),
             popupAnimation: widget.fade
-                ? PopupAnimation.fade(duration: Duration(milliseconds: 700))
+                ? const PopupAnimation.fade(
+                    duration: Duration(milliseconds: 700))
                 : null,
             markerTapBehavior: widget.showMultiplePopups
                 ? MarkerTapBehavior.togglePopup()
@@ -161,7 +162,7 @@ class _MapWithPopupsState extends State<MapWithPopups> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(event.runtimeType.toString()),
-                  duration: Duration(seconds: 1),
+                  duration: const Duration(seconds: 1),
                 ),
               );
             },
