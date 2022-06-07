@@ -44,7 +44,10 @@ abstract class SnapToMapLayout {
   }
 
   static CustomPoint<num> _sizeChangeDueToRotation(MapState mapState) {
-    return mapState.size - (mapState.originalSize ?? mapState.size);
+    // Ugly cast needed because mapState.originalSize is just a CustomPoint?
+    // instead of a CustomPoint<double>? and the type system gets confused.
+    return mapState.size -
+        ((mapState.originalSize ?? mapState.size) as CustomPoint<double>);
   }
 
   static PopupLayout _layoutWith({
