@@ -1,3 +1,8 @@
+## [2.2.0] - 08/06/22
+
+* Upgrade flutter_map dependency to 1.0.0. This is not backwards compatible due
+  to a breaking change in the map movement stream which plugins rely on.
+
 ## [2.1.2] - 11/02/22
 
 * Fix a bug where the map would jump around when centering on a Marker if another Marker was tapped
