@@ -27,7 +27,7 @@ class MarkerLayer extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _MarkerLayerState createState() => _MarkerLayerState();
+  State<MarkerLayer> createState() => _MarkerLayerState();
 }
 
 class _MarkerLayerState extends State<MarkerLayer>

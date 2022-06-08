@@ -11,8 +11,6 @@ import 'popup_event.dart';
 class PopupLayer extends StatefulWidget {
   final MapState mapState;
 
-  // Forced by flutter_map
-  // ignore: prefer_void_to_null
   final Stream<void>? stream;
   final PopupBuilder popupBuilder;
   final PopupSnap popupSnap;
@@ -35,7 +33,7 @@ class PopupLayer extends StatefulWidget {
         super(key: key);
 
   @override
-  _PopupLayerState createState() => _PopupLayerState();
+  State<PopupLayer> createState() => _PopupLayerState();
 }
 
 class _PopupLayerState extends State<PopupLayer> {
