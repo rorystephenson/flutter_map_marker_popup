@@ -44,7 +44,8 @@ abstract class SnapToMapLayout {
   }
 
   static CustomPoint<num> _sizeChangeDueToRotation(MapState mapState) {
-    return mapState.size - (mapState.originalSize ?? mapState.size);
+    final CustomPoint<num> size = mapState.size;
+    return size - (mapState.originalSize ?? mapState.size);
   }
 
   static PopupLayout _layoutWith({

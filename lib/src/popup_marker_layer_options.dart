@@ -81,9 +81,7 @@ class PopupMarkerLayerOptions extends MarkerLayerOptions {
     PopupController? popupController,
     MarkerTapBehavior? markerTapBehavior,
     this.onPopupEvent,
-    // Forced by flutter_map
-    // ignore: prefer_void_to_null
-    Stream<Null>? rebuild,
+    Stream<void>? rebuild,
   })  : popupController = popupController ?? PopupControllerImpl(),
         markerTapBehavior =
             markerTapBehavior ?? MarkerTapBehavior.togglePopupAndHideRest(),

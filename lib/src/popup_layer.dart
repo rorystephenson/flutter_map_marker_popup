@@ -10,10 +10,7 @@ import 'popup_event.dart';
 
 class PopupLayer extends StatefulWidget {
   final MapState mapState;
-
-  // Forced by flutter_map
-  // ignore: prefer_void_to_null
-  final Stream<Null>? stream;
+  final Stream<void>? stream;
   final PopupBuilder popupBuilder;
   final PopupSnap popupSnap;
   final PopupControllerImpl popupController;
@@ -65,9 +62,9 @@ class _PopupLayerState extends State<PopupLayer> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<int?>(
-      stream: widget.stream, // a Stream<int> or null
-      builder: (BuildContext context, AsyncSnapshot<int?> snapshot) {
+    return StreamBuilder<void>(
+      stream: widget.stream,
+      builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
         final popupAnimation = widget.popupAnimation;
 
         if (popupAnimation == null) {
