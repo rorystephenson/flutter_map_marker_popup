@@ -32,7 +32,7 @@ class PopupLayer extends StatefulWidget {
         super(key: key);
 
   @override
-  _PopupLayerState createState() => _PopupLayerState();
+  State<PopupLayer> createState() => _PopupLayerState();
 }
 
 class _PopupLayerState extends State<PopupLayer> {
