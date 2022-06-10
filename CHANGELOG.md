@@ -1,3 +1,8 @@
+## [2.2.1] - 10/06/22
+
+* Fix a bug where the visible popup would disappear on rebuild if no
+  PopupController was specified.
+
 ## [2.2.0] - 08/06/22
 
 * Upgrade flutter_map dependency to 1.0.0. This is not backwards compatible due

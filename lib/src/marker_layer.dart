@@ -9,11 +9,8 @@ import 'popup_controller_impl.dart';
 
 class MarkerLayer extends StatefulWidget {
   final PopupMarkerLayerOptions layerOptions;
-
   final MapState map;
-
   final Stream<void>? stream;
-
   final PopupControllerImpl popupController;
 
   const MarkerLayer(
@@ -102,7 +99,7 @@ class _MarkerLayerState extends State<MarkerLayer>
 
               widget.layerOptions.markerTapBehavior.apply(
                 marker,
-                widget.layerOptions.popupController,
+                widget.popupController,
               );
             },
             child: marker.builder(context),

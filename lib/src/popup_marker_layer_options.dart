@@ -7,7 +7,6 @@ import 'package:flutter_map_marker_popup/src/popup_controller.dart';
 import 'package:flutter_map_marker_popup/src/popup_snap.dart';
 
 import 'marker_center_animation.dart';
-import 'popup_controller_impl.dart';
 import 'popup_event.dart';
 
 class PopupMarkerLayerOptions extends MarkerLayerOptions {
@@ -16,7 +15,7 @@ class PopupMarkerLayerOptions extends MarkerLayerOptions {
 
   /// If a PopupController is provided it can be used to programmatically show
   /// and hide the popup.
-  final PopupController popupController;
+  final PopupController? popupController;
 
   /// Controls the position of the popup relative to the marker or popup.
   final PopupSnap popupSnap;
@@ -78,12 +77,11 @@ class PopupMarkerLayerOptions extends MarkerLayerOptions {
     this.popupSnap = PopupSnap.markerTop,
     this.popupAnimation,
     this.markerCenterAnimation,
-    PopupController? popupController,
+    this.popupController,
     MarkerTapBehavior? markerTapBehavior,
     this.onPopupEvent,
     Stream<void>? rebuild,
-  })  : popupController = popupController ?? PopupControllerImpl(),
-        markerTapBehavior =
+  })  : markerTapBehavior =
             markerTapBehavior ?? MarkerTapBehavior.togglePopupAndHideRest(),
         super(
           markers: markers,
