@@ -6,8 +6,8 @@ import 'package:latlong2/latlong.dart';
 
 import 'example_popup.dart';
 
-class SimpleMapWithPopups extends StatelessWidget {
-  static const route = 'simpleMapWithPopups';
+class PopupManagerExample extends StatelessWidget {
+  static const route = 'popupManagerExample';
 
   final List<LatLng> _markerPositions = [
     LatLng(44.421, 10.404),
@@ -18,14 +18,12 @@ class SimpleMapWithPopups extends StatelessWidget {
   /// Used to trigger showing/hiding of popups.
   final PopupController _popupLayerController = PopupController();
 
-  SimpleMapWithPopups({Key? key}) : super(key: key);
+  PopupManagerExample({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Simple map with popups'),
-      ),
+      appBar: AppBar(title: const Text('Popup manager example')),
       drawer: buildDrawer(context, route),
       body: FlutterMap(
         options: MapOptions(

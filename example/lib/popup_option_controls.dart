@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
+import 'package:flutter_map_marker_popup_example/drawer.dart';
 
 import 'map_with_popups.dart';
 
+/// NOTE:
+/// This file is just for toggling the different options. See
+/// map_with_popups.dart for the actual map or simple_map_with_popups.dart for
+/// a simpler version.
 class PopupOptionControls extends StatefulWidget {
+  static const route = 'popupOptionControls';
+
   const PopupOptionControls({Key? key}) : super(key: key);
 
   @override
@@ -30,6 +37,8 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text('Full example')),
+      drawer: buildDrawer(context, PopupOptionControls.route),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

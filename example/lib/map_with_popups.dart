@@ -124,51 +124,54 @@ class _MapWithPopupsState extends State<MapWithPopups> {
 
   @override
   Widget build(BuildContext context) {
-    return FlutterMap(
-      options: MapOptions(
-        zoom: 5.0,
-        center: LatLng(44.421, 10.404),
-        onTap: (_, __) => _popupLayerController
-            .hideAllPopups(), // Hide popup when the map is tapped.
-      ),
-      children: [
-        TileLayerWidget(
-          options: TileLayerOptions(
-            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            subdomains: ['a', 'b', 'c'],
-          ),
+    return Scaffold(
+      body: FlutterMap(
+        options: MapOptions(
+          zoom: 5.0,
+          center: LatLng(44.421, 10.404),
+          onTap: (_, __) => _popupLayerController
+              .hideAllPopups(), // Hide popup when the map is tapped.
         ),
-        PopupMarkerLayerWidget(
-          options: PopupMarkerLayerOptions(
-            markerCenterAnimation: const MarkerCenterAnimation(),
-            markers: _markers,
-            popupSnap: widget.snap,
-            popupController: _popupLayerController,
-            popupBuilder: (BuildContext context, Marker marker) =>
-                ExamplePopup(marker),
-            markerRotate: widget.rotate,
-            markerRotateAlignment: PopupMarkerLayerOptions.rotationAlignmentFor(
-              widget.markerAnchorAlign,
+        children: [
+          TileLayerWidget(
+            options: TileLayerOptions(
+              urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+              subdomains: ['a', 'b', 'c'],
             ),
-            popupAnimation: widget.fade
-                ? const PopupAnimation.fade(
-                    duration: Duration(milliseconds: 700))
-                : null,
-            markerTapBehavior: widget.showMultiplePopups
-                ? MarkerTapBehavior.togglePopup()
-                : MarkerTapBehavior.togglePopupAndHideRest(),
-            onPopupEvent: (event, selectedMarkers) {
-              ScaffoldMessenger.of(context).hideCurrentSnackBar();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(event.runtimeType.toString()),
-                  duration: const Duration(seconds: 1),
-                ),
-              );
-            },
           ),
-        ),
-      ],
+          PopupMarkerLayerWidget(
+            options: PopupMarkerLayerOptions(
+              markerCenterAnimation: const MarkerCenterAnimation(),
+              markers: _markers,
+              popupSnap: widget.snap,
+              popupController: _popupLayerController,
+              popupBuilder: (BuildContext context, Marker marker) =>
+                  ExamplePopup(marker),
+              markerRotate: widget.rotate,
+              markerRotateAlignment:
+                  PopupMarkerLayerOptions.rotationAlignmentFor(
+                widget.markerAnchorAlign,
+              ),
+              popupAnimation: widget.fade
+                  ? const PopupAnimation.fade(
+                      duration: Duration(milliseconds: 700))
+                  : null,
+              markerTapBehavior: widget.showMultiplePopups
+                  ? MarkerTapBehavior.togglePopup()
+                  : MarkerTapBehavior.togglePopupAndHideRest(),
+              onPopupEvent: (event, selectedMarkers) {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(event.runtimeType.toString()),
+                    duration: const Duration(seconds: 1),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
