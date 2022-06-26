@@ -10,20 +10,23 @@ import 'package:flutter_map_marker_popup/src/popup_event.dart';
 import 'package:flutter_map_marker_popup/src/popup_snap.dart';
 
 import '../popup_controller_impl.dart';
+import '../popup_state_impl.dart';
 import 'marker_with_key.dart';
 
 class AnimatedPopupContainer extends StatefulWidget {
-  final PopupControllerImpl popupController;
+  final MapState mapState;
+  final PopupStateImpl popupStateImpl;
+  final PopupControllerImpl popupControllerImpl;
   final PopupBuilder popupBuilder;
   final PopupSnap snap;
-  final MapState mapState;
   final PopupAnimation popupAnimation;
   final bool markerRotate;
   final Function(PopupEvent event, List<Marker> selectedMarkers)? onPopupEvent;
 
   const AnimatedPopupContainer({
     required this.mapState,
-    required this.popupController,
+    required this.popupStateImpl,
+    required this.popupControllerImpl,
     required this.snap,
     required this.popupBuilder,
     required this.popupAnimation,
@@ -42,7 +45,7 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
   MapState get mapState => widget.mapState;
 
   @override
-  PopupControllerImpl get popupController => widget.popupController;
+  PopupStateImpl get popupStateImpl => widget.popupStateImpl;
 
   @override
   PopupSnap get snap => widget.snap;
@@ -71,22 +74,24 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
       removedItemBuilder: (marker, _, animation) =>
           _buildPopup(marker, animation, allowTap: false),
       duration: widget.popupAnimation.duration,
-      initialItems: popupController.selectedMarkersWithKeys,
+      initialItems: widget.popupStateImpl.selectedMarkersWithKeys,
     );
-    _popupEventSubscription = widget.popupController.streamController!.stream
+    _popupEventSubscription = widget
+        .popupControllerImpl.streamController!.stream
         .listen((PopupEvent popupEvent) => handleAction(popupEvent));
   }
 
   @override
   void didUpdateWidget(covariant AnimatedPopupContainer oldWidget) {
-    if (oldWidget.popupController != widget.popupController) {
+    if (oldWidget.popupControllerImpl != widget.popupControllerImpl) {
       _popupEventSubscription.cancel();
-      _popupEventSubscription = widget.popupController.streamController!.stream
+      _popupEventSubscription = widget
+          .popupControllerImpl.streamController!.stream
           .listen((PopupEvent popupEvent) => handleAction(popupEvent));
 
       _animatedStackManager.clear(duration: Duration.zero);
       for (final selectedMarker
-          in widget.popupController.selectedMarkersWithKeys) {
+          in widget.popupStateImpl.selectedMarkersWithKeys) {
         _animatedStackManager.insert(
           _animatedStackManager.length - 1,
           selectedMarker,

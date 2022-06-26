@@ -10,12 +10,18 @@ import 'marker_center_animation.dart';
 import 'popup_event.dart';
 
 class PopupMarkerLayerOptions extends MarkerLayerOptions {
-  /// Used to construct the popup.
-  final PopupBuilder popupBuilder;
+  /// Used to construct the popup. Leave null if you wish to show popups outside
+  /// of the map.
+  final PopupBuilder? popupBuilder;
 
   /// If a PopupController is provided it can be used to programmatically show
   /// and hide the popup.
   final PopupController? popupController;
+
+  /// The markers for which a popup should be initially visible. Note that this
+  /// has no affect if the [PopupMarkerLayer] is within a [PopupScope] and
+  /// should be declared on [PopupScope] instead.
+  List<Marker> initiallySelectedMarkers;
 
   /// Controls the position of the popup relative to the marker or popup.
   final PopupSnap popupSnap;
@@ -73,11 +79,12 @@ class PopupMarkerLayerOptions extends MarkerLayerOptions {
     bool? markerRotate = true,
     AlignmentGeometry? markerRotateAlignment,
     Offset? markerRotateOrigin,
-    required this.popupBuilder,
+    this.popupBuilder,
+    this.popupController,
+    this.initiallySelectedMarkers = const [],
     this.popupSnap = PopupSnap.markerTop,
     this.popupAnimation,
     this.markerCenterAnimation,
-    this.popupController,
     MarkerTapBehavior? markerTapBehavior,
     this.onPopupEvent,
     Stream<void>? rebuild,

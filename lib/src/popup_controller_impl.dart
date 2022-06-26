@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:collection';
 
 import 'package:flutter_map/plugin_api.dart';
-import 'package:flutter_map_marker_popup/src/popup_container/marker_with_key.dart';
 import 'package:flutter_map_marker_popup/src/popup_event.dart';
 
 import 'popup_controller.dart';
@@ -10,21 +8,7 @@ import 'popup_controller.dart';
 class PopupControllerImpl implements PopupController {
   StreamController<PopupEvent>? streamController;
 
-  /// The [MarkerWithKey]ss for which a popup is currently showing if there is
-  /// one. This is for internal use.
-  final Set<MarkerWithKey> selectedMarkersWithKeys;
-
-  PopupControllerImpl({List<Marker> initiallySelectedMarkers = const []})
-      : selectedMarkersWithKeys = LinkedHashSet.from(
-          initiallySelectedMarkers.map(
-            (marker) => MarkerWithKey(marker),
-          ),
-        );
-
-  @override
-  List<Marker> get selectedMarkers => selectedMarkersWithKeys
-      .map((markerWithKey) => markerWithKey.marker)
-      .toList();
+  PopupControllerImpl();
 
   @override
   void showPopupsAlsoFor(

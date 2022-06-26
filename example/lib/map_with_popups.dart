@@ -7,6 +7,7 @@ import 'package:latlong2/latlong.dart';
 import 'example_popup.dart';
 
 class MapWithPopups extends StatefulWidget {
+  final PopupState popupState;
   final PopupSnap snap;
   final bool rotate;
   final bool fade;
@@ -14,6 +15,7 @@ class MapWithPopups extends StatefulWidget {
   final bool showMultiplePopups;
 
   const MapWithPopups({
+    required this.popupState,
     required this.snap,
     required this.rotate,
     required this.fade,
@@ -43,7 +45,7 @@ class _MapWithPopupsState extends State<MapWithPopups> {
   void didUpdateWidget(covariant MapWithPopups oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    final selectedMarkers = _popupLayerController.selectedMarkers;
+    final selectedMarkers = widget.popupState.selectedMarkers;
     if (widget.markerAnchorAlign != oldWidget.markerAnchorAlign) {
       setState(() {
         _markers = _buildMarkers();

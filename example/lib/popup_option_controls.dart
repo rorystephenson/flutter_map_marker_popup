@@ -43,12 +43,17 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: MapWithPopups(
-              snap: _popupSnap,
-              rotate: rotate,
-              fade: fade,
-              markerAnchorAlign: _markerAnchorAlign,
-              showMultiplePopups: showMultiplePopups,
+            child: PopupScope(
+              child: Builder(builder: (context) {
+                return MapWithPopups(
+                  popupState: PopupState.maybeOf(context, listen: false)!,
+                  snap: _popupSnap,
+                  rotate: rotate,
+                  fade: fade,
+                  markerAnchorAlign: _markerAnchorAlign,
+                  showMultiplePopups: showMultiplePopups,
+                );
+              }),
             ),
           ),
           Padding(

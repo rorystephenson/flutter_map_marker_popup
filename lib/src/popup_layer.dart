@@ -5,21 +5,26 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_popup/extension_api.dart';
 
+import 'popup_container/do_not_display_popup_container.dart';
 import 'popup_controller_impl.dart';
 import 'popup_event.dart';
+import 'popup_state.dart';
+import 'popup_state_impl.dart';
 
 class PopupLayer extends StatefulWidget {
   final MapState mapState;
+  final PopupState popupState;
   final Stream<void>? stream;
-  final PopupBuilder popupBuilder;
+  final PopupBuilder? popupBuilder;
   final PopupSnap popupSnap;
-  final PopupControllerImpl popupController;
+  final PopupController popupController;
   final PopupAnimation? popupAnimation;
   final bool markerRotate;
   final Function(PopupEvent event, List<Marker> selectedMarkers)? onPopupEvent;
 
   const PopupLayer({
     required this.mapState,
+    required this.popupState,
     this.stream,
     required this.popupBuilder,
     required this.popupSnap,
@@ -36,18 +41,23 @@ class PopupLayer extends StatefulWidget {
 }
 
 class _PopupLayerState extends State<PopupLayer> {
+  PopupControllerImpl get _popupControllerImpl =>
+      widget.popupController as PopupControllerImpl;
+
+  PopupStateImpl get _popupStateImpl => widget.popupState as PopupStateImpl;
+
   @override
   void initState() {
     super.initState();
 
-    widget.popupController.streamController =
+    _popupControllerImpl.streamController =
         StreamController<PopupEvent>.broadcast();
   }
 
   @override
   void didUpdateWidget(covariant PopupLayer oldWidget) {
     if (oldWidget.popupController != widget.popupController) {
-      widget.popupController.streamController =
+      _popupControllerImpl.streamController =
           StreamController<PopupEvent>.broadcast();
     }
     super.didUpdateWidget(oldWidget);
@@ -55,8 +65,8 @@ class _PopupLayerState extends State<PopupLayer> {
 
   @override
   void dispose() {
-    widget.popupController.streamController?.close();
-    widget.popupController.streamController = null;
+    _popupControllerImpl.streamController?.close();
+    _popupControllerImpl.streamController = null;
     super.dispose();
   }
 
@@ -67,21 +77,32 @@ class _PopupLayerState extends State<PopupLayer> {
       builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
         final popupAnimation = widget.popupAnimation;
 
+        if (widget.popupBuilder == null) {
+          return DoNotDisplayPopupContainer(
+            mapState: widget.mapState,
+            popupStateImpl: _popupStateImpl,
+            popupControllerImpl: _popupControllerImpl,
+            onPopupEvent: widget.onPopupEvent,
+          );
+        }
+
         if (popupAnimation == null) {
           return SimplePopupContainer(
             mapState: widget.mapState,
-            popupController: widget.popupController,
+            popupStateImpl: _popupStateImpl,
+            popupControllerImpl: _popupControllerImpl,
             snap: widget.popupSnap,
-            popupBuilder: widget.popupBuilder,
+            popupBuilder: widget.popupBuilder!,
             markerRotate: widget.markerRotate,
             onPopupEvent: widget.onPopupEvent,
           );
         } else {
           return AnimatedPopupContainer(
             mapState: widget.mapState,
-            popupController: widget.popupController,
+            popupStateImpl: _popupStateImpl,
+            popupControllerImpl: _popupControllerImpl,
             snap: widget.popupSnap,
-            popupBuilder: widget.popupBuilder,
+            popupBuilder: widget.popupBuilder!,
             popupAnimation: popupAnimation,
             markerRotate: widget.markerRotate,
             onPopupEvent: widget.onPopupEvent,

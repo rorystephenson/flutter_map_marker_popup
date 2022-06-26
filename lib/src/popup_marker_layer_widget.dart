@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart' as flutter_map;
 import 'package:flutter_map_marker_popup/src/popup_layer.dart';
+import 'package:flutter_map_marker_popup/src/popup_state_wrapper.dart';
 
 import '../flutter_map_marker_popup.dart';
 import 'marker_layer.dart';
@@ -16,7 +17,7 @@ class PopupMarkerLayerWidget extends StatefulWidget {
 }
 
 class _PopupMarkerLayerWidgetState extends State<PopupMarkerLayerWidget> {
-  late final PopupControllerImpl _popupController;
+  late final PopupController _popupController;
 
   @override
   void initState() {
@@ -28,16 +29,29 @@ class _PopupMarkerLayerWidgetState extends State<PopupMarkerLayerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final mapState = flutter_map.MapState.maybeOf(context)!;
+    return PopupStateWrapper(
+      builder: (context, popupState) => _layers(
+        mapState: flutter_map.MapState.maybeOf(context)!,
+        popupState: popupState,
+      ),
+    );
+  }
+
+  Widget _layers({
+    required flutter_map.MapState mapState,
+    required PopupState popupState,
+  }) {
     return Stack(children: [
       MarkerLayer(
-        widget.options,
-        mapState,
-        mapState.onMoved,
-        _popupController,
+        layerOptions: widget.options,
+        map: mapState,
+        stream: mapState.onMoved,
+        popupState: popupState,
+        popupController: _popupController,
       ),
       PopupLayer(
         mapState: mapState,
+        popupState: popupState,
         stream: mapState.onMoved,
         popupSnap: widget.options.popupSnap,
         popupBuilder: widget.options.popupBuilder,

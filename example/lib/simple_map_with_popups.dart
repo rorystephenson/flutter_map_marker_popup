@@ -6,19 +6,40 @@ import 'package:latlong2/latlong.dart';
 
 import 'example_popup.dart';
 
-class SimpleMapWithPopups extends StatelessWidget {
+class SimpleMapWithPopups extends StatefulWidget {
   static const route = 'simpleMapWithPopups';
 
-  final List<LatLng> _markerPositions = [
-    LatLng(44.421, 10.404),
-    LatLng(45.683, 10.839),
-    LatLng(45.246, 5.783),
-  ];
+  const SimpleMapWithPopups({Key? key}) : super(key: key);
+
+  @override
+  State<SimpleMapWithPopups> createState() => _SimpleMapWithPopupsState();
+}
+
+class _SimpleMapWithPopupsState extends State<SimpleMapWithPopups> {
+  late final List<Marker> _markers;
 
   /// Used to trigger showing/hiding of popups.
   final PopupController _popupLayerController = PopupController();
 
-  SimpleMapWithPopups({Key? key}) : super(key: key);
+  @override
+  void initState() {
+    super.initState();
+    _markers = [
+      LatLng(44.421, 10.404),
+      LatLng(45.683, 10.839),
+      LatLng(45.246, 5.783),
+    ]
+        .map(
+          (markerPosition) => Marker(
+            point: markerPosition,
+            width: 40,
+            height: 40,
+            builder: (_) => const Icon(Icons.location_on, size: 40),
+            anchorPos: AnchorPos.align(AnchorAlign.top),
+          ),
+        )
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +47,7 @@ class SimpleMapWithPopups extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Simple map with popups'),
       ),
-      drawer: buildDrawer(context, route),
+      drawer: buildDrawer(context, SimpleMapWithPopups.route),
       body: FlutterMap(
         options: MapOptions(
           zoom: 5.0,
@@ -55,16 +76,4 @@ class SimpleMapWithPopups extends StatelessWidget {
       ),
     );
   }
-
-  List<Marker> get _markers => _markerPositions
-      .map(
-        (markerPosition) => Marker(
-          point: markerPosition,
-          width: 40,
-          height: 40,
-          builder: (_) => const Icon(Icons.location_on, size: 40),
-          anchorPos: AnchorPos.align(AnchorAlign.top),
-        ),
-      )
-      .toList();
 }

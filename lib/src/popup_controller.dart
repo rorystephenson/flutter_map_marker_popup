@@ -5,11 +5,7 @@ import 'package:flutter_map_marker_popup/src/popup_controller_impl.dart';
 /// have visible popups.
 
 abstract class PopupController {
-  /// The [Marker]s for which a popup is currently showing if there is one.
-  List<Marker> get selectedMarkers;
-
-  factory PopupController({List<Marker> initiallySelectedMarkers}) =
-      PopupControllerImpl;
+  factory PopupController() = PopupControllerImpl;
 
   /// Show the popups for the given [markers]. If a popup is already showing for
   /// a given marker it remains visible.

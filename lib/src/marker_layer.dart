@@ -5,20 +5,21 @@ import 'package:flutter_map/plugin_api.dart';
 
 import '../flutter_map_marker_popup.dart';
 import 'lat_lng_tween.dart';
-import 'popup_controller_impl.dart';
 
 class MarkerLayer extends StatefulWidget {
   final PopupMarkerLayerOptions layerOptions;
   final MapState map;
+  final PopupState popupState;
   final Stream<void>? stream;
-  final PopupControllerImpl popupController;
+  final PopupController popupController;
 
-  const MarkerLayer(
-    this.layerOptions,
-    this.map,
-    this.stream,
-    this.popupController, {
+  const MarkerLayer({
     Key? key,
+    required this.layerOptions,
+    required this.map,
+    required this.popupState,
+    this.stream,
+    required this.popupController,
   }) : super(key: key);
 
   @override
@@ -93,12 +94,13 @@ class _MarkerLayerState extends State<MarkerLayer>
 
           final markerWithGestureDetector = GestureDetector(
             onTap: () {
-              if (!widget.popupController.selectedMarkers.contains(marker)) {
+              if (!widget.popupState.selectedMarkers.contains(marker)) {
                 _centerMarker(marker);
               }
 
               widget.layerOptions.markerTapBehavior.apply(
                 marker,
+                widget.popupState,
                 widget.popupController,
               );
             },

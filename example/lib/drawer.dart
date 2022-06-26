@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map_marker_popup_example/popup_manager_example.dart';
 import 'package:flutter_map_marker_popup_example/popup_option_controls.dart';
 import 'package:flutter_map_marker_popup_example/simple_map_with_popups.dart';
+
+import 'popup_outside_of_map.dart';
 
 Widget _buildMenuItem(
   BuildContext context,
@@ -47,8 +48,8 @@ Drawer buildDrawer(BuildContext context, String currentRoute) {
         ),
         _buildMenuItem(
           context,
-          const Text('Popup Manager Example'),
-          PopupManagerExample.route,
+          const Text('Popup outside of map example'),
+          PopupOutsideOfMap.route,
           currentRoute,
         ),
       ],

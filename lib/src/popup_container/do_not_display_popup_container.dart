@@ -3,7 +3,6 @@ import 'dart:collection';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
-import 'package:flutter_map_marker_popup/src/popup_builder.dart';
 import 'package:flutter_map_marker_popup/src/popup_event.dart';
 import 'package:flutter_map_marker_popup/src/popup_snap.dart';
 
@@ -12,31 +11,25 @@ import '../popup_state_impl.dart';
 import 'marker_with_key.dart';
 import 'popup_container_mixin.dart';
 
-class SimplePopupContainer extends StatefulWidget {
+class DoNotDisplayPopupContainer extends StatefulWidget {
   final MapState mapState;
   final PopupStateImpl popupStateImpl;
   final PopupControllerImpl popupControllerImpl;
-  final PopupBuilder popupBuilder;
-  final PopupSnap snap;
-  final bool markerRotate;
   final Function(PopupEvent event, List<Marker> selectedMarkers)? onPopupEvent;
 
-  const SimplePopupContainer({
+  const DoNotDisplayPopupContainer({
     required this.mapState,
     required this.popupStateImpl,
     required this.popupControllerImpl,
-    required this.snap,
-    required this.popupBuilder,
-    required this.markerRotate,
     required this.onPopupEvent,
     Key? key,
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _SimplePopupContainerState();
+  State<StatefulWidget> createState() => _DoNotDisplayPopupContainerState();
 }
 
-class _SimplePopupContainerState extends State<SimplePopupContainer>
+class _DoNotDisplayPopupContainerState extends State<DoNotDisplayPopupContainer>
     with PopupContainerMixin {
   late Set<MarkerWithKey> _selectedMarkersWithKeys;
 
@@ -49,10 +42,10 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
   PopupStateImpl get popupStateImpl => widget.popupStateImpl;
 
   @override
-  PopupSnap get snap => widget.snap;
+  PopupSnap get snap => PopupSnap.mapBottom; // Not used
 
   @override
-  bool get markerRotate => widget.markerRotate;
+  bool get markerRotate => false;
 
   @override
   Function(PopupEvent event, List<Marker> selectedMarkers)? get onPopupEvent =>
@@ -69,7 +62,7 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
   }
 
   @override
-  void didUpdateWidget(covariant SimplePopupContainer oldWidget) {
+  void didUpdateWidget(covariant DoNotDisplayPopupContainer oldWidget) {
     if (oldWidget.popupControllerImpl != widget.popupControllerImpl) {
       _popupEventSubscription.cancel();
       _popupEventSubscription = widget
@@ -90,16 +83,7 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
 
   @override
   Widget build(BuildContext context) {
-    if (_selectedMarkersWithKeys.isEmpty) return Container();
-
-    return Stack(
-      children: _selectedMarkersWithKeys
-          .map((markerWithKey) => inPosition(
-                markerWithKey.marker,
-                popupWithStateKeepAlive(markerWithKey, widget.popupBuilder),
-              ))
-          .toList(),
-    );
+    return const SizedBox.shrink();
   }
 
   @override

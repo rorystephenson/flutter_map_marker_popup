@@ -1,3 +1,8 @@
+## [3.0.0] - 26/06/22
+
+* Allow popups to be shown outside of the map if desired. A new example has
+  been added demonstrating how this works.
+
 ## [2.2.1] - 10/06/22
 
 * Fix a bug where the visible popup would disappear on rebuild if no
