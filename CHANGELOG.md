@@ -1,3 +1,8 @@
+## [3.1.0] - 27/06/22
+
+* A new selectedMarkerBuilder option allows you to give selected Markers a
+  different appearance/behaviour.
+
 ## [3.0.0] - 26/06/22
 
 * Allow popups to be shown outside of the map if desired. A new example has

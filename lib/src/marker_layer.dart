@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
+import 'package:provider/provider.dart';
 
 import '../flutter_map_marker_popup.dart';
 import 'lat_lng_tween.dart';
@@ -69,6 +70,9 @@ class _MarkerLayerState extends State<MarkerLayer>
     return StreamBuilder<void>(
       stream: widget.stream,
       builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+        if (widget.layerOptions.selectedMarkerBuilder != null) {
+          context.watch<PopupState>();
+        }
         var markers = <Widget>[];
         final sameZoom = widget.map.zoom == lastZoom;
         for (var i = 0; i < widget.layerOptions.markers.length; i++) {
@@ -92,6 +96,12 @@ class _MarkerLayerState extends State<MarkerLayer>
 
           final pos = pxPoint - widget.map.getPixelOrigin();
 
+          var markerBuilder = marker.builder;
+          if (widget.layerOptions.selectedMarkerBuilder != null &&
+              widget.popupState.isSelected(marker)) {
+            markerBuilder = (context) =>
+                widget.layerOptions.selectedMarkerBuilder!(context, marker);
+          }
           final markerWithGestureDetector = GestureDetector(
             onTap: () {
               if (!widget.popupState.selectedMarkers.contains(marker)) {
@@ -104,7 +114,7 @@ class _MarkerLayerState extends State<MarkerLayer>
                 widget.popupController,
               );
             },
-            child: marker.builder(context),
+            child: markerBuilder(context),
           );
 
           final markerRotate = widget.layerOptions.rotate;

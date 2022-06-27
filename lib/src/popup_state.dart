@@ -10,6 +10,8 @@ abstract class PopupState with ChangeNotifier {
 
   factory PopupState({List<Marker> initiallySelectedMarkers}) = PopupStateImpl;
 
+  bool isSelected(Marker marker);
+
   static PopupState? maybeOf(BuildContext context, {bool listen = true}) {
     return Provider.of<PopupState?>(context, listen: listen);
   }

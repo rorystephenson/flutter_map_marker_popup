@@ -26,6 +26,9 @@ class PopupStateImpl with ChangeNotifier implements PopupState {
       .map((markerWithKey) => markerWithKey.marker)
       .toList();
 
+  @override
+  bool isSelected(Marker marker) => contains(MarkerWithKey.wrap(marker));
+
   bool contains(MarkerWithKey markerWithKey) =>
       selectedMarkersWithKeys.contains(markerWithKey);
 
