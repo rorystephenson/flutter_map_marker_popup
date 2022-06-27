@@ -14,6 +14,11 @@ class PopupOutsideOfMap extends StatefulWidget {
 }
 
 class _PopupOutsideOfMapState extends State<PopupOutsideOfMap> {
+  static final positions = [
+    LatLng(45.246, 5.783),
+    LatLng(45.683, 10.839),
+    LatLng(44.421, 10.404),
+  ];
   late final List<Marker> _markers;
 
   /// Used to trigger showing/hiding of popups.
@@ -22,11 +27,7 @@ class _PopupOutsideOfMapState extends State<PopupOutsideOfMap> {
   @override
   void initState() {
     super.initState();
-    _markers = [
-      LatLng(44.421, 10.404),
-      LatLng(45.683, 10.839),
-      LatLng(45.246, 5.783),
-    ]
+    _markers = positions
         .map((markerPosition) => Marker(
               point: markerPosition,
               width: 40,
@@ -43,35 +44,56 @@ class _PopupOutsideOfMapState extends State<PopupOutsideOfMap> {
       child: Scaffold(
         appBar: AppBar(title: const Text('Popup outside of map')),
         drawer: buildDrawer(context, PopupOutsideOfMap.route),
-        body: Column(
+        body: Stack(
           children: [
-            Expanded(
-              child: FlutterMap(
-                options: MapOptions(
-                  zoom: 5.0,
-                  center: LatLng(44.421, 10.404),
-                  onTap: (_, __) => _popupLayerController
-                      .hideAllPopups(), // Hide popup when the map is tapped.
-                ),
+            Positioned.fill(
+              child: Column(
                 children: [
-                  TileLayerWidget(
-                    options: TileLayerOptions(
-                      urlTemplate:
-                          'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                      subdomains: ['a', 'b', 'c'],
+                  Expanded(
+                    child: FlutterMap(
+                      options: MapOptions(
+                        zoom: 5.0,
+                        center: LatLng(44.421, 10.404),
+                        onTap: (_, __) => _popupLayerController
+                            .hideAllPopups(), // Hide popup when the map is tapped.
+                      ),
+                      children: [
+                        TileLayerWidget(
+                          options: TileLayerOptions(
+                            urlTemplate:
+                                'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                            subdomains: ['a', 'b', 'c'],
+                          ),
+                        ),
+                        PopupMarkerLayerWidget(
+                          options: PopupMarkerLayerOptions(
+                            popupController: _popupLayerController,
+                            markers: _markers,
+                            markerTapBehavior: MarkerTapBehavior.togglePopup(),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  PopupMarkerLayerWidget(
-                    options: PopupMarkerLayerOptions(
-                      popupController: _popupLayerController,
-                      markers: _markers,
-                      markerTapBehavior: MarkerTapBehavior.togglePopup(),
+                  Container(
+                    height: 150,
+                    color: Colors.white,
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.all(8.0),
+                    child: const Text(
+                      'This example demonstrates how you can place popups '
+                      'wherever you want. In this case they will appear above '
+                      'the map and this message.',
+                      style: TextStyle(fontSize: 18),
                     ),
                   ),
                 ],
               ),
             ),
-            const CustomPopupsDisplay(),
+            const Align(
+              alignment: Alignment.bottomCenter,
+              child: CustomPopupsDisplay(),
+            ),
           ],
         ),
       ),
@@ -85,14 +107,35 @@ class CustomPopupsDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final markersWithPopups = PopupState.maybeOf(context)!.selectedMarkers;
-    final markersWithPopupsDescription =
-        markersWithPopups.map((marker) => marker.point.toString()).join('\n');
+    final selectedMarkerNumbers = markersWithPopups
+        .map((marker) =>
+            _PopupOutsideOfMapState.positions.indexOf(marker.point) + 1)
+        .toList()
+      ..sort();
+    final selectedMarkersText = selectedMarkerNumbers.join(', ');
 
     if (markersWithPopups.isEmpty) return const SizedBox.shrink();
 
-    return Container(
-      padding: const EdgeInsets.all(12),
-      child: Text(markersWithPopupsDescription),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 100),
+      child: GestureDetector(
+        onTap: () {
+          debugPrint('tap');
+        },
+        child: Card(
+          elevation: 5,
+          child: Container(
+            height: 100,
+            width: 200,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(12),
+            child: Text(
+              'Selected markers: $selectedMarkersText',
+              style: const TextStyle(fontSize: 16),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

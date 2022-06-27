@@ -1,3 +1,7 @@
+## [3.1.0+1] - 27/06/22
+
+* Improve the example for showing popups over the map.
+
 ## [3.1.0] - 27/06/22
 
 * A new selectedMarkerBuilder option allows you to give selected Markers a
