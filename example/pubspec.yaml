@@ -10,15 +10,15 @@ dependencies:
   flutter:
     sdk: flutter
 
-  latlong2: ^0.8.0
-  flutter_map: ^1.0.0
+  latlong2: ^0.8.1
+  flutter_map: ^2.0.0
   flutter_map_marker_popup:
     path: ../
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^2.0.1
 
 flutter:
   uses-material-design: true
