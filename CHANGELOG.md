@@ -1,3 +1,7 @@
+## [3.2.0] - 28/07/22
+
+* Support flutter_map v2.
+
 ## [3.1.0+1] - 27/06/22
 
 * Improve the example for showing popups over the map.
