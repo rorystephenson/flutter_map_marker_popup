@@ -12,9 +12,7 @@ import 'popup_state.dart';
 import 'popup_state_impl.dart';
 
 class PopupLayer extends StatefulWidget {
-  final MapState mapState;
   final PopupState popupState;
-  final Stream<void>? stream;
   final PopupBuilder? popupBuilder;
   final PopupSnap popupSnap;
   final PopupController popupController;
@@ -23,9 +21,7 @@ class PopupLayer extends StatefulWidget {
   final Function(PopupEvent event, List<Marker> selectedMarkers)? onPopupEvent;
 
   const PopupLayer({
-    required this.mapState,
     required this.popupState,
-    this.stream,
     required this.popupBuilder,
     required this.popupSnap,
     required PopupController popupController,
@@ -72,43 +68,39 @@ class _PopupLayerState extends State<PopupLayer> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<void>(
-      stream: widget.stream,
-      builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-        final popupAnimation = widget.popupAnimation;
+    final mapState = MapState.maybeOf(context)!;
+    final popupAnimation = widget.popupAnimation;
 
-        if (widget.popupBuilder == null) {
-          return DoNotDisplayPopupContainer(
-            mapState: widget.mapState,
-            popupStateImpl: _popupStateImpl,
-            popupControllerImpl: _popupControllerImpl,
-            onPopupEvent: widget.onPopupEvent,
-          );
-        }
+    if (widget.popupBuilder == null) {
+      return DoNotDisplayPopupContainer(
+        mapState: mapState,
+        popupStateImpl: _popupStateImpl,
+        popupControllerImpl: _popupControllerImpl,
+        onPopupEvent: widget.onPopupEvent,
+      );
+    }
 
-        if (popupAnimation == null) {
-          return SimplePopupContainer(
-            mapState: widget.mapState,
-            popupStateImpl: _popupStateImpl,
-            popupControllerImpl: _popupControllerImpl,
-            snap: widget.popupSnap,
-            popupBuilder: widget.popupBuilder!,
-            markerRotate: widget.markerRotate,
-            onPopupEvent: widget.onPopupEvent,
-          );
-        } else {
-          return AnimatedPopupContainer(
-            mapState: widget.mapState,
-            popupStateImpl: _popupStateImpl,
-            popupControllerImpl: _popupControllerImpl,
-            snap: widget.popupSnap,
-            popupBuilder: widget.popupBuilder!,
-            popupAnimation: popupAnimation,
-            markerRotate: widget.markerRotate,
-            onPopupEvent: widget.onPopupEvent,
-          );
-        }
-      },
-    );
+    if (popupAnimation == null) {
+      return SimplePopupContainer(
+        mapState: mapState,
+        popupStateImpl: _popupStateImpl,
+        popupControllerImpl: _popupControllerImpl,
+        snap: widget.popupSnap,
+        popupBuilder: widget.popupBuilder!,
+        markerRotate: widget.markerRotate,
+        onPopupEvent: widget.onPopupEvent,
+      );
+    } else {
+      return AnimatedPopupContainer(
+        mapState: mapState,
+        popupStateImpl: _popupStateImpl,
+        popupControllerImpl: _popupControllerImpl,
+        snap: widget.popupSnap,
+        popupBuilder: widget.popupBuilder!,
+        popupAnimation: popupAnimation,
+        markerRotate: widget.markerRotate,
+        onPopupEvent: widget.onPopupEvent,
+      );
+    }
   }
 }

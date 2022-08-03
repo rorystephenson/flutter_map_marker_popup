@@ -10,7 +10,7 @@ import 'popup_controller_impl.dart';
 class PopupMarkerLayerWidget extends StatefulWidget {
   final PopupMarkerLayerOptions options;
 
-  PopupMarkerLayerWidget({required this.options}) : super(key: options.key);
+  const PopupMarkerLayerWidget({super.key, required this.options});
 
   @override
   State<PopupMarkerLayerWidget> createState() => _PopupMarkerLayerWidgetState();
@@ -45,14 +45,11 @@ class _PopupMarkerLayerWidgetState extends State<PopupMarkerLayerWidget> {
       MarkerLayer(
         layerOptions: widget.options,
         map: mapState,
-        stream: mapState.onMoved,
         popupState: popupState,
         popupController: _popupController,
       ),
       PopupLayer(
-        mapState: mapState,
         popupState: popupState,
-        stream: mapState.onMoved,
         popupSnap: widget.options.popupSnap,
         popupBuilder: widget.options.popupBuilder,
         popupController: _popupController,

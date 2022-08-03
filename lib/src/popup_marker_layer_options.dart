@@ -93,7 +93,6 @@ class PopupMarkerLayerOptions extends MarkerLayerOptions {
     this.markerCenterAnimation,
     MarkerTapBehavior? markerTapBehavior,
     this.onPopupEvent,
-    Stream<void>? rebuild,
   })  : markerTapBehavior =
             markerTapBehavior ?? MarkerTapBehavior.togglePopupAndHideRest(),
         super(
@@ -101,7 +100,6 @@ class PopupMarkerLayerOptions extends MarkerLayerOptions {
           rotate: markerRotate,
           rotateAlignment: markerRotateAlignment,
           rotateOrigin: markerRotateOrigin,
-          rebuild: rebuild,
         );
 
   static AlignmentGeometry rotationAlignmentFor(AnchorAlign anchorAlign) {
