@@ -13,7 +13,7 @@ import 'marker_with_key.dart';
 import 'popup_container_mixin.dart';
 
 class SimplePopupContainer extends StatefulWidget {
-  final MapState mapState;
+  final FlutterMapState mapState;
   final PopupStateImpl popupStateImpl;
   final PopupControllerImpl popupControllerImpl;
   final PopupBuilder popupBuilder;
@@ -43,7 +43,7 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
   late StreamSubscription<PopupEvent> _popupEventSubscription;
 
   @override
-  MapState get mapState => widget.mapState;
+  FlutterMapState get mapState => widget.mapState;
 
   @override
   PopupStateImpl get popupStateImpl => widget.popupStateImpl;

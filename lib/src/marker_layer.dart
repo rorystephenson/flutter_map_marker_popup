@@ -7,7 +7,7 @@ import 'lat_lng_tween.dart';
 
 class MarkerLayer extends StatefulWidget {
   final PopupMarkerLayerOptions layerOptions;
-  final MapState map;
+  final FlutterMapState map;
   final PopupState popupState;
   final PopupController popupController;
 
@@ -86,7 +86,7 @@ class _MarkerLayerState extends State<MarkerLayer>
         continue;
       }
 
-      final pos = pxPoint - widget.map.getPixelOrigin();
+      final pos = pxPoint - widget.map.pixelOrigin;
 
       var markerBuilder = marker.builder;
       if (widget.layerOptions.selectedMarkerBuilder != null &&

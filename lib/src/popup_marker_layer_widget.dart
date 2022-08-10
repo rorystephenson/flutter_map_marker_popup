@@ -31,14 +31,14 @@ class _PopupMarkerLayerWidgetState extends State<PopupMarkerLayerWidget> {
   Widget build(BuildContext context) {
     return PopupStateWrapper(
       builder: (context, popupState) => _layers(
-        mapState: flutter_map.MapState.maybeOf(context)!,
+        mapState: flutter_map.FlutterMapState.maybeOf(context)!,
         popupState: popupState,
       ),
     );
   }
 
   Widget _layers({
-    required flutter_map.MapState mapState,
+    required flutter_map.FlutterMapState mapState,
     required PopupState popupState,
   }) {
     return Stack(children: [

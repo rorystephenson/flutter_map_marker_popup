@@ -9,7 +9,7 @@ import '../popup_event.dart';
 import '../popup_state_impl.dart';
 
 mixin PopupContainerMixin {
-  MapState get mapState;
+  FlutterMapState get mapState;
 
   PopupStateImpl get popupStateImpl;
 

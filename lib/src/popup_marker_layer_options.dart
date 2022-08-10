@@ -9,7 +9,7 @@ import 'package:flutter_map_marker_popup/src/popup_snap.dart';
 import 'marker_center_animation.dart';
 import 'popup_event.dart';
 
-class PopupMarkerLayerOptions extends MarkerLayerOptions {
+class PopupMarkerLayerOptions extends MarkerLayer {
   /// Used to construct the popup. Leave null if you wish to show popups outside
   /// of the map.
   final PopupBuilder? popupBuilder;

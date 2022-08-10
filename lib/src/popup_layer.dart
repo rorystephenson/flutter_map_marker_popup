@@ -68,7 +68,7 @@ class _PopupLayerState extends State<PopupLayer> {
 
   @override
   Widget build(BuildContext context) {
-    final mapState = MapState.maybeOf(context)!;
+    final mapState = FlutterMapState.maybeOf(context)!;
     final popupAnimation = widget.popupAnimation;
 
     if (widget.popupBuilder == null) {

@@ -11,7 +11,8 @@ dependencies:
     sdk: flutter
 
   latlong2: ">=0.7.0 <1.0.0"
-  #flutter_map: ^3.0.0
+  flutter_map: #^3.0.0
+    git: https://github.com/MooNag/flutter_map
   flutter_map_marker_popup:
     path: ../
 
