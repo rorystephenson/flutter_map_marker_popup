@@ -188,8 +188,9 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
       return <AlignmentGeometry, PopupSnap>{
         Alignment.centerLeft: DefaultPopupSnap(DefaultPopupSnapType.markerLeft),
         Alignment.topCenter: DefaultPopupSnap(DefaultPopupSnapType.markerTop),
-        Alignment.centerRight:
-            DefaultPopupSnap(DefaultPopupSnapType.markerRight),
+        Alignment.centerRight: CustomPopupSnap(
+            contentAlignment: Alignment(1.0, 0.0),
+            rotationAlignment: Alignment.centerLeft),
         Alignment.bottomCenter:
             DefaultPopupSnap(DefaultPopupSnapType.markerBottom),
         Alignment.center: DefaultPopupSnap(DefaultPopupSnapType.markerCenter),

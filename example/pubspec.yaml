@@ -12,7 +12,7 @@ dependencies:
   cupertino_icons: ^1.0.3
 
   latlong2: ^0.8.0
-  flutter_map: ">=0.14.0 <1.0.0"
+  flutter_map: ^2.2.0
   flutter_map_marker_popup:
     path: ../
 
