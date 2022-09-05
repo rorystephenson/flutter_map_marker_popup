@@ -40,7 +40,7 @@ class _MapPageState extends State<MapPage> {
         children: <Widget>[
           TileLayer(
             urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            subdomains: <String>['a', 'b', 'c'],
+            subdomains: const ['a', 'b', 'c'],
           ),
           PopupMarkerLayerWidget(
             options: PopupMarkerLayerOptions(

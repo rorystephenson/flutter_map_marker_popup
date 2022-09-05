@@ -54,7 +54,7 @@ class _PopupMarkerLayerWidgetState extends State<PopupMarkerLayerWidget> {
         popupBuilder: widget.options.popupBuilder,
         popupController: _popupController,
         popupAnimation: widget.options.popupAnimation,
-        markerRotate: widget.options.rotate ?? false,
+        markerRotate: widget.options.rotate,
         onPopupEvent: widget.options.onPopupEvent,
       ),
     ]);

@@ -10,10 +10,10 @@ class PopupOutsideOfMap extends StatefulWidget {
   const PopupOutsideOfMap({Key? key}) : super(key: key);
 
   @override
-  State<PopupOutsideOfMap> createState() => _PopupOutsideOfFlutterMapState();
+  State<PopupOutsideOfMap> createState() => _PopupOutsideOfMapState();
 }
 
-class _PopupOutsideOfFlutterMapState extends State<PopupOutsideOfMap> {
+class _PopupOutsideOfMapState extends State<PopupOutsideOfMap> {
   static final positions = [
     LatLng(45.246, 5.783),
     LatLng(45.683, 10.839),
@@ -61,7 +61,7 @@ class _PopupOutsideOfFlutterMapState extends State<PopupOutsideOfMap> {
                         TileLayer(
                           urlTemplate:
                               'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                          subdomains: ['a', 'b', 'c'],
+                          subdomains: const ['a', 'b', 'c'],
                         ),
                         PopupMarkerLayerWidget(
                           options: PopupMarkerLayerOptions(
@@ -107,7 +107,7 @@ class CustomPopupsDisplay extends StatelessWidget {
     final markersWithPopups = PopupState.maybeOf(context)!.selectedMarkers;
     final selectedMarkerNumbers = markersWithPopups
         .map((marker) =>
-            _PopupOutsideOfFlutterMapState.positions.indexOf(marker.point) + 1)
+            _PopupOutsideOfMapState.positions.indexOf(marker.point) + 1)
         .toList()
       ..sort();
     final selectedMarkersText = selectedMarkerNumbers.join(', ');

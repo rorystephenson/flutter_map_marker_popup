@@ -21,7 +21,7 @@ class PopupMarkerLayerOptions extends MarkerLayer {
   /// The markers for which a popup should be initially visible. Note that this
   /// has no affect if the [PopupMarkerLayer] is within a [PopupScope] and
   /// should be declared on [PopupScope] instead.
-  List<Marker> initiallySelectedMarkers;
+  final List<Marker> initiallySelectedMarkers;
 
   /// Controls the position of the popup relative to the marker or popup.
   final PopupSnap popupSnap;
@@ -80,8 +80,8 @@ class PopupMarkerLayerOptions extends MarkerLayer {
   ///   * The anchor point does not move relative to the [Marker]'s point.
   ///   * The [Marker]'s orientation matches the rotation.
   PopupMarkerLayerOptions({
+    super.key,
     List<Marker> markers = const [],
-    bool? markerRotate = true,
     AlignmentGeometry? markerRotateAlignment,
     Offset? markerRotateOrigin,
     this.popupBuilder,
@@ -92,6 +92,7 @@ class PopupMarkerLayerOptions extends MarkerLayer {
     this.selectedMarkerBuilder,
     this.markerCenterAnimation,
     MarkerTapBehavior? markerTapBehavior,
+    bool markerRotate = true,
     this.onPopupEvent,
   })  : markerTapBehavior =
             markerTapBehavior ?? MarkerTapBehavior.togglePopupAndHideRest(),

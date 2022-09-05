@@ -112,7 +112,7 @@ class _MarkerLayerState extends State<MarkerLayer>
       final markerRotate = widget.layerOptions.rotate;
 
       Widget markerWidget;
-      if (marker.rotate ?? markerRotate ?? false) {
+      if (marker.rotate ?? markerRotate) {
         final markerRotateOrigin =
             marker.rotateOrigin ?? widget.layerOptions.rotateOrigin;
         final markerRotateAlignment =

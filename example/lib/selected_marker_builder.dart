@@ -58,7 +58,7 @@ class _SelectedMarkerBuilderState extends State<SelectedMarkerBuilder> {
         children: [
           TileLayer(
             urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            subdomains: ['a', 'b', 'c'],
+            subdomains: const ['a', 'b', 'c'],
           ),
           PopupMarkerLayerWidget(
             options: PopupMarkerLayerOptions(
