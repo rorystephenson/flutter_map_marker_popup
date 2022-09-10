@@ -56,11 +56,9 @@ class _SimpleMapWithPopupsState extends State<SimpleMapWithPopups> {
               .hideAllPopups(), // Hide popup when the map is tapped.
         ),
         children: [
-          TileLayerWidget(
-            options: TileLayerOptions(
-              urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-              subdomains: ['a', 'b', 'c'],
-            ),
+          TileLayer(
+            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            subdomains: const ['a', 'b', 'c'],
           ),
           PopupMarkerLayerWidget(
             options: PopupMarkerLayerOptions(

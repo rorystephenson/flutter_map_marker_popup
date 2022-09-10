@@ -9,7 +9,7 @@ import 'package:flutter_map_marker_popup/src/popup_snap.dart';
 import 'marker_center_animation.dart';
 import 'popup_event.dart';
 
-class PopupMarkerLayerOptions extends MarkerLayerOptions {
+class PopupMarkerLayerOptions extends MarkerLayer {
   /// Used to construct the popup. Leave null if you wish to show popups outside
   /// of the map.
   final PopupBuilder? popupBuilder;
@@ -21,7 +21,7 @@ class PopupMarkerLayerOptions extends MarkerLayerOptions {
   /// The markers for which a popup should be initially visible. Note that this
   /// has no affect if the [PopupMarkerLayer] is within a [PopupScope] and
   /// should be declared on [PopupScope] instead.
-  List<Marker> initiallySelectedMarkers;
+  final List<Marker> initiallySelectedMarkers;
 
   /// Controls the position of the popup relative to the marker or popup.
   final PopupSnap popupSnap;
@@ -80,8 +80,8 @@ class PopupMarkerLayerOptions extends MarkerLayerOptions {
   ///   * The anchor point does not move relative to the [Marker]'s point.
   ///   * The [Marker]'s orientation matches the rotation.
   PopupMarkerLayerOptions({
+    super.key,
     List<Marker> markers = const [],
-    bool? markerRotate = true,
     AlignmentGeometry? markerRotateAlignment,
     Offset? markerRotateOrigin,
     this.popupBuilder,
@@ -92,8 +92,8 @@ class PopupMarkerLayerOptions extends MarkerLayerOptions {
     this.selectedMarkerBuilder,
     this.markerCenterAnimation,
     MarkerTapBehavior? markerTapBehavior,
+    bool markerRotate = true,
     this.onPopupEvent,
-    Stream<void>? rebuild,
   })  : markerTapBehavior =
             markerTapBehavior ?? MarkerTapBehavior.togglePopupAndHideRest(),
         super(
@@ -101,7 +101,6 @@ class PopupMarkerLayerOptions extends MarkerLayerOptions {
           rotate: markerRotate,
           rotateAlignment: markerRotateAlignment,
           rotateOrigin: markerRotateOrigin,
-          rebuild: rebuild,
         );
 
   static AlignmentGeometry rotationAlignmentFor(AnchorAlign anchorAlign) {

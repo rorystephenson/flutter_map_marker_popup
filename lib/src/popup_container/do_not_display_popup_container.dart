@@ -12,7 +12,7 @@ import 'marker_with_key.dart';
 import 'popup_container_mixin.dart';
 
 class DoNotDisplayPopupContainer extends StatefulWidget {
-  final MapState mapState;
+  final FlutterMapState mapState;
   final PopupStateImpl popupStateImpl;
   final PopupControllerImpl popupControllerImpl;
   final Function(PopupEvent event, List<Marker> selectedMarkers)? onPopupEvent;
@@ -36,7 +36,7 @@ class _DoNotDisplayPopupContainerState extends State<DoNotDisplayPopupContainer>
   late StreamSubscription<PopupEvent> _popupEventSubscription;
 
   @override
-  MapState get mapState => widget.mapState;
+  FlutterMapState get mapState => widget.mapState;
 
   @override
   PopupStateImpl get popupStateImpl => widget.popupStateImpl;

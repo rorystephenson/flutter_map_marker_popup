@@ -25,7 +25,7 @@ class PopupLayout {
   });
 
   static PopupLayout calculate({
-    required MapState mapState,
+    required FlutterMapState mapState,
     required Marker marker,
     required PopupSnap snap,
     required bool markerRotate,

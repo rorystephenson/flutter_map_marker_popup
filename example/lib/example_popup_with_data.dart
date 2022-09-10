@@ -38,11 +38,9 @@ class _MapPageState extends State<MapPage> {
           onTap: (_, __) => _popupLayerController.hideAllPopups(),
         ),
         children: <Widget>[
-          TileLayerWidget(
-            options: TileLayerOptions(
-              urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-              subdomains: <String>['a', 'b', 'c'],
-            ),
+          TileLayer(
+            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            subdomains: const ['a', 'b', 'c'],
           ),
           PopupMarkerLayerWidget(
             options: PopupMarkerLayerOptions(

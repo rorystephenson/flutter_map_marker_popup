@@ -4,7 +4,7 @@ import 'package:flutter_map/plugin_api.dart';
 import 'popup_layout.dart';
 
 abstract class SnapToMapLayout {
-  static PopupLayout left(MapState mapState) {
+  static PopupLayout left(FlutterMapState mapState) {
     return _layoutWith(
       contentAlignment: Alignment.centerLeft,
       mapRotationRad: mapState.rotationRad,
@@ -12,7 +12,7 @@ abstract class SnapToMapLayout {
     );
   }
 
-  static PopupLayout top(MapState mapState) {
+  static PopupLayout top(FlutterMapState mapState) {
     return _layoutWith(
       contentAlignment: Alignment.topCenter,
       mapRotationRad: mapState.rotationRad,
@@ -20,7 +20,7 @@ abstract class SnapToMapLayout {
     );
   }
 
-  static PopupLayout right(MapState mapState) {
+  static PopupLayout right(FlutterMapState mapState) {
     return _layoutWith(
       contentAlignment: Alignment.centerRight,
       mapRotationRad: mapState.rotationRad,
@@ -28,7 +28,7 @@ abstract class SnapToMapLayout {
     );
   }
 
-  static PopupLayout bottom(MapState mapState) {
+  static PopupLayout bottom(FlutterMapState mapState) {
     return _layoutWith(
       contentAlignment: Alignment.bottomCenter,
       mapRotationRad: mapState.rotationRad,
@@ -36,16 +36,16 @@ abstract class SnapToMapLayout {
     );
   }
 
-  static PopupLayout center(MapState mapState) {
+  static PopupLayout center(FlutterMapState mapState) {
     return _layoutWith(
       contentAlignment: Alignment.center,
       mapRotationRad: mapState.rotationRad,
     );
   }
 
-  static CustomPoint<num> _sizeChangeDueToRotation(MapState mapState) {
+  static CustomPoint<num> _sizeChangeDueToRotation(FlutterMapState mapState) {
     final CustomPoint<num> size = mapState.size;
-    return size - (mapState.originalSize ?? mapState.size);
+    return size - mapState.size;
   }
 
   static PopupLayout _layoutWith({

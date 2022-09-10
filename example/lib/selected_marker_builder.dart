@@ -56,11 +56,9 @@ class _SelectedMarkerBuilderState extends State<SelectedMarkerBuilder> {
               .hideAllPopups(), // Hide popup when the map is tapped.
         ),
         children: [
-          TileLayerWidget(
-            options: TileLayerOptions(
-              urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-              subdomains: ['a', 'b', 'c'],
-            ),
+          TileLayer(
+            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            subdomains: const ['a', 'b', 'c'],
           ),
           PopupMarkerLayerWidget(
             options: PopupMarkerLayerOptions(

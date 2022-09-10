@@ -10,7 +10,7 @@ import 'popup_controller_impl.dart';
 class PopupMarkerLayerWidget extends StatefulWidget {
   final PopupMarkerLayerOptions options;
 
-  PopupMarkerLayerWidget({required this.options}) : super(key: options.key);
+  const PopupMarkerLayerWidget({super.key, required this.options});
 
   @override
   State<PopupMarkerLayerWidget> createState() => _PopupMarkerLayerWidgetState();
@@ -31,33 +31,30 @@ class _PopupMarkerLayerWidgetState extends State<PopupMarkerLayerWidget> {
   Widget build(BuildContext context) {
     return PopupStateWrapper(
       builder: (context, popupState) => _layers(
-        mapState: flutter_map.MapState.maybeOf(context)!,
+        mapState: flutter_map.FlutterMapState.maybeOf(context)!,
         popupState: popupState,
       ),
     );
   }
 
   Widget _layers({
-    required flutter_map.MapState mapState,
+    required flutter_map.FlutterMapState mapState,
     required PopupState popupState,
   }) {
     return Stack(children: [
       MarkerLayer(
         layerOptions: widget.options,
         map: mapState,
-        stream: mapState.onMoved,
         popupState: popupState,
         popupController: _popupController,
       ),
       PopupLayer(
-        mapState: mapState,
         popupState: popupState,
-        stream: mapState.onMoved,
         popupSnap: widget.options.popupSnap,
         popupBuilder: widget.options.popupBuilder,
         popupController: _popupController,
         popupAnimation: widget.options.popupAnimation,
-        markerRotate: widget.options.rotate ?? false,
+        markerRotate: widget.options.rotate,
         onPopupEvent: widget.options.onPopupEvent,
       ),
     ]);
