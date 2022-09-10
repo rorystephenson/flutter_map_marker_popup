@@ -1,3 +1,7 @@
+## [4.0.0] - 10/09/22
+
+* flutter_map v3. Thanks to [MooNag](https://github.com/MooNag) for the contribution!
+
 ## [3.2.0] - 28/07/22
 
 * Support flutter_map v2.
