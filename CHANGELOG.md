@@ -1,3 +1,7 @@
+## [4.0.1] - 10/09/22
+
+* Fix regression in 4.0.0 which broke snap-to-map when the map was rotated.
+
 ## [4.0.0] - 10/09/22
 
 * flutter_map v3. Thanks to [MooNag](https://github.com/MooNag) for the contribution!

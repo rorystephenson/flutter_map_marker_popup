@@ -44,8 +44,14 @@ abstract class SnapToMapLayout {
   }
 
   static CustomPoint<num> _sizeChangeDueToRotation(FlutterMapState mapState) {
-    final CustomPoint<num> size = mapState.size;
-    return size - mapState.size;
+    if (mapState.nonrotatedSize == null) return const CustomPoint(0, 0);
+
+    // This actually isn't an unnecessary cast because CustomPoint<double> will
+    // not allow subtraction of CustomPoint<num> because the subtraction
+    // operator only allows subtraction with a CustomPoint of the same type.
+    //
+    // ignore: unnecessary_cast
+    return (mapState.size as CustomPoint<num>) - mapState.nonrotatedSize!;
   }
 
   static PopupLayout _layoutWith({
