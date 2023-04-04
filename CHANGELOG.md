@@ -1,3 +1,8 @@
+## [4.0.2] - 04/04/23
+
+* Reduce builds during fading of popups. Faded popups now only build once when fading in and once
+  when fading out. Previously the popup builder would be called many times during fading.
+
 ## [4.0.1] - 10/09/22
 
 * Fix regression in 4.0.0 which broke snap-to-map when the map was rotated.
