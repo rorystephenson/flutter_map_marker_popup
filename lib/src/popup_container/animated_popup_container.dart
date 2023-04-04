@@ -127,8 +127,14 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
     Animation<double> animation, {
     bool allowTap = true,
   }) {
-    Widget animatedPopup = FadeTransition(
-      opacity: animation.drive(CurveTween(curve: widget.popupAnimation.curve)),
+    Widget animatedPopup = AnimatedBuilder(
+      animation: animation,
+      builder: (context, child) {
+        return Opacity(
+          opacity: animation.value,
+          child: child,
+        );
+      },
       child: popupWithStateKeepAlive(markerWithKey, widget.popupBuilder),
     );
 
