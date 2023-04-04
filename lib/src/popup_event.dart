@@ -38,17 +38,29 @@ abstract class PopupEvent {
       TogglePopupEvent._(marker, disableAnimation: disableAnimation);
 
   void handle({
-    required void Function(List<Marker> markers,
-            {required bool disableAnimation})
+    required void Function(
+      List<Marker> markers, {
+      required bool disableAnimation,
+    })
         showAlsoFor,
-    required void Function(List<Marker> markers,
-            {required bool disableAnimation})
+    required void Function(
+      List<Marker> markers, {
+      required bool disableAnimation,
+    })
         showOnlyFor,
-    required void Function({required bool disableAnimation}) hideAll,
-    required void Function(List<Marker> markers,
-            {required bool disableAnimation})
+    required void Function({
+      required bool disableAnimation,
+    })
+        hideAll,
+    required void Function(
+      List<Marker> markers, {
+      required bool disableAnimation,
+    })
         hideOnlyFor,
-    required void Function(Marker marker, {required bool disableAnimation})
+    required void Function(
+      Marker marker, {
+      required bool disableAnimation,
+    })
         toggle,
   }) {
     final thisEvent = this;
