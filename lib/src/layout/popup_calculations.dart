@@ -45,27 +45,45 @@ abstract class PopupCalculations {
     return OvalBounds.boundY(marker.width, marker.height, radians);
   }
 
-  static double mapLeftToPointX(FlutterMapState mapState, CustomPoint<num> point) {
+  static double mapLeftToPointX(
+    FlutterMapState mapState,
+    CustomPoint<num> point,
+  ) {
     return point.x.toDouble();
   }
 
-  static double mapRightToPointX(FlutterMapState mapState, CustomPoint<num> point) {
+  static double mapRightToPointX(
+    FlutterMapState mapState,
+    CustomPoint<num> point,
+  ) {
     return -(mapState.size.x - point.x).toDouble();
   }
 
-  static double mapCenterToPointX(FlutterMapState mapState, CustomPoint<num> point) {
+  static double mapCenterToPointX(
+    FlutterMapState mapState,
+    CustomPoint<num> point,
+  ) {
     return -(mapState.size.x / 2 - point.x).toDouble();
   }
 
-  static double mapTopToPointY(FlutterMapState mapState, CustomPoint<num> point) {
+  static double mapTopToPointY(
+    FlutterMapState mapState,
+    CustomPoint<num> point,
+  ) {
     return point.y.toDouble();
   }
 
-  static double mapBottomToPointY(FlutterMapState mapState, CustomPoint<num> point) {
+  static double mapBottomToPointY(
+    FlutterMapState mapState,
+    CustomPoint<num> point,
+  ) {
     return -(mapState.size.y - point.y).toDouble();
   }
 
-  static double mapCenterToPointY(FlutterMapState mapState, CustomPoint<num> point) {
+  static double mapCenterToPointY(
+    FlutterMapState mapState,
+    CustomPoint<num> point,
+  ) {
     return -(mapState.size.y / 2 - point.y).toDouble();
   }
 }

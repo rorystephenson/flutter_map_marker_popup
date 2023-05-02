@@ -27,10 +27,9 @@ class PopupStateImpl with ChangeNotifier implements PopupState {
       .toList();
 
   @override
-  bool isSelected(Marker marker) => contains(MarkerWithKey.wrap(marker));
-
-  bool contains(MarkerWithKey markerWithKey) =>
-      selectedMarkersWithKeys.contains(markerWithKey);
+  bool isSelected(Marker marker) => selectedMarkersWithKeys.contains(
+        MarkerWithKey.wrap(marker),
+      );
 
   void addAll(Iterable<MarkerWithKey> markersWithKeys) {
     selectedMarkersWithKeys.addAll(markersWithKeys);
@@ -42,8 +41,8 @@ class PopupStateImpl with ChangeNotifier implements PopupState {
     notifyListeners();
   }
 
-  void removeWhere(bool Function(MarkerWithKey markerWithKey) test) {
-    selectedMarkersWithKeys.removeWhere(test);
+  void removeAll(Iterable<Marker> markers) {
+    selectedMarkersWithKeys.removeAll(markers.map(MarkerWithKey.wrap));
     notifyListeners();
   }
 }

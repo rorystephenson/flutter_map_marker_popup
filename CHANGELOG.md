@@ -1,3 +1,9 @@
+## [4.0.3] - 02/05/23
+
+* Change marker comparison method so that FlutterMap plugins that use this plugin can wrap Markers
+  with their own data and still have them match the original Markers as long as their hashCode
+  matches the Marker.
+
 ## [4.0.2] - 04/04/23
 
 * Reduce builds during fading of popups. Faded popups now only build once when fading in and once

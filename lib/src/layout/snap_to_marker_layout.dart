@@ -18,7 +18,11 @@ import 'popup_layout.dart';
 /// Note that when the map is rotated flutter_map increases the width and height
 /// of the map container such that it still contains the whole map view.
 abstract class SnapToMarkerLayout {
-  static PopupLayout left(FlutterMapState mapState, Marker marker, bool markerRotate) {
+  static PopupLayout left(
+    FlutterMapState mapState,
+    Marker marker,
+    bool markerRotate,
+  ) {
     return PopupLayout(
       contentAlignment: Alignment.centerRight,
       rotationAlignment: Alignment.centerRight,
@@ -28,7 +32,11 @@ abstract class SnapToMarkerLayout {
     );
   }
 
-  static PopupLayout top(FlutterMapState mapState, Marker marker, bool markerRotate) {
+  static PopupLayout top(
+    FlutterMapState mapState,
+    Marker marker,
+    bool markerRotate,
+  ) {
     return PopupLayout(
       contentAlignment: Alignment.bottomCenter,
       rotationAlignment: Alignment.bottomCenter,
@@ -39,7 +47,10 @@ abstract class SnapToMarkerLayout {
   }
 
   static PopupLayout right(
-      FlutterMapState mapState, Marker marker, bool markerRotate) {
+    FlutterMapState mapState,
+    Marker marker,
+    bool markerRotate,
+  ) {
     return PopupLayout(
       contentAlignment: Alignment.centerLeft,
       rotationAlignment: Alignment.centerLeft,
@@ -50,7 +61,10 @@ abstract class SnapToMarkerLayout {
   }
 
   static PopupLayout bottom(
-      FlutterMapState mapState, Marker marker, bool markerRotate) {
+    FlutterMapState mapState,
+    Marker marker,
+    bool markerRotate,
+  ) {
     return PopupLayout(
       contentAlignment: Alignment.topCenter,
       rotationAlignment: Alignment.topCenter,
@@ -61,7 +75,10 @@ abstract class SnapToMarkerLayout {
   }
 
   static PopupLayout center(
-      FlutterMapState mapState, Marker marker, bool markerRotate) {
+    FlutterMapState mapState,
+    Marker marker,
+    bool markerRotate,
+  ) {
     return PopupLayout(
       contentAlignment: Alignment.center,
       rotationAlignment: Alignment.center,

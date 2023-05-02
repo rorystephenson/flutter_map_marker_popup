@@ -109,14 +109,13 @@ mixin PopupContainerMixin {
     List<Marker> markers, {
     required bool disableAnimation,
   }) {
-    popupStateImpl
-        .removeWhere((markerWithKey) => markers.contains(markerWithKey.marker));
+    popupStateImpl.removeAll(markers);
     hidePopupsOnlyFor(markers, disableAnimation: disableAnimation);
   }
 
   @nonVirtual
   void toggle(Marker marker, {bool disableAnimation = false}) {
-    if (popupStateImpl.contains(MarkerWithKey.wrap(marker))) {
+    if (popupStateImpl.isSelected(marker)) {
       wrapHidePopupsOnlyFor([marker], disableAnimation: disableAnimation);
     } else {
       wrapShowPopupsAlsoFor([marker], disableAnimation: disableAnimation);
@@ -135,6 +134,8 @@ mixin PopupContainerMixin {
 
   void hideAllPopups({required bool disableAnimation});
 
-  void hidePopupsOnlyFor(List<Marker> markers,
-      {required bool disableAnimation});
+  void hidePopupsOnlyFor(
+    List<Marker> markers, {
+    required bool disableAnimation,
+  });
 }

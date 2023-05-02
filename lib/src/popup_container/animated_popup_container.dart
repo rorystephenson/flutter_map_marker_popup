@@ -148,7 +148,7 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
     List<MarkerWithKey> markersWithKeys, {
     required bool disableAnimation,
   }) {
-    for (var markerWithKey in markersWithKeys) {
+    for (final markerWithKey in markersWithKeys) {
       if (!_animatedStackManager.contains(markerWithKey)) {
         _animatedStackManager.insert(
           _animatedStackManager.length,
@@ -168,7 +168,7 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
       (markerWithKey) => !markersWithKeys.contains(markerWithKey),
       duration: disableAnimation ? Duration.zero : null,
     );
-    for (var markerWithKey in markersWithKeys) {
+    for (final markerWithKey in markersWithKeys) {
       if (!_animatedStackManager.contains(markerWithKey)) {
         _animatedStackManager.insert(
           _animatedStackManager.length,
@@ -184,15 +184,17 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
     List<Marker> markers, {
     required bool disableAnimation,
   }) {
+    final wrappedMarkers = markers.map(MarkerWithKey.wrap);
     _animatedStackManager
-        .removeWhere((markerWithKey) => markers.contains(markerWithKey.marker));
+        .removeWhere((markerWithKey) => wrappedMarkers.contains(markerWithKey));
   }
 
   @override
   void hideAllPopups({required bool disableAnimation}) {
     if (_animatedStackManager.isNotEmpty) {
       _animatedStackManager.clear(
-          duration: disableAnimation ? Duration.zero : null);
+        duration: disableAnimation ? Duration.zero : null,
+      );
     }
   }
 }

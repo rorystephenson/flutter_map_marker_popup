@@ -133,8 +133,10 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
   }
 
   @override
-  void hidePopupsOnlyFor(List<Marker> markers,
-      {required bool disableAnimation}) {
+  void hidePopupsOnlyFor(
+    List<Marker> markers, {
+    required bool disableAnimation,
+  }) {
     setState(() {
       _selectedMarkersWithKeys.removeAll(markers.map(MarkerWithKey.wrap));
     });

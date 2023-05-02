@@ -195,7 +195,10 @@ abstract class PopupContainerTransform {
     )..rotateZ(-mapState.rotationRad);
   }
 
-  static CustomPoint<num> _markerPoint(FlutterMapState mapState, Marker marker) {
+  static CustomPoint<num> _markerPoint(
+    FlutterMapState mapState,
+    Marker marker,
+  ) {
     return mapState
             .project(marker.point)
             .multiplyBy(mapState.getZoomScale(mapState.zoom, mapState.zoom)) -
