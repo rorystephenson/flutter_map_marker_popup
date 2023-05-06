@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map_marker_popup_example/popup_option_controls.dart';
-import 'package:flutter_map_marker_popup_example/simple_map_with_popups.dart';
 
+import 'popup_option_controls.dart';
 import 'popup_outside_of_map.dart';
 import 'selected_marker_builder.dart';
+import 'simple_map_with_popups.dart';
 
 Widget _buildMenuItem(
   BuildContext context,

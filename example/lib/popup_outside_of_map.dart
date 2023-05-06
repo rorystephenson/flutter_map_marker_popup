@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
-import 'package:flutter_map_marker_popup_example/drawer.dart';
 import 'package:latlong2/latlong.dart';
+
+import 'drawer.dart';
 
 class PopupOutsideOfMap extends StatefulWidget {
   static const route = 'popupOutsideOfMapExample';
