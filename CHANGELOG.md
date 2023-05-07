@@ -1,3 +1,8 @@
+## [4.1.0] - 07/05/23
+
+* Update flutter_map to 4.0.0.
+* Change latlong2 version constraint to match flutter_map.
+
 ## [4.0.3] - 02/05/23
 
 * Change marker comparison method so that FlutterMap plugins that use this plugin can wrap Markers
