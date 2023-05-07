@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
-import 'package:flutter_map_marker_popup_example/font/accurate_map_icons.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'example_popup.dart';
+import 'font/accurate_map_icons.dart';
 
 class MapWithPopups extends StatefulWidget {
   final PopupState popupState;

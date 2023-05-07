@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
-import 'package:flutter_map_marker_popup_example/drawer.dart';
 
+import 'drawer.dart';
 import 'map_with_popups.dart';
 
 /// NOTE:
