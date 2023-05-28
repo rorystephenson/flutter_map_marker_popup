@@ -36,9 +36,16 @@ class _SimpleMapWithPopupsState extends State<SimpleMapWithPopups> {
             height: 40,
             builder: (_) => const Icon(Icons.location_on, size: 40),
             anchorPos: AnchorPos.align(AnchorAlign.top),
+            rotateAlignment: AnchorAlign.top.rotationAlignment,
           ),
         )
         .toList();
+  }
+
+  @override
+  void dispose() {
+    _popupLayerController.dispose();
+    super.dispose();
   }
 
   @override
@@ -60,14 +67,14 @@ class _SimpleMapWithPopupsState extends State<SimpleMapWithPopups> {
             urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             subdomains: const ['a', 'b', 'c'],
           ),
-          PopupMarkerLayerWidget(
+          PopupMarkerLayer(
             options: PopupMarkerLayerOptions(
               popupController: _popupLayerController,
               markers: _markers,
-              markerRotateAlignment:
-                  PopupMarkerLayerOptions.rotationAlignmentFor(AnchorAlign.top),
-              popupBuilder: (BuildContext context, Marker marker) =>
-                  ExamplePopup(marker),
+              popupDisplayOptions: PopupDisplayOptions(
+                builder: (BuildContext context, Marker marker) =>
+                    ExamplePopup(marker),
+              ),
             ),
           ),
         ],

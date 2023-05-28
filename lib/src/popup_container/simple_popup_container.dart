@@ -4,33 +4,25 @@ import 'dart:collection';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_popup/src/popup_builder.dart';
-import 'package:flutter_map_marker_popup/src/popup_event.dart';
+import 'package:flutter_map_marker_popup/src/popup_container/popup_container_mixin.dart';
 import 'package:flutter_map_marker_popup/src/popup_snap.dart';
-
-import '../popup_controller_impl.dart';
-import '../popup_state_impl.dart';
-import 'marker_with_key.dart';
-import 'popup_container_mixin.dart';
+import 'package:flutter_map_marker_popup/src/popup_spec.dart';
+import 'package:flutter_map_marker_popup/src/state/popup_event.dart';
+import 'package:flutter_map_marker_popup/src/state/popup_state_impl.dart';
 
 class SimplePopupContainer extends StatefulWidget {
   final FlutterMapState mapState;
   final PopupStateImpl popupStateImpl;
-  final PopupControllerImpl popupControllerImpl;
   final PopupBuilder popupBuilder;
   final PopupSnap snap;
-  final bool markerRotate;
-  final Function(PopupEvent event, List<Marker> selectedMarkers)? onPopupEvent;
 
   const SimplePopupContainer({
+    super.key,
     required this.mapState,
     required this.popupStateImpl,
-    required this.popupControllerImpl,
     required this.snap,
     required this.popupBuilder,
-    required this.markerRotate,
-    required this.onPopupEvent,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => _SimplePopupContainerState();
@@ -38,9 +30,9 @@ class SimplePopupContainer extends StatefulWidget {
 
 class _SimplePopupContainerState extends State<SimplePopupContainer>
     with PopupContainerMixin {
-  late Set<MarkerWithKey> _selectedMarkersWithKeys;
+  late Set<PopupSpec> _selectedPopupSpecs;
 
-  late StreamSubscription<PopupEvent> _popupEventSubscription;
+  late StreamSubscription<PopupEvent> _popupStateEventSubscription;
 
   @override
   FlutterMapState get mapState => widget.mapState;
@@ -52,51 +44,43 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
   PopupSnap get snap => widget.snap;
 
   @override
-  bool get markerRotate => widget.markerRotate;
-
-  @override
-  Function(PopupEvent event, List<Marker> selectedMarkers)? get onPopupEvent =>
-      widget.onPopupEvent;
-
-  @override
   void initState() {
     super.initState();
-    _popupEventSubscription = widget
-        .popupControllerImpl.streamController!.stream
-        .listen((PopupEvent popupEvent) => handleAction(popupEvent));
-    _selectedMarkersWithKeys =
-        LinkedHashSet.from(widget.popupStateImpl.selectedMarkersWithKeys);
+    _popupStateEventSubscription =
+        widget.popupStateImpl.stream.listen(handleEvent);
+    _selectedPopupSpecs = LinkedHashSet.from(
+      widget.popupStateImpl.selectedMarkers.map(PopupSpec.wrap),
+    );
   }
 
   @override
   void didUpdateWidget(covariant SimplePopupContainer oldWidget) {
-    if (oldWidget.popupControllerImpl != widget.popupControllerImpl) {
-      _popupEventSubscription.cancel();
-      _popupEventSubscription = widget
-          .popupControllerImpl.streamController!.stream
-          .listen((PopupEvent popupEvent) => handleAction(popupEvent));
-      _selectedMarkersWithKeys
+    if (oldWidget.popupStateImpl != widget.popupStateImpl) {
+      _popupStateEventSubscription.cancel();
+      _popupStateEventSubscription =
+          widget.popupStateImpl.stream.listen(handleEvent);
+      _selectedPopupSpecs
         ..clear()
-        ..addAll(widget.popupStateImpl.selectedMarkersWithKeys);
+        ..addAll(widget.popupStateImpl.selectedPopupSpecs);
     }
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   void dispose() {
-    _popupEventSubscription.cancel();
+    _popupStateEventSubscription.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_selectedMarkersWithKeys.isEmpty) return Container();
+    if (_selectedPopupSpecs.isEmpty) return Container();
 
     return Stack(
-      children: _selectedMarkersWithKeys
-          .map((markerWithKey) => inPosition(
-                markerWithKey.marker,
-                popupWithStateKeepAlive(markerWithKey, widget.popupBuilder),
+      children: _selectedPopupSpecs
+          .map((popupSpec) => inPosition(
+                popupSpec,
+                popupWithStateKeepAlive(popupSpec, widget.popupBuilder),
               ))
           .toList(),
     );
@@ -104,41 +88,41 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
 
   @override
   void showPopupsAlsoFor(
-    List<MarkerWithKey> markersWithKeys, {
+    List<PopupSpec> popupSpecs, {
     required bool disableAnimation,
   }) {
     setState(() {
-      _selectedMarkersWithKeys.addAll(markersWithKeys);
+      _selectedPopupSpecs.addAll(popupSpecs);
     });
   }
 
   @override
   void showPopupsOnlyFor(
-    List<MarkerWithKey> markersWithKeys, {
+    List<PopupSpec> popupSpecs, {
     required bool disableAnimation,
   }) {
     setState(() {
-      _selectedMarkersWithKeys.clear();
-      _selectedMarkersWithKeys.addAll(markersWithKeys);
+      _selectedPopupSpecs.clear();
+      _selectedPopupSpecs.addAll(popupSpecs);
     });
   }
 
   @override
   void hideAllPopups({required bool disableAnimation}) {
-    if (_selectedMarkersWithKeys.isNotEmpty) {
+    if (_selectedPopupSpecs.isNotEmpty) {
       setState(() {
-        _selectedMarkersWithKeys.clear();
+        _selectedPopupSpecs.clear();
       });
     }
   }
 
   @override
   void hidePopupsOnlyFor(
-    List<Marker> markers, {
+    List<PopupSpec> popupSpecs, {
     required bool disableAnimation,
   }) {
     setState(() {
-      _selectedMarkersWithKeys.removeAll(markers.map(MarkerWithKey.wrap));
+      _selectedPopupSpecs.removeAll(popupSpecs);
     });
   }
 }

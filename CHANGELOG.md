@@ -1,3 +1,41 @@
+## [5.0.0] - 28/05/23
+
+This version includes extensive changes which were necessary to allow popups
+from multiple marker layers to overlay their markers i.e. a PopupMarkerLayer
+and a SuperclusterLayer can be displayed on the same map and their popups will
+overlay both layers' markers.
+
+* BREAKING: Now requires flutter_map 4.0.0 or higher.
+* BREAKING: PopupController now has a dispose() method which must be called by
+  the code that creates it.
+* DEPRECATED: PopupMarkerLayerWidget is now called PopupMarkerLayer. 
+* BREAKING: The following options are now part of PopupDisplayOptions:
+  - popupBuilder (builder)
+  - popupSnap (snap)
+  - popupAnimation (animation)
+* BREAKING: The following marker rotation options have been removed, they
+  should be set on the markers themselves:
+  - markerRotate
+  - markerRotateAlignment
+  - markerAnchorAlign
+* BREAKING: The onPopupEvent's returned options have now changed. The
+  selectedMarkers argument now contains the markers *after* the event and the
+  events names have changed to reflect that they are past tense. The toggle
+  event is also now removed and the relevant show/hide event will be called
+  instead depending on whether the marker was visible or not.
+* FEATURE: PopupController now has a hidePopupsWhere method which allows you to
+  hide popups based on their markers.
+* FEATURE: PopupScope has two new optional parameters:
+  - popupController: Provide a controller to control visible popups.
+  - onPopupEvent: A Function which is called whenever the PopupState emits an
+    event.
+* BREAKING: PopupStateWrapper is now replaced with InheritOrCreatePopupScope.
+  It now supports onPopupEvent and initiallySelectedMarkers.
+* DEPRECATED: PopupMarkerLayerOptions.rotationAlignmentFor has been replaced
+  a new rotateAlignment extension method on AnchorAlign. So
+  PopupMarkerLayerOptions.rotationAlignmentFor(AnchorAlign.top) becomes
+  AnchorAlign.top.rotationAlignment.
+
 ## [4.1.0] - 07/05/23
 
 * Update flutter_map to 4.0.0.

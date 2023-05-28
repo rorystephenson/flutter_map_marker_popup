@@ -101,7 +101,7 @@ class _MarkerLayerState extends State<MarkerLayer>
           }
 
           widget.layerOptions.markerTapBehavior.apply(
-            marker,
+            PopupSpec.wrap(marker),
             widget.popupState,
             widget.popupController,
           );
@@ -109,14 +109,10 @@ class _MarkerLayerState extends State<MarkerLayer>
         child: markerBuilder(context),
       );
 
-      final markerRotate = widget.layerOptions.rotate;
-
       Widget markerWidget;
-      if (marker.rotate ?? markerRotate) {
-        final markerRotateOrigin =
-            marker.rotateOrigin ?? widget.layerOptions.rotateOrigin;
-        final markerRotateAlignment =
-            marker.rotateAlignment ?? widget.layerOptions.rotateAlignment;
+      if (marker.rotate == true) {
+        final markerRotateOrigin = marker.rotateOrigin;
+        final markerRotateAlignment = marker.rotateAlignment;
 
         // Counter rotated marker to the map rotation
         markerWidget = Transform.rotate(

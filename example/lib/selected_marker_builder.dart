@@ -36,6 +36,7 @@ class _SelectedMarkerBuilderState extends State<SelectedMarkerBuilder> {
             height: 40,
             builder: (_) => const Icon(Icons.location_on, size: 40),
             anchorPos: AnchorPos.align(AnchorAlign.top),
+            rotateAlignment: AnchorAlign.top.rotationAlignment,
           ),
         )
         .toList();
@@ -60,14 +61,14 @@ class _SelectedMarkerBuilderState extends State<SelectedMarkerBuilder> {
             urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             subdomains: const ['a', 'b', 'c'],
           ),
-          PopupMarkerLayerWidget(
+          PopupMarkerLayer(
             options: PopupMarkerLayerOptions(
               popupController: _popupLayerController,
               markers: _markers,
-              markerRotateAlignment:
-                  PopupMarkerLayerOptions.rotationAlignmentFor(AnchorAlign.top),
-              popupBuilder: (BuildContext context, Marker marker) =>
-                  ExamplePopup(marker),
+              popupDisplayOptions: PopupDisplayOptions(
+                builder: (BuildContext context, Marker marker) =>
+                    ExamplePopup(marker),
+              ),
               selectedMarkerBuilder: (context, marker) => const Icon(
                 Icons.location_on,
                 size: 40,

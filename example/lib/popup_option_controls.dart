@@ -27,12 +27,21 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
     Alignment.center,
   ];
 
+  final _popupController = PopupController();
+
   bool rotate = true;
   bool fade = true;
   bool snapToMarker = true;
   AlignmentGeometry popupAlignment = alignments[1];
   AlignmentGeometry anchorAlignment = alignments[1];
   bool showMultiplePopups = false;
+  bool showPopups = true;
+
+  @override
+  void dispose() {
+    _popupController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +53,17 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
         children: [
           Expanded(
             child: PopupScope(
+              popupController: _popupController,
               child: Builder(builder: (context) {
                 return MapWithPopups(
+                  popupController: _popupController,
                   popupState: PopupState.maybeOf(context, listen: false)!,
                   snap: _popupSnap,
                   rotate: rotate,
                   fade: fade,
                   markerAnchorAlign: _markerAnchorAlign,
                   showMultiplePopups: showMultiplePopups,
+                  showPopups: showPopups,
                 );
               }),
             ),
@@ -166,20 +178,47 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
                     ),
                   ],
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
                   children: [
-                    const Text(
-                      '\nShow multiple',
-                      style: TextStyle(fontSize: 18),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          '\nShow popups',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        Switch(
+                          value: showPopups,
+                          onChanged: (newValue) {
+                            setState(() {
+                              showPopups = newValue;
+                            });
+                          },
+                        ),
+                      ],
                     ),
-                    Switch(
-                        value: showMultiplePopups,
-                        onChanged: (newValue) {
-                          setState(() {
-                            showMultiplePopups = newValue;
-                          });
-                        })
+                    const SizedBox(width: 20),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          '\nShow multiple',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        Switch(
+                          value: showMultiplePopups,
+                          onChanged: !showPopups
+                              ? null
+                              : (newValue) {
+                                  setState(() {
+                                    showMultiplePopups = newValue;
+                                  });
+                                },
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ],

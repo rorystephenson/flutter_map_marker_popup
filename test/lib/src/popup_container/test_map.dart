@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
+import 'package:flutter_map_marker_popup/src/controller/popup_controller.dart';
+import 'package:flutter_map_marker_popup/src/options/popup_display_options.dart';
+import 'package:flutter_map_marker_popup/src/options/popup_marker_layer_options.dart';
+import 'package:flutter_map_marker_popup/src/popup_animation.dart';
+import 'package:flutter_map_marker_popup/src/popup_marker_layer.dart';
 
 import '../../../test_wrapped_marker.dart';
 
@@ -22,19 +26,17 @@ class TestMap extends StatelessWidget {
       home: FlutterMap(
         options: MapOptions(center: markerA.point),
         children: [
-          PopupMarkerLayerWidget(
+          PopupMarkerLayer(
             options: PopupMarkerLayerOptions(
               popupController: popupController,
-              popupAnimation: popupAnimation,
+              popupDisplayOptions: PopupDisplayOptions(
+                animation: popupAnimation,
+                builder: (BuildContext context, Marker marker) => Container(
+                  color: Colors.white,
+                  child: Text(_markerText(marker)),
+                ),
+              ),
               markers: _markers,
-              markerRotateAlignment:
-                  PopupMarkerLayerOptions.rotationAlignmentFor(
-                AnchorAlign.top,
-              ),
-              popupBuilder: (BuildContext context, Marker marker) => Container(
-                color: Colors.white,
-                child: Text(_markerText(marker)),
-              ),
             ),
           )
         ],

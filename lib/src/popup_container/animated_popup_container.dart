@@ -6,32 +6,24 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_popup/src/popup_animation.dart';
 import 'package:flutter_map_marker_popup/src/popup_builder.dart';
 import 'package:flutter_map_marker_popup/src/popup_container/popup_container_mixin.dart';
-import 'package:flutter_map_marker_popup/src/popup_event.dart';
 import 'package:flutter_map_marker_popup/src/popup_snap.dart';
-
-import '../popup_controller_impl.dart';
-import '../popup_state_impl.dart';
-import 'marker_with_key.dart';
+import 'package:flutter_map_marker_popup/src/popup_spec.dart';
+import 'package:flutter_map_marker_popup/src/state/popup_event.dart';
+import 'package:flutter_map_marker_popup/src/state/popup_state_impl.dart';
 
 class AnimatedPopupContainer extends StatefulWidget {
   final FlutterMapState mapState;
   final PopupStateImpl popupStateImpl;
-  final PopupControllerImpl popupControllerImpl;
   final PopupBuilder popupBuilder;
   final PopupSnap snap;
   final PopupAnimation popupAnimation;
-  final bool markerRotate;
-  final Function(PopupEvent event, List<Marker> selectedMarkers)? onPopupEvent;
 
   const AnimatedPopupContainer({
     required this.mapState,
     required this.popupStateImpl,
-    required this.popupControllerImpl,
     required this.snap,
     required this.popupBuilder,
     required this.popupAnimation,
-    required this.markerRotate,
-    required this.onPopupEvent,
     Key? key,
   }) : super(key: key);
 
@@ -50,18 +42,11 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
   @override
   PopupSnap get snap => widget.snap;
 
-  @override
-  bool get markerRotate => widget.markerRotate;
-
-  @override
-  Function(PopupEvent event, List<Marker> selectedMarkers)? get onPopupEvent =>
-      widget.onPopupEvent;
-
   final GlobalKey<AnimatedStackState> _animatedStackKey =
       GlobalKey<AnimatedStackState>();
 
-  late AnimatedStackManager<MarkerWithKey> _animatedStackManager;
-  late StreamSubscription<PopupEvent> _popupEventSubscription;
+  late AnimatedStackManager<PopupSpec> _animatedStackManager;
+  late StreamSubscription<PopupEvent> _popupStateEventSubscription;
 
   _AnimatedPopupContainerState();
 
@@ -69,42 +54,41 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
   void initState() {
     super.initState();
 
-    _animatedStackManager = AnimatedStackManager<MarkerWithKey>(
+    _animatedStackManager = AnimatedStackManager<PopupSpec>(
       animatedStackKey: _animatedStackKey,
       removedItemBuilder: (marker, _, animation) =>
           _buildPopup(marker, animation, allowTap: false),
       duration: widget.popupAnimation.duration,
-      initialItems: widget.popupStateImpl.selectedMarkersWithKeys,
+      initialItems: widget.popupStateImpl.selectedMarkers.map(PopupSpec.wrap),
     );
-    _popupEventSubscription = widget
-        .popupControllerImpl.streamController!.stream
-        .listen((PopupEvent popupEvent) => handleAction(popupEvent));
+    _popupStateEventSubscription =
+        widget.popupStateImpl.stream.listen(handleEvent);
   }
 
   @override
   void didUpdateWidget(covariant AnimatedPopupContainer oldWidget) {
-    if (oldWidget.popupControllerImpl != widget.popupControllerImpl) {
-      _popupEventSubscription.cancel();
-      _popupEventSubscription = widget
-          .popupControllerImpl.streamController!.stream
-          .listen((PopupEvent popupEvent) => handleAction(popupEvent));
+    if (oldWidget.popupStateImpl != widget.popupStateImpl) {
+      _popupStateEventSubscription.cancel();
+      _popupStateEventSubscription =
+          widget.popupStateImpl.stream.listen(handleEvent);
 
       _animatedStackManager.clear(duration: Duration.zero);
-      for (final selectedMarker
-          in widget.popupStateImpl.selectedMarkersWithKeys) {
+      for (final selectedPopupSpec
+          in widget.popupStateImpl.selectedPopupSpecs) {
         _animatedStackManager.insert(
           _animatedStackManager.length - 1,
-          selectedMarker,
+          selectedPopupSpec,
           duration: Duration.zero,
         );
       }
     }
+
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   void dispose() {
-    _popupEventSubscription.cancel();
+    _popupStateEventSubscription.cancel();
     super.dispose();
   }
 
@@ -123,7 +107,7 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
   }
 
   Widget _buildPopup(
-    MarkerWithKey markerWithKey,
+    PopupSpec popupSpec,
     Animation<double> animation, {
     bool allowTap = true,
   }) {
@@ -135,24 +119,24 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
           child: child,
         );
       },
-      child: popupWithStateKeepAlive(markerWithKey, widget.popupBuilder),
+      child: popupWithStateKeepAlive(popupSpec, widget.popupBuilder),
     );
 
     if (!allowTap) animatedPopup = IgnorePointer(child: animatedPopup);
 
-    return inPosition(markerWithKey.marker, animatedPopup);
+    return inPosition(popupSpec, animatedPopup);
   }
 
   @override
   void showPopupsAlsoFor(
-    List<MarkerWithKey> markersWithKeys, {
+    List<PopupSpec> popupSpecs, {
     required bool disableAnimation,
   }) {
-    for (final markerWithKey in markersWithKeys) {
-      if (!_animatedStackManager.contains(markerWithKey)) {
+    for (final popupSpec in popupSpecs) {
+      if (!_animatedStackManager.contains(popupSpec)) {
         _animatedStackManager.insert(
           _animatedStackManager.length,
-          markerWithKey,
+          popupSpec,
           duration: disableAnimation ? Duration.zero : null,
         );
       }
@@ -161,18 +145,18 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
 
   @override
   void showPopupsOnlyFor(
-    List<MarkerWithKey> markersWithKeys, {
+    List<PopupSpec> popupSpecs, {
     required bool disableAnimation,
   }) {
     _animatedStackManager.removeWhere(
-      (markerWithKey) => !markersWithKeys.contains(markerWithKey),
+      (popupSpec) => !popupSpecs.contains(popupSpec),
       duration: disableAnimation ? Duration.zero : null,
     );
-    for (final markerWithKey in markersWithKeys) {
-      if (!_animatedStackManager.contains(markerWithKey)) {
+    for (final popupSpec in popupSpecs) {
+      if (!_animatedStackManager.contains(popupSpec)) {
         _animatedStackManager.insert(
           _animatedStackManager.length,
-          markerWithKey,
+          popupSpec,
           duration: disableAnimation ? Duration.zero : null,
         );
       }
@@ -181,12 +165,12 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
 
   @override
   void hidePopupsOnlyFor(
-    List<Marker> markers, {
+    List<PopupSpec> popupSpecs, {
     required bool disableAnimation,
   }) {
-    final wrappedMarkers = markers.map(MarkerWithKey.wrap);
-    _animatedStackManager
-        .removeWhere((markerWithKey) => wrappedMarkers.contains(markerWithKey));
+    _animatedStackManager.removeWhere(
+      (popupSpec) => popupSpecs.contains(popupSpec),
+    );
   }
 
   @override

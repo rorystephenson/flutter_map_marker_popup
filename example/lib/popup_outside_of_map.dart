@@ -40,6 +40,12 @@ class _PopupOutsideOfMapState extends State<PopupOutsideOfMap> {
   }
 
   @override
+  void dispose() {
+    _popupLayerController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return PopupScope(
       child: Scaffold(
@@ -64,7 +70,7 @@ class _PopupOutsideOfMapState extends State<PopupOutsideOfMap> {
                               'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                           subdomains: const ['a', 'b', 'c'],
                         ),
-                        PopupMarkerLayerWidget(
+                        PopupMarkerLayer(
                           options: PopupMarkerLayerOptions(
                             popupController: _popupLayerController,
                             markers: _markers,

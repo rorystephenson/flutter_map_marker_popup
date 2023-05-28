@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_popup/src/popup_snap.dart';
+import 'package:flutter_map_marker_popup/src/popup_spec.dart';
 
 import 'snap_to_map_layout.dart';
 import 'snap_to_marker_layout.dart';
@@ -26,21 +27,20 @@ class PopupLayout {
 
   static PopupLayout calculate({
     required FlutterMapState mapState,
-    required Marker marker,
+    required PopupSpec popupSpec,
     required PopupSnap snap,
-    required bool markerRotate,
   }) {
     switch (snap) {
       case PopupSnap.markerLeft:
-        return SnapToMarkerLayout.left(mapState, marker, markerRotate);
+        return SnapToMarkerLayout.left(mapState, popupSpec);
       case PopupSnap.markerTop:
-        return SnapToMarkerLayout.top(mapState, marker, markerRotate);
+        return SnapToMarkerLayout.top(mapState, popupSpec);
       case PopupSnap.markerRight:
-        return SnapToMarkerLayout.right(mapState, marker, markerRotate);
+        return SnapToMarkerLayout.right(mapState, popupSpec);
       case PopupSnap.markerBottom:
-        return SnapToMarkerLayout.bottom(mapState, marker, markerRotate);
+        return SnapToMarkerLayout.bottom(mapState, popupSpec);
       case PopupSnap.markerCenter:
-        return SnapToMarkerLayout.center(mapState, marker, markerRotate);
+        return SnapToMarkerLayout.center(mapState, popupSpec);
       case PopupSnap.mapLeft:
         return SnapToMapLayout.left(mapState);
       case PopupSnap.mapTop:
@@ -52,7 +52,7 @@ class PopupLayout {
       case PopupSnap.mapCenter:
         return SnapToMapLayout.center(mapState);
       default:
-        return SnapToMarkerLayout.top(mapState, marker, markerRotate);
+        return SnapToMarkerLayout.top(mapState, popupSpec);
     }
   }
 }

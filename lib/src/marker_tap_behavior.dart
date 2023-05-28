@@ -1,11 +1,9 @@
-import 'package:flutter_map/plugin_api.dart';
-
 import '../flutter_map_marker_popup.dart';
 
 /// Controls what happens when a Marker is tapped.
 class MarkerTapBehavior {
   final Function(
-    Marker marker,
+    PopupSpec popupSpec,
     PopupState popupState,
     PopupController popupController,
   ) _onTap;
@@ -14,14 +12,14 @@ class MarkerTapBehavior {
   /// the recommended behavior if you only want to show one popup at a time.
   MarkerTapBehavior.togglePopupAndHideRest()
       : _onTap = ((
-          Marker marker,
+          PopupSpec popupSpec,
           PopupState popupState,
           PopupController popupController,
         ) {
-          if (popupState.selectedMarkers.contains(marker)) {
+          if (popupState.selectedPopupSpecs.contains(popupSpec)) {
             popupController.hideAllPopups();
           } else {
-            popupController.showPopupsOnlyFor([marker]);
+            popupController.showPopupsOnlyForSpecs([popupSpec]);
           }
         });
 
@@ -30,18 +28,18 @@ class MarkerTapBehavior {
   /// popups at once.
   MarkerTapBehavior.togglePopup()
       : _onTap = ((
-          Marker marker,
+          PopupSpec popupSpec,
           PopupState popupState,
           PopupController popupController,
         ) {
-          popupController.togglePopup(marker);
+          popupController.togglePopupSpec(popupSpec);
         });
 
   /// Do nothing when tapping the marker. This is useful if you want to control
   /// popups exclusively with the [PopupController].
   MarkerTapBehavior.none(
       Function(
-    Marker marker,
+    PopupSpec popupSpec,
     PopupState popupState,
     PopupController popupController,
   )
@@ -51,7 +49,7 @@ class MarkerTapBehavior {
   /// Define your own custom behavior when tapping a marker.
   MarkerTapBehavior.custom(
       Function(
-    Marker marker,
+    PopupSpec popupSpec,
     PopupState popupState,
     PopupController popupController,
   )
@@ -59,9 +57,9 @@ class MarkerTapBehavior {
       : _onTap = onTap;
 
   void apply(
-    Marker marker,
+    PopupSpec popupSpec,
     PopupState popupState,
     PopupController popupController,
   ) =>
-      _onTap(marker, popupState, popupController);
+      _onTap(popupSpec, popupState, popupController);
 }

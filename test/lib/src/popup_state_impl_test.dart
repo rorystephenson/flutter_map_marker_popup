@@ -1,5 +1,6 @@
-import 'package:flutter_map_marker_popup/src/popup_container/marker_with_key.dart';
-import 'package:flutter_map_marker_popup/src/popup_state_impl.dart';
+import 'package:flutter_map_marker_popup/src/controller/popup_controller_event.dart';
+import 'package:flutter_map_marker_popup/src/popup_spec.dart';
+import 'package:flutter_map_marker_popup/src/state/popup_state_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../test_wrapped_marker.dart';
@@ -8,14 +9,14 @@ void main() {
   group('PopupStateImpl', () {
     test('selectedMarkers', () {
       final popupStateImpl = PopupStateImpl(
-        initiallySelectedMarkers: [markerA],
+        initiallySelected: [popupSpecA],
       );
       expect(popupStateImpl.selectedMarkers, [markerA]);
     });
 
     test('isSelected with wrapped marker argument', () {
       final popupStateImpl = PopupStateImpl(
-        initiallySelectedMarkers: [markerA],
+        initiallySelected: [popupSpecA],
       );
       expect(popupStateImpl.isSelected(markerA), isTrue);
       expect(popupStateImpl.isSelected(wrappedMarkerA), isTrue);
@@ -25,7 +26,7 @@ void main() {
 
     test('isSelected with wrapped marker selected', () {
       final popupStateImpl = PopupStateImpl(
-        initiallySelectedMarkers: [wrappedMarkerA],
+        initiallySelected: [PopupSpec.wrap(wrappedMarkerA)],
       );
       expect(popupStateImpl.isSelected(markerA), isTrue);
       expect(popupStateImpl.isSelected(wrappedMarkerA), isTrue);
@@ -33,50 +34,158 @@ void main() {
       expect(popupStateImpl.isSelected(wrappedMarkerB), isFalse);
     });
 
-    test('addAll', () {
+    test('ShowPopupsAlsoForControllerEvent', () {
       final popupStateImpl = PopupStateImpl();
       int notifyCount = 0;
       popupStateImpl.addListener(() => notifyCount++);
 
-      expect(popupStateImpl.isSelected(markerA), isFalse);
-      expect(popupStateImpl.isSelected(markerB), isFalse);
-      popupStateImpl.addAll([markerA, markerB].map(MarkerWithKey.wrap));
-      expect(popupStateImpl.isSelected(markerA), isTrue);
-      expect(popupStateImpl.isSelected(markerB), isTrue);
+      expect(popupStateImpl.selectedMarkers, isEmpty);
+      popupStateImpl.applyEvent(
+        ShowPopupsAlsoForControllerEvent(
+          [popupSpecA],
+          disableAnimation: false,
+        ),
+      );
+      expect(popupStateImpl.selectedMarkers, [markerA]);
+      popupStateImpl.applyEvent(
+        ShowPopupsAlsoForControllerEvent(
+          [popupSpecB],
+          disableAnimation: false,
+        ),
+      );
+      expect(popupStateImpl.selectedMarkers, [markerA, markerB]);
 
-      expect(notifyCount, 1);
+      expect(notifyCount, 2);
     });
 
-    test('clear', () {
-      final popupStateImpl = PopupStateImpl(
-        initiallySelectedMarkers: [markerA],
-      );
+    test('ShowPopupsOnlyForControllerEvent', () {
+      final popupStateImpl = PopupStateImpl();
       int notifyCount = 0;
       popupStateImpl.addListener(() => notifyCount++);
-
-      popupStateImpl.clear();
 
       expect(popupStateImpl.selectedMarkers, isEmpty);
-      expect(popupStateImpl.isSelected(markerA), isFalse);
-      expect(popupStateImpl.isSelected(markerB), isFalse);
+      popupStateImpl.applyEvent(
+        ShowPopupsOnlyForControllerEvent(
+          [popupSpecA],
+          disableAnimation: false,
+        ),
+      );
+      expect(popupStateImpl.selectedMarkers, [markerA]);
+      popupStateImpl.applyEvent(
+        ShowPopupsOnlyForControllerEvent(
+          [popupSpecB],
+          disableAnimation: false,
+        ),
+      );
+      expect(popupStateImpl.selectedMarkers, [markerB]);
 
-      expect(notifyCount, 1);
+      expect(notifyCount, 2);
     });
 
-    test('removeAll', () {
+    test('HideAllPopupsControllerEvent', () {
       final popupStateImpl = PopupStateImpl(
-        initiallySelectedMarkers: [markerA, markerB],
+        initiallySelected: [popupSpecA, popupSpecB],
       );
       int notifyCount = 0;
       popupStateImpl.addListener(() => notifyCount++);
 
-      popupStateImpl.removeAll([markerB]);
-
-      expect(popupStateImpl.selectedMarkers, [markerA]);
-      expect(popupStateImpl.isSelected(markerA), isTrue);
-      expect(popupStateImpl.isSelected(markerB), isFalse);
+      expect(popupStateImpl.selectedMarkers, [markerA, markerB]);
+      popupStateImpl.applyEvent(
+        const HideAllPopupsControllerEvent(disableAnimation: false),
+      );
+      expect(popupStateImpl.selectedMarkers, isEmpty);
 
       expect(notifyCount, 1);
+    });
+
+    test('HidePopupsWhereControllerEvent', () {
+      final popupStateImpl = PopupStateImpl(
+        initiallySelected: [popupSpecA, popupSpecB],
+      );
+      int notifyCount = 0;
+      popupStateImpl.addListener(() => notifyCount++);
+
+      expect(popupStateImpl.selectedMarkers, [markerA, markerB]);
+      popupStateImpl.applyEvent(
+        HidePopupsWhereControllerEvent(
+          (popupSpec) => popupSpec.marker.point == markerA.point,
+          disableAnimation: false,
+        ),
+      );
+      expect(popupStateImpl.selectedMarkers, [markerB]);
+      popupStateImpl.applyEvent(
+        HidePopupsWhereControllerEvent(
+          (popupSpec) => popupSpec.marker.point == markerB.point,
+          disableAnimation: false,
+        ),
+      );
+      expect(popupStateImpl.selectedMarkers, isEmpty);
+
+      expect(notifyCount, 2);
+    });
+
+    test('HidePopupsOnlyForControllerEvent', () {
+      final popupStateImpl = PopupStateImpl(
+        initiallySelected: [popupSpecA, popupSpecB],
+      );
+      int notifyCount = 0;
+      popupStateImpl.addListener(() => notifyCount++);
+
+      expect(popupStateImpl.selectedMarkers, [markerA, markerB]);
+      popupStateImpl.applyEvent(
+        HidePopupsOnlyForControllerEvent(
+          [popupSpecA],
+          disableAnimation: false,
+        ),
+      );
+      expect(popupStateImpl.selectedMarkers, [markerB]);
+      popupStateImpl.applyEvent(
+        HidePopupsOnlyForControllerEvent(
+          [popupSpecB],
+          disableAnimation: false,
+        ),
+      );
+      expect(popupStateImpl.selectedMarkers, isEmpty);
+
+      expect(notifyCount, 2);
+    });
+
+    test('TogglePopupControllerEvent', () {
+      final popupStateImpl = PopupStateImpl();
+      int notifyCount = 0;
+      popupStateImpl.addListener(() => notifyCount++);
+
+      expect(popupStateImpl.selectedMarkers, isEmpty);
+      popupStateImpl.applyEvent(
+        TogglePopupControllerEvent(
+          popupSpecA,
+          disableAnimation: false,
+        ),
+      );
+      expect(popupStateImpl.selectedMarkers, [markerA]);
+      popupStateImpl.applyEvent(
+        TogglePopupControllerEvent(
+          popupSpecB,
+          disableAnimation: false,
+        ),
+      );
+      expect(popupStateImpl.selectedMarkers, [markerA, markerB]);
+      popupStateImpl.applyEvent(
+        TogglePopupControllerEvent(
+          popupSpecA,
+          disableAnimation: false,
+        ),
+      );
+      expect(popupStateImpl.selectedMarkers, [markerB]);
+      popupStateImpl.applyEvent(
+        TogglePopupControllerEvent(
+          popupSpecB,
+          disableAnimation: false,
+        ),
+      );
+      expect(popupStateImpl.selectedMarkers, isEmpty);
+
+      expect(notifyCount, 4);
     });
   });
 }

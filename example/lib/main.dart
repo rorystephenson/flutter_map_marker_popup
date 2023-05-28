@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map_marker_popup_example/map_with_separate_popups.dart';
 
 import 'popup_option_controls.dart';
 import 'popup_outside_of_map.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         SimpleMapWithPopups.route: (context) => const SimpleMapWithPopups(),
         SelectedMarkerBuilder.route: (context) => const SelectedMarkerBuilder(),
         PopupOutsideOfMap.route: (context) => const PopupOutsideOfMap(),
+        MapWithSeparatePopups.route: (context) => const MapWithSeparatePopups(),
       },
     );
   }

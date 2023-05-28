@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_popup/src/layout/popup_container_translate.dart';
+import 'package:flutter_map_marker_popup/src/popup_spec.dart';
 
 import 'popup_layout.dart';
 
@@ -20,71 +21,66 @@ import 'popup_layout.dart';
 abstract class SnapToMarkerLayout {
   static PopupLayout left(
     FlutterMapState mapState,
-    Marker marker,
-    bool markerRotate,
+    PopupSpec popupSpec,
   ) {
     return PopupLayout(
       contentAlignment: Alignment.centerRight,
       rotationAlignment: Alignment.centerRight,
-      transformationMatrix: marker.rotate ?? markerRotate
-          ? PopupContainerTransform.toLeftOfRotatedMarker(mapState, marker)
-          : PopupContainerTransform.toLeftOfMarker(mapState, marker),
+      transformationMatrix: popupSpec.markerRotate
+          ? PopupContainerTransform.toLeftOfRotatedMarker(mapState, popupSpec)
+          : PopupContainerTransform.toLeftOfMarker(mapState, popupSpec),
     );
   }
 
   static PopupLayout top(
     FlutterMapState mapState,
-    Marker marker,
-    bool markerRotate,
+    PopupSpec popupSpec,
   ) {
     return PopupLayout(
       contentAlignment: Alignment.bottomCenter,
       rotationAlignment: Alignment.bottomCenter,
-      transformationMatrix: marker.rotate ?? markerRotate
-          ? PopupContainerTransform.toTopOfRotatedMarker(mapState, marker)
-          : PopupContainerTransform.toTopOfMarker(mapState, marker),
+      transformationMatrix: popupSpec.markerRotate
+          ? PopupContainerTransform.toTopOfRotatedMarker(mapState, popupSpec)
+          : PopupContainerTransform.toTopOfMarker(mapState, popupSpec),
     );
   }
 
   static PopupLayout right(
     FlutterMapState mapState,
-    Marker marker,
-    bool markerRotate,
+    PopupSpec popupSpec,
   ) {
     return PopupLayout(
       contentAlignment: Alignment.centerLeft,
       rotationAlignment: Alignment.centerLeft,
-      transformationMatrix: marker.rotate ?? markerRotate
-          ? PopupContainerTransform.toRightOfRotatedMarker(mapState, marker)
-          : PopupContainerTransform.toRightOfMarker(mapState, marker),
+      transformationMatrix: popupSpec.markerRotate
+          ? PopupContainerTransform.toRightOfRotatedMarker(mapState, popupSpec)
+          : PopupContainerTransform.toRightOfMarker(mapState, popupSpec),
     );
   }
 
   static PopupLayout bottom(
     FlutterMapState mapState,
-    Marker marker,
-    bool markerRotate,
+    PopupSpec popupSpec,
   ) {
     return PopupLayout(
       contentAlignment: Alignment.topCenter,
       rotationAlignment: Alignment.topCenter,
-      transformationMatrix: marker.rotate ?? markerRotate
-          ? PopupContainerTransform.toBottomOfRotatedMarker(mapState, marker)
-          : PopupContainerTransform.toBottomOfMarker(mapState, marker),
+      transformationMatrix: popupSpec.markerRotate
+          ? PopupContainerTransform.toBottomOfRotatedMarker(mapState, popupSpec)
+          : PopupContainerTransform.toBottomOfMarker(mapState, popupSpec),
     );
   }
 
   static PopupLayout center(
     FlutterMapState mapState,
-    Marker marker,
-    bool markerRotate,
+    PopupSpec popupSpec,
   ) {
     return PopupLayout(
       contentAlignment: Alignment.center,
       rotationAlignment: Alignment.center,
-      transformationMatrix: marker.rotate ?? markerRotate
-          ? PopupContainerTransform.toCenterOfRotatedMarker(mapState, marker)
-          : PopupContainerTransform.toCenterOfMarker(mapState, marker),
+      transformationMatrix: popupSpec.markerRotate
+          ? PopupContainerTransform.toCenterOfRotatedMarker(mapState, popupSpec)
+          : PopupContainerTransform.toCenterOfMarker(mapState, popupSpec),
     );
   }
 }

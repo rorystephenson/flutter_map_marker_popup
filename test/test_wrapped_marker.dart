@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map_marker_popup/src/popup_spec.dart';
 import 'package:latlong2/latlong.dart';
 
 final markerA = Marker(
@@ -10,6 +11,8 @@ final markerA = Marker(
   point: LatLng(40.0, 10.0),
 );
 
+final popupSpecA = PopupSpec.wrap(markerA);
+
 final wrappedMarkerA = TestWrappedMarker(markerA);
 
 final markerB = Marker(
@@ -19,6 +22,8 @@ final markerB = Marker(
   ),
   point: LatLng(40.1, 10.1),
 );
+
+final popupSpecB = PopupSpec.wrap(markerB);
 
 final wrappedMarkerB = TestWrappedMarker(markerB);
 

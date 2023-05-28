@@ -2,11 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_popup/src/layout/popup_layout.dart';
-import 'package:flutter_map_marker_popup/src/popup_container/marker_with_key.dart';
 import 'package:flutter_map_marker_popup/src/popup_snap.dart';
-
-import '../popup_event.dart';
-import '../popup_state_impl.dart';
+import 'package:flutter_map_marker_popup/src/popup_spec.dart';
+import 'package:flutter_map_marker_popup/src/state/popup_event.dart';
+import 'package:flutter_map_marker_popup/src/state/popup_event_impl.dart';
+import 'package:flutter_map_marker_popup/src/state/popup_state_impl.dart';
 
 mixin PopupContainerMixin {
   FlutterMapState get mapState;
@@ -15,13 +15,9 @@ mixin PopupContainerMixin {
 
   PopupSnap get snap;
 
-  bool get markerRotate;
-
-  Function(PopupEvent event, List<Marker> selectedMarkers)? get onPopupEvent;
-
   @nonVirtual
-  Widget inPosition(Marker marker, Widget popup) {
-    final layout = popupLayout(marker);
+  Widget inPosition(PopupSpec popupSpec, Widget popup) {
+    final layout = popupLayout(popupSpec);
 
     return Positioned.fill(
       child: Transform(
@@ -36,106 +32,54 @@ mixin PopupContainerMixin {
   }
 
   @nonVirtual
-  PopupLayout popupLayout(Marker marker) {
+  PopupLayout popupLayout(PopupSpec popupSpec) {
     return PopupLayout.calculate(
       mapState: mapState,
-      marker: marker,
+      popupSpec: popupSpec,
       snap: snap,
-      markerRotate: markerRotate,
     );
   }
 
   /// This makes sure that the state of the popup stays with the popup even if
   /// it goes off screen or changes position in the widget tree.
   @nonVirtual
-  Widget popupWithStateKeepAlive(MarkerWithKey markerWithKey,
-      Widget Function(BuildContext, Marker) popupBuilder) {
+  Widget popupWithStateKeepAlive(
+    PopupSpec popupSpec,
+    Widget Function(BuildContext, Marker) popupBuilder,
+  ) {
     return Builder(
-      key: markerWithKey.key,
+      key: popupSpec.key,
       builder: (context) => popupBuilder(
         context,
-        markerWithKey.marker,
+        popupSpec.marker,
       ),
     );
   }
 
   @nonVirtual
-  void handleAction(PopupEvent event) {
-    onPopupEvent?.call(event, popupStateImpl.selectedMarkers);
-
+  void handleEvent(PopupEvent event) {
     return event.handle(
-      showAlsoFor: wrapShowPopupsAlsoFor,
-      showOnlyFor: wrapShowPopupsOnlyFor,
-      hideAll: wrapHideAllPopups,
-      hideOnlyFor: wrapHidePopupsOnlyFor,
-      toggle: toggle,
+      showedAlsoFor: showPopupsAlsoFor,
+      showedOnlyFor: showPopupsOnlyFor,
+      hidAll: hideAllPopups,
+      hidOnlyFor: hidePopupsOnlyFor,
     );
   }
 
-  @nonVirtual
-  void wrapShowPopupsAlsoFor(
-    List<Marker> markers, {
-    required bool disableAnimation,
-  }) {
-    final markersWithKeys =
-        markers.map((marker) => MarkerWithKey(marker)).toList();
-    popupStateImpl.addAll(markersWithKeys);
-
-    showPopupsAlsoFor(markersWithKeys, disableAnimation: disableAnimation);
-  }
-
-  @nonVirtual
-  void wrapShowPopupsOnlyFor(
-    List<Marker> markers, {
-    required bool disableAnimation,
-  }) {
-    final markersWithKeys =
-        markers.map((marker) => MarkerWithKey(marker)).toList();
-
-    popupStateImpl.clear();
-    popupStateImpl.addAll(markersWithKeys);
-
-    showPopupsOnlyFor(markersWithKeys, disableAnimation: disableAnimation);
-  }
-
-  @nonVirtual
-  void wrapHideAllPopups({required bool disableAnimation}) {
-    popupStateImpl.clear();
-    hideAllPopups(disableAnimation: disableAnimation);
-  }
-
-  @nonVirtual
-  void wrapHidePopupsOnlyFor(
-    List<Marker> markers, {
-    required bool disableAnimation,
-  }) {
-    popupStateImpl.removeAll(markers);
-    hidePopupsOnlyFor(markers, disableAnimation: disableAnimation);
-  }
-
-  @nonVirtual
-  void toggle(Marker marker, {bool disableAnimation = false}) {
-    if (popupStateImpl.isSelected(marker)) {
-      wrapHidePopupsOnlyFor([marker], disableAnimation: disableAnimation);
-    } else {
-      wrapShowPopupsAlsoFor([marker], disableAnimation: disableAnimation);
-    }
-  }
-
   void showPopupsAlsoFor(
-    List<MarkerWithKey> markersWithKeys, {
+    List<PopupSpec> popupSpecs, {
     required bool disableAnimation,
   });
 
   void showPopupsOnlyFor(
-    List<MarkerWithKey> markersWithKeys, {
+    List<PopupSpec> popupSpecs, {
     required bool disableAnimation,
   });
 
   void hideAllPopups({required bool disableAnimation});
 
   void hidePopupsOnlyFor(
-    List<Marker> markers, {
+    List<PopupSpec> popupSpecs, {
     required bool disableAnimation,
   });
 }

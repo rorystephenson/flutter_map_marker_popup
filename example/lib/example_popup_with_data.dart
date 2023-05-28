@@ -42,7 +42,7 @@ class _MapPageState extends State<MapPage> {
             urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             subdomains: const ['a', 'b', 'c'],
           ),
-          PopupMarkerLayerWidget(
+          PopupMarkerLayer(
             options: PopupMarkerLayerOptions(
               markers: <Marker>[
                 MonumentMarker(
@@ -63,12 +63,14 @@ class _MapPageState extends State<MapPage> {
                 ),
               ],
               popupController: _popupLayerController,
-              popupBuilder: (_, Marker marker) {
-                if (marker is MonumentMarker) {
-                  return MonumentMarkerPopup(monument: marker.monument);
-                }
-                return const Card(child: Text('Not a monument'));
-              },
+              popupDisplayOptions: PopupDisplayOptions(
+                builder: (_, Marker marker) {
+                  if (marker is MonumentMarker) {
+                    return MonumentMarkerPopup(monument: marker.monument);
+                  }
+                  return const Card(child: Text('Not a monument'));
+                },
+              ),
             ),
           ),
         ],
