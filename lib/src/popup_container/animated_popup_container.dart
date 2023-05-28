@@ -128,57 +128,49 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
   }
 
   @override
-  void showPopupsAlsoFor(
-    List<PopupSpec> popupSpecs, {
-    required bool disableAnimation,
-  }) {
-    for (final popupSpec in popupSpecs) {
+  void showPopupsAlsoFor(ShowedPopupsAlsoForEvent event) {
+    for (final popupSpec in event.popupSpecs) {
       if (!_animatedStackManager.contains(popupSpec)) {
         _animatedStackManager.insert(
           _animatedStackManager.length,
           popupSpec,
-          duration: disableAnimation ? Duration.zero : null,
+          duration: event.disableAnimation ? Duration.zero : null,
         );
       }
     }
   }
 
   @override
-  void showPopupsOnlyFor(
-    List<PopupSpec> popupSpecs, {
-    required bool disableAnimation,
-  }) {
+  void showPopupsOnlyFor(ShowedPopupsOnlyForEvent event) {
     _animatedStackManager.removeWhere(
-      (popupSpec) => !popupSpecs.contains(popupSpec),
-      duration: disableAnimation ? Duration.zero : null,
+      (popupSpec) => !event.popupSpecs.contains(popupSpec),
+      duration: event.disableAnimation ? Duration.zero : null,
     );
-    for (final popupSpec in popupSpecs) {
+    for (final popupSpec in event.popupSpecs) {
       if (!_animatedStackManager.contains(popupSpec)) {
         _animatedStackManager.insert(
           _animatedStackManager.length,
           popupSpec,
-          duration: disableAnimation ? Duration.zero : null,
+          duration: event.disableAnimation ? Duration.zero : null,
         );
       }
     }
   }
 
   @override
-  void hidePopupsOnlyFor(
-    List<PopupSpec> popupSpecs, {
-    required bool disableAnimation,
-  }) {
-    _animatedStackManager.removeWhere(
-      (popupSpec) => popupSpecs.contains(popupSpec),
-    );
-  }
-
-  @override
-  void hideAllPopups({required bool disableAnimation}) {
+  void hideAllPopups(HidAllPopupsEvent event) {
     if (_animatedStackManager.isNotEmpty) {
       _animatedStackManager.clear(
-        duration: disableAnimation ? Duration.zero : null,
+        duration: event.disableAnimation ? Duration.zero : null,
       );
     }
+  }
+
+  @override
+  void hidePopupsOnlyFor(HidPopupsOnlyForEvent event) {
+    _animatedStackManager.removeWhere(
+      (popupSpec) => event.popupSpecs.contains(popupSpec),
+      duration: event.disableAnimation ? Duration.zero : null,
+    );
   }
 }

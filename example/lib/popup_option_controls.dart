@@ -84,29 +84,26 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
                       if (index == 2) fade = !fade;
                     });
                   },
-                  children: [
+                  children: const [
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Row(
-                        children: const [
+                        children: [
                           Icon(Icons.messenger),
                           Text(' Snap to Marker'),
                         ],
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Row(
-                        children: const [
-                          Icon(Icons.rotate_right),
-                          Text(' Rotate')
-                        ],
+                        children: [Icon(Icons.rotate_right), Text(' Rotate')],
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Row(
-                        children: const [
+                        children: [
                           Icon(Icons.animation),
                           Text(' Fade'),
                         ],

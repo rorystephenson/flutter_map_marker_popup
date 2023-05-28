@@ -1,3 +1,7 @@
+## [5.1.0] - 28/05/23
+
+* BREAKING: Requires dart 3.
+
 ## [5.0.0] - 28/05/23
 
 This version includes extensive changes which were necessary to allow popups

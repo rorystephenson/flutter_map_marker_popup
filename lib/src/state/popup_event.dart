@@ -1,6 +1,6 @@
 import 'package:flutter_map_marker_popup/src/popup_spec.dart';
 
-abstract class PopupEvent {
+sealed class PopupEvent {
   const PopupEvent();
 }
 

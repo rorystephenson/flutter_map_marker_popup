@@ -87,28 +87,22 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
   }
 
   @override
-  void showPopupsAlsoFor(
-    List<PopupSpec> popupSpecs, {
-    required bool disableAnimation,
-  }) {
+  void showPopupsAlsoFor(ShowedPopupsAlsoForEvent event) {
     setState(() {
-      _selectedPopupSpecs.addAll(popupSpecs);
+      _selectedPopupSpecs.addAll(event.popupSpecs);
     });
   }
 
   @override
-  void showPopupsOnlyFor(
-    List<PopupSpec> popupSpecs, {
-    required bool disableAnimation,
-  }) {
+  void showPopupsOnlyFor(ShowedPopupsOnlyForEvent event) {
     setState(() {
       _selectedPopupSpecs.clear();
-      _selectedPopupSpecs.addAll(popupSpecs);
+      _selectedPopupSpecs.addAll(event.popupSpecs);
     });
   }
 
   @override
-  void hideAllPopups({required bool disableAnimation}) {
+  void hideAllPopups(HidAllPopupsEvent event) {
     if (_selectedPopupSpecs.isNotEmpty) {
       setState(() {
         _selectedPopupSpecs.clear();
@@ -117,12 +111,9 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
   }
 
   @override
-  void hidePopupsOnlyFor(
-    List<PopupSpec> popupSpecs, {
-    required bool disableAnimation,
-  }) {
+  void hidePopupsOnlyFor(HidPopupsOnlyForEvent event) {
     setState(() {
-      _selectedPopupSpecs.removeAll(popupSpecs);
+      _selectedPopupSpecs.removeAll(event.popupSpecs);
     });
   }
 }

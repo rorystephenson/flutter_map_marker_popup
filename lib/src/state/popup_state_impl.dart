@@ -34,66 +34,63 @@ class PopupStateImpl with ChangeNotifier implements PopupState {
 
   bool contains(PopupSpec popupSpec) => _selectedPopupSpecs.contains(popupSpec);
 
-  void applyEvent(PopupControllerEvent popupEvent) {
-    return popupEvent.handle(
-      showAlsoFor: _showAlsoFor,
-      showOnlyFor: _showOnlyFor,
-      hideAll: _hideAll,
-      hideWhere: _hideWhere,
-      hideOnlyFor: _hideOnlyFor,
-      toggle: _toggle,
-    );
+  void applyEvent(PopupControllerEvent event) {
+    switch (event) {
+      case ShowPopupsAlsoForControllerEvent():
+        _showAlsoFor(event);
+      case ShowPopupsOnlyForControllerEvent():
+        _showOnlyFor(event);
+      case HideAllPopupsControllerEvent():
+        _hideAll(event);
+      case HidePopupsWhereControllerEvent():
+        _hideWhere(event);
+      case HidePopupsOnlyForControllerEvent():
+        _hideOnlyFor(event);
+      case TogglePopupControllerEvent():
+        _toggle(event);
+    }
   }
 
-  void _showAlsoFor(
-    List<PopupSpec> popupSpecs, {
-    required bool disableAnimation,
-  }) {
-    if (popupSpecs.isEmpty) return;
+  void _showAlsoFor(ShowPopupsAlsoForControllerEvent event) {
+    if (event.popupSpecs.isEmpty) return;
 
-    _selectedPopupSpecs.addAll(popupSpecs);
+    _selectedPopupSpecs.addAll(event.popupSpecs);
     notifyListeners();
 
     _streamController.add(
       ShowedPopupsAlsoForImpl(
-        popupSpecs,
-        disableAnimation: disableAnimation,
+        event.popupSpecs,
+        disableAnimation: event.disableAnimation,
       ),
     );
   }
 
-  void _showOnlyFor(
-    List<PopupSpec> popupSpecs, {
-    required bool disableAnimation,
-  }) {
+  void _showOnlyFor(ShowPopupsOnlyForControllerEvent event) {
     _selectedPopupSpecs.clear();
-    _selectedPopupSpecs.addAll(popupSpecs);
+    _selectedPopupSpecs.addAll(event.popupSpecs);
     notifyListeners();
 
     _streamController.add(
       ShowedPopupsOnlyForImpl(
-        popupSpecs,
-        disableAnimation: disableAnimation,
+        event.popupSpecs,
+        disableAnimation: event.disableAnimation,
       ),
     );
   }
 
-  void _hideAll({required bool disableAnimation}) {
+  void _hideAll(HideAllPopupsControllerEvent event) {
     _selectedPopupSpecs.clear();
     notifyListeners();
 
     _streamController.add(
-      HidAllPopupsImpl(disableAnimation: disableAnimation),
+      HidAllPopupsImpl(disableAnimation: event.disableAnimation),
     );
   }
 
-  void _hideWhere(
-    bool Function(PopupSpec popupSpec) test, {
-    required bool disableAnimation,
-  }) {
+  void _hideWhere(HidePopupsWhereControllerEvent event) {
     final List<PopupSpec> removed = [];
     _selectedPopupSpecs.removeWhere((popupSpec) {
-      if (test(popupSpec)) {
+      if (event.test(popupSpec)) {
         removed.add(popupSpec);
         return true;
       }
@@ -106,31 +103,34 @@ class PopupStateImpl with ChangeNotifier implements PopupState {
     _streamController.add(
       HidPopupsOnlyForImpl(
         removed,
-        disableAnimation: disableAnimation,
+        disableAnimation: event.disableAnimation,
       ),
     );
   }
 
-  void _hideOnlyFor(
-    List<PopupSpec> popupSpecs, {
-    required bool disableAnimation,
-  }) {
-    _selectedPopupSpecs.removeAll(popupSpecs);
+  void _hideOnlyFor(HidePopupsOnlyForControllerEvent event) {
+    _selectedPopupSpecs.removeAll(event.popupSpecs);
     notifyListeners();
 
     _streamController.add(
       HidPopupsOnlyForImpl(
-        popupSpecs,
-        disableAnimation: disableAnimation,
+        event.popupSpecs,
+        disableAnimation: event.disableAnimation,
       ),
     );
   }
 
-  void _toggle(PopupSpec popupSpec, {bool disableAnimation = false}) {
-    if (contains(popupSpec)) {
-      _hideOnlyFor([popupSpec], disableAnimation: disableAnimation);
+  void _toggle(TogglePopupControllerEvent event) {
+    if (contains(event.popupSpec)) {
+      _hideOnlyFor(HidePopupsOnlyForControllerEvent(
+        [event.popupSpec],
+        disableAnimation: event.disableAnimation,
+      ));
     } else {
-      _showAlsoFor([popupSpec], disableAnimation: disableAnimation);
+      _showAlsoFor(ShowPopupsAlsoForControllerEvent(
+        [event.popupSpec],
+        disableAnimation: event.disableAnimation,
+      ));
     }
   }
 

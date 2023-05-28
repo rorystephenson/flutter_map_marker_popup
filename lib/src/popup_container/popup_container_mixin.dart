@@ -5,7 +5,6 @@ import 'package:flutter_map_marker_popup/src/layout/popup_layout.dart';
 import 'package:flutter_map_marker_popup/src/popup_snap.dart';
 import 'package:flutter_map_marker_popup/src/popup_spec.dart';
 import 'package:flutter_map_marker_popup/src/state/popup_event.dart';
-import 'package:flutter_map_marker_popup/src/state/popup_event_impl.dart';
 import 'package:flutter_map_marker_popup/src/state/popup_state_impl.dart';
 
 mixin PopupContainerMixin {
@@ -58,28 +57,23 @@ mixin PopupContainerMixin {
 
   @nonVirtual
   void handleEvent(PopupEvent event) {
-    return event.handle(
-      showedAlsoFor: showPopupsAlsoFor,
-      showedOnlyFor: showPopupsOnlyFor,
-      hidAll: hideAllPopups,
-      hidOnlyFor: hidePopupsOnlyFor,
-    );
+    switch (event) {
+      case ShowedPopupsAlsoForEvent():
+        showPopupsAlsoFor(event);
+      case ShowedPopupsOnlyForEvent():
+        showPopupsOnlyFor(event);
+      case HidAllPopupsEvent():
+        hideAllPopups(event);
+      case HidPopupsOnlyForEvent():
+        hidePopupsOnlyFor(event);
+    }
   }
 
-  void showPopupsAlsoFor(
-    List<PopupSpec> popupSpecs, {
-    required bool disableAnimation,
-  });
+  void showPopupsAlsoFor(ShowedPopupsAlsoForEvent event);
 
-  void showPopupsOnlyFor(
-    List<PopupSpec> popupSpecs, {
-    required bool disableAnimation,
-  });
+  void showPopupsOnlyFor(ShowedPopupsOnlyForEvent event);
 
-  void hideAllPopups({required bool disableAnimation});
+  void hideAllPopups(HidAllPopupsEvent event);
 
-  void hidePopupsOnlyFor(
-    List<PopupSpec> popupSpecs, {
-    required bool disableAnimation,
-  });
+  void hidePopupsOnlyFor(HidPopupsOnlyForEvent event);
 }
