@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_marker_popup/src/marker_extension.dart';
 import 'package:latlong2/latlong.dart';
 
 /// Contains the data relevant for constructing a popup.
@@ -29,7 +30,7 @@ class PopupSpec {
 
   /// Override the marker's anchor. This will only affect popup placement when
   /// using a marker snap.
-  final Anchor? markerAnchorOverride;
+  final AnchorPos? markerAnchorPosOverride;
 
   PopupSpec({
     required this.marker,
@@ -38,7 +39,7 @@ class PopupSpec {
     this.markerPointOverride,
     this.markerRotateAlignmentOveride,
     this.removeMarkerRotateOrigin = false,
-    this.markerAnchorOverride,
+    this.markerAnchorPosOverride,
   }) : key = GlobalKey();
 
   /// A convenience constructor for creating a PopupSpec without setting
@@ -50,7 +51,7 @@ class PopupSpec {
         markerPointOverride = null,
         markerRotateAlignmentOveride = null,
         removeMarkerRotateOrigin = false,
-        markerAnchorOverride = null;
+        markerAnchorPosOverride = null;
 
   /// A convenience method for extracting the marker from a PopupSpec.
   /// Particularly handy for lists e.g. popupSpecs.map(PopupSpec.unwrap).
@@ -68,13 +69,17 @@ class PopupSpec {
   @override
   int get hashCode => marker.hashCode;
 
+  Anchor get markerAnchor => markerAnchorPosOverride == null
+      ? marker.anchor
+      : Anchor.fromPos(markerAnchorPosOverride!, marker.width, marker.height);
+
   ///////////////////////////////
   /// Marker method overrides  //
   ///////////////////////////////
 
   LatLng get markerPoint => markerPointOverride ?? marker.point;
 
-  Anchor get markerAnchor => markerAnchorOverride ?? marker.anchor;
+  AnchorPos? get markerAnchorPos => markerAnchorPosOverride ?? marker.anchorPos;
 
   ////////////////////////////
   /// Marker method proxies //

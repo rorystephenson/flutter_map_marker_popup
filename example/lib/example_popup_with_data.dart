@@ -32,7 +32,7 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       body: FlutterMap(
         options: MapOptions(
-          center: LatLng(48.857661, 2.295135),
+          center: const LatLng(48.857661, 2.295135),
           zoom: 13.0,
           interactiveFlags: InteractiveFlag.all,
           onTap: (_, __) => _popupLayerController.hideAllPopups(),
@@ -56,7 +56,7 @@ class _MapPageState extends State<MapPage> {
                 ),
                 Marker(
                   anchorPos: AnchorPos.align(AnchorAlign.top),
-                  point: LatLng(48.859661, 2.305135),
+                  point: const LatLng(48.859661, 2.305135),
                   height: Monument.size,
                   width: Monument.size,
                   builder: (BuildContext ctx) => const Icon(Icons.shop),

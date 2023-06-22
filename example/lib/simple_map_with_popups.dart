@@ -25,9 +25,9 @@ class _SimpleMapWithPopupsState extends State<SimpleMapWithPopups> {
   void initState() {
     super.initState();
     _markers = [
-      LatLng(44.421, 10.404),
-      LatLng(45.683, 10.839),
-      LatLng(45.246, 5.783),
+      const LatLng(44.421, 10.404),
+      const LatLng(45.683, 10.839),
+      const LatLng(45.246, 5.783),
     ]
         .map(
           (markerPosition) => Marker(
@@ -58,7 +58,7 @@ class _SimpleMapWithPopupsState extends State<SimpleMapWithPopups> {
       body: FlutterMap(
         options: MapOptions(
           zoom: 5.0,
-          center: LatLng(44.421, 10.404),
+          center: const LatLng(44.421, 10.404),
           onTap: (_, __) => _popupLayerController
               .hideAllPopups(), // Hide popup when the map is tapped.
         ),

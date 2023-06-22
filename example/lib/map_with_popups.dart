@@ -84,7 +84,7 @@ class _MapWithPopupsState extends State<MapWithPopups> {
   List<Marker> _buildMarkers() {
     return [
       Marker(
-        point: LatLng(44.421, 10.404),
+        point: const LatLng(44.421, 10.404),
         width: 40,
         height: 40,
         builder: (_) => const Icon(
@@ -96,7 +96,7 @@ class _MapWithPopupsState extends State<MapWithPopups> {
         rotateAlignment: widget.markerAnchorAlign.rotationAlignment,
       ),
       Marker(
-        point: LatLng(45.683, 10.839),
+        point: const LatLng(45.683, 10.839),
         width: 20,
         height: 40,
         builder: (_) => Container(
@@ -113,7 +113,7 @@ class _MapWithPopupsState extends State<MapWithPopups> {
         rotateAlignment: widget.markerAnchorAlign.rotationAlignment,
       ),
       Marker(
-        point: LatLng(45.246, 5.783),
+        point: const LatLng(45.246, 5.783),
         width: 40,
         height: 20,
         builder: (_) => Container(
@@ -138,7 +138,7 @@ class _MapWithPopupsState extends State<MapWithPopups> {
       body: FlutterMap(
         options: MapOptions(
           zoom: 5.0,
-          center: LatLng(44.421, 10.404),
+          center: const LatLng(44.421, 10.404),
           onTap: (_, __) => widget.popupController
               .hideAllPopups(), // Hide popup when the map is tapped.
         ),

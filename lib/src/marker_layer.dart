@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map_marker_popup/src/marker_extension.dart';
 import 'package:provider/provider.dart';
 
 import '../flutter_map_marker_popup.dart';
@@ -77,8 +78,10 @@ class _MarkerLayerState extends State<MarkerLayer>
         _pxCache[i] = pxPoint;
       }
 
-      final width = marker.width - marker.anchor.left;
-      final height = marker.height - marker.anchor.top;
+      // Anchor is calculated not stored so we assign to a variable.
+      final anchor = marker.anchor;
+      final width = marker.width - anchor.left;
+      final height = marker.height - anchor.top;
       var sw = CustomPoint(pxPoint.x + width, pxPoint.y - height);
       var ne = CustomPoint(pxPoint.x - width, pxPoint.y + height);
 

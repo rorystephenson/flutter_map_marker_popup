@@ -1,3 +1,12 @@
+## [5.2.0] - 22/06/23
+
+* BREAKING: flutter_map v5.
+* BREAKING: latlong2 v0.9.0
+* BREAKING: A change in flutter_map v5 means that you now declare anchorPos for
+  Markers instead of Anchor. A PR has been accepted to change this back and
+  will be released with flutter_map v6.
+* FEATURE: More Marker anchor alignments are now supported.
+
 ## [5.1.0] - 28/05/23
 
 * BREAKING: Requires dart 3.

@@ -8,7 +8,7 @@ final markerA = Marker(
     color: Colors.blue,
     child: const Text('markerA'),
   ),
-  point: LatLng(40.0, 10.0),
+  point: const LatLng(40.0, 10.0),
 );
 
 final popupSpecA = PopupSpec.wrap(markerA);
@@ -20,7 +20,7 @@ final markerB = Marker(
     color: Colors.green,
     child: const Text('markerB'),
   ),
-  point: LatLng(40.1, 10.1),
+  point: const LatLng(40.1, 10.1),
 );
 
 final popupSpecB = PopupSpec.wrap(markerB);
@@ -40,7 +40,7 @@ class TestWrappedMarker implements Marker {
   int get hashCode => marker.hashCode;
 
   @override
-  Anchor get anchor => marker.anchor;
+  AnchorPos? get anchorPos => marker.anchorPos;
 
   @override
   WidgetBuilder get builder => marker.builder;

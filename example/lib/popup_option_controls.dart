@@ -111,70 +111,41 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
                     ),
                   ],
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      '\nPopup snap ',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    ToggleButtons(
-                      isSelected: List.generate(alignments.length,
-                          (index) => popupAlignment == alignments[index]),
-                      onPressed: (int index) {
-                        setState(() {
-                          popupAlignment = alignments[index];
-                        });
-                      },
-                      children: [
-                        Icons.arrow_back,
-                        Icons.arrow_upward,
-                        Icons.arrow_forward,
-                        Icons.arrow_downward,
-                        Icons.filter_center_focus_rounded,
-                      ]
-                          .map(
-                            (icon) => Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(icon),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      '\nMarker Anchor',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    ToggleButtons(
-                      isSelected: List.generate(alignments.length,
-                          (index) => anchorAlignment == alignments[index]),
-                      onPressed: (int index) {
-                        setState(() {
-                          anchorAlignment = alignments[index];
-                        });
-                      },
-                      children: [
-                        Icons.arrow_back,
-                        Icons.arrow_upward,
-                        Icons.arrow_forward,
-                        Icons.arrow_downward,
-                        Icons.filter_center_focus_rounded,
-                      ]
-                          .map(
-                            (icon) => Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(icon),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ],
-                ),
+                Row(children: [
+                  Column(
+                    children: [
+                      const Text(
+                        '\nPopup snap ',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      GridSelect(
+                        initialAlignment: Alignment.topCenter,
+                        disableCornerAlignments: true,
+                        onSelect: (alignment) {
+                          setState(() {
+                            popupAlignment = alignment;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      const Text(
+                        '\nMarker anchor ',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      GridSelect(
+                        initialAlignment: Alignment.topCenter,
+                        onSelect: (alignment) {
+                          setState(() {
+                            anchorAlignment = alignment;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ]),
                 Row(
                   children: [
                     Column(
@@ -228,11 +199,15 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
 
   AnchorAlign get _markerAnchorAlign {
     return <AlignmentGeometry, AnchorAlign>{
-      Alignment.centerLeft: AnchorAlign.left,
+      Alignment.topLeft: AnchorAlign.topLeft,
       Alignment.topCenter: AnchorAlign.top,
-      Alignment.centerRight: AnchorAlign.right,
-      Alignment.bottomCenter: AnchorAlign.bottom,
+      Alignment.topRight: AnchorAlign.topRight,
+      Alignment.centerLeft: AnchorAlign.left,
       Alignment.center: AnchorAlign.center,
+      Alignment.centerRight: AnchorAlign.right,
+      Alignment.bottomLeft: AnchorAlign.bottomLeft,
+      Alignment.bottomCenter: AnchorAlign.bottom,
+      Alignment.bottomRight: AnchorAlign.bottomRight,
     }[anchorAlignment]!;
   }
 
@@ -253,6 +228,161 @@ class _PopupOptionControlsState extends State<PopupOptionControls> {
         Alignment.bottomCenter: PopupSnap.mapBottom,
         Alignment.center: PopupSnap.mapCenter,
       }[popupAlignment]!;
+    }
+  }
+}
+
+class GridSelect extends StatefulWidget {
+  final void Function(Alignment alignment) onSelect;
+  final Alignment initialAlignment;
+  final bool disableCornerAlignments;
+
+  const GridSelect({
+    super.key,
+    required this.onSelect,
+    required this.initialAlignment,
+    this.disableCornerAlignments = false,
+  });
+
+  @override
+  State<GridSelect> createState() => _GridSelectState();
+}
+
+class _GridSelectState extends State<GridSelect> {
+  late Alignment _selected;
+
+  @override
+  void initState() {
+    super.initState();
+    _selected = widget.initialAlignment;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            GridSelectButton(
+              alignment: Alignment.topLeft,
+              selection: _selected,
+              onSelect: widget.disableCornerAlignments ? null : _onSelectButton,
+            ),
+            GridSelectButton(
+              alignment: Alignment.topCenter,
+              selection: _selected,
+              onSelect: _onSelectButton,
+            ),
+            GridSelectButton(
+              alignment: Alignment.topRight,
+              selection: _selected,
+              onSelect: widget.disableCornerAlignments ? null : _onSelectButton,
+            ),
+          ],
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            GridSelectButton(
+              alignment: Alignment.centerLeft,
+              selection: _selected,
+              onSelect: _onSelectButton,
+            ),
+            GridSelectButton(
+              alignment: Alignment.center,
+              selection: _selected,
+              onSelect: _onSelectButton,
+            ),
+            GridSelectButton(
+              alignment: Alignment.centerRight,
+              selection: _selected,
+              onSelect: _onSelectButton,
+            ),
+          ],
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            GridSelectButton(
+              alignment: Alignment.bottomLeft,
+              selection: _selected,
+              onSelect: widget.disableCornerAlignments ? null : _onSelectButton,
+            ),
+            GridSelectButton(
+              alignment: Alignment.bottomCenter,
+              selection: _selected,
+              onSelect: _onSelectButton,
+            ),
+            GridSelectButton(
+              alignment: Alignment.bottomRight,
+              selection: _selected,
+              onSelect: widget.disableCornerAlignments ? null : _onSelectButton,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  void _onSelectButton(Alignment selected) {
+    widget.onSelect(selected);
+    setState(() {
+      _selected = selected;
+    });
+  }
+}
+
+class GridSelectButton extends StatelessWidget {
+  final Alignment alignment;
+  final Alignment selection;
+  final void Function(Alignment alignment)? onSelect;
+  const GridSelectButton({
+    super.key,
+    required this.alignment,
+    required this.selection,
+    required this.onSelect,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: alignment == selection ? Colors.blue.shade100 : null,
+      child: InkWell(
+        onTap: onSelect == null ? null : () => onSelect!(alignment),
+        child: Icon(
+          _iconData,
+          size: 30,
+          color: onSelect != null ? null : Colors.grey.shade300,
+        ),
+      ),
+    );
+  }
+
+  IconData get _iconData {
+    switch (alignment) {
+      case Alignment.topLeft:
+        return Icons.north_west;
+      case Alignment.topCenter:
+        return Icons.north;
+      case Alignment.topRight:
+        return Icons.north_east;
+
+      case Alignment.centerLeft:
+        return Icons.west;
+      case Alignment.center:
+        return Icons.center_focus_strong;
+      case Alignment.centerRight:
+        return Icons.east;
+
+      case Alignment.bottomLeft:
+        return Icons.south_west;
+      case Alignment.bottomCenter:
+        return Icons.south;
+      case Alignment.bottomRight:
+        return Icons.south_east;
+      default:
+        throw 'Unexpected alignment';
     }
   }
 }

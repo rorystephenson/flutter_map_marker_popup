@@ -16,9 +16,9 @@ class PopupOutsideOfMap extends StatefulWidget {
 
 class _PopupOutsideOfMapState extends State<PopupOutsideOfMap> {
   static final positions = [
-    LatLng(45.246, 5.783),
-    LatLng(45.683, 10.839),
-    LatLng(44.421, 10.404),
+    const LatLng(45.246, 5.783),
+    const LatLng(45.683, 10.839),
+    const LatLng(44.421, 10.404),
   ];
   late final List<Marker> _markers;
 
@@ -60,7 +60,7 @@ class _PopupOutsideOfMapState extends State<PopupOutsideOfMap> {
                     child: FlutterMap(
                       options: MapOptions(
                         zoom: 5.0,
-                        center: LatLng(44.421, 10.404),
+                        center: const LatLng(44.421, 10.404),
                         onTap: (_, __) => _popupLayerController
                             .hideAllPopups(), // Hide popup when the map is tapped.
                       ),
