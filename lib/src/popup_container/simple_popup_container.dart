@@ -11,14 +11,14 @@ import 'package:flutter_map_marker_popup/src/state/popup_event.dart';
 import 'package:flutter_map_marker_popup/src/state/popup_state_impl.dart';
 
 class SimplePopupContainer extends StatefulWidget {
-  final FlutterMapState mapState;
+  final MapCamera mapCamera;
   final PopupStateImpl popupStateImpl;
   final PopupBuilder popupBuilder;
   final PopupSnap snap;
 
   const SimplePopupContainer({
     super.key,
-    required this.mapState,
+    required this.mapCamera,
     required this.popupStateImpl,
     required this.snap,
     required this.popupBuilder,
@@ -35,7 +35,7 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
   late StreamSubscription<PopupEvent> _popupStateEventSubscription;
 
   @override
-  FlutterMapState get mapState => widget.mapState;
+  MapCamera get mapCamera => widget.mapCamera;
 
   @override
   PopupStateImpl get popupStateImpl => widget.popupStateImpl;

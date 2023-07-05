@@ -57,10 +57,11 @@ packages:
   flutter_map:
     dependency: "direct main"
     description:
-      name: flutter_map
-      sha256: "5286f72f87deb132daa1489442d6cc46e986fc105cb727d9ae1b602b35b1d1f3"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: flutter-map-state-refactor
+      resolved-ref: f5d6d136882e35187817de90ee95b4318eefe9da
+      url: "https://github.com/rorystephenson/flutter_map"
+    source: git
     version: "5.0.0"
   flutter_map_marker_popup:
     dependency: "direct main"
@@ -68,7 +69,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "5.1.0"
+    version: "5.2.0"
   http:
     dependency: transitive
     description:

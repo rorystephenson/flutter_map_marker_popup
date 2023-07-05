@@ -24,7 +24,7 @@ class TestMap extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: FlutterMap(
-        options: MapOptions(center: markerA.point),
+        options: MapOptions(initialCenter: markerA.point),
         children: [
           PopupMarkerLayer(
             options: PopupMarkerLayerOptions(

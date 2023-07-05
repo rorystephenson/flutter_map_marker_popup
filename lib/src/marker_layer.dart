@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
-import 'package:flutter_map_marker_popup/src/marker_extension.dart';
 import 'package:provider/provider.dart';
 
 import '../flutter_map_marker_popup.dart';
@@ -8,14 +7,16 @@ import 'lat_lng_tween.dart';
 
 class MarkerLayer extends StatefulWidget {
   final PopupMarkerLayerOptions layerOptions;
-  final FlutterMapState map;
+  final MapCamera mapCamera;
+  final MapController mapController;
   final PopupState popupState;
   final PopupController popupController;
 
   const MarkerLayer({
     Key? key,
     required this.layerOptions,
-    required this.map,
+    required this.mapCamera,
+    required this.mapController,
     required this.popupState,
     required this.popupController,
   }) : super(key: key);
@@ -40,7 +41,7 @@ class _MarkerLayerState extends State<MarkerLayer>
   // Calling this every time markerOpts change should guarantee proper length
   List<CustomPoint> generatePxCache() => List.generate(
         widget.layerOptions.markers.length,
-        (i) => widget.map.project(widget.layerOptions.markers[i].point),
+        (i) => widget.mapCamera.project(widget.layerOptions.markers[i].point),
       );
 
   @override
@@ -68,28 +69,34 @@ class _MarkerLayerState extends State<MarkerLayer>
       context.watch<PopupState>();
     }
     var markers = <Widget>[];
-    final sameZoom = widget.map.zoom == lastZoom;
+    final sameZoom = widget.mapCamera.zoom == lastZoom;
     for (var i = 0; i < widget.layerOptions.markers.length; i++) {
       var marker = widget.layerOptions.markers[i];
 
       // Decide whether to use cached point or calculate it
-      var pxPoint = sameZoom ? _pxCache[i] : widget.map.project(marker.point);
+      var pxPoint =
+          sameZoom ? _pxCache[i] : widget.mapCamera.project(marker.point);
       if (!sameZoom) {
         _pxCache[i] = pxPoint;
       }
 
       // Anchor is calculated not stored so we assign to a variable.
-      final anchor = marker.anchor;
+      final anchor = marker.anchor ??
+          Anchor.fromPos(
+            AnchorPos.defaultAnchorPos,
+            marker.width,
+            marker.height,
+          );
       final width = marker.width - anchor.left;
       final height = marker.height - anchor.top;
       var sw = CustomPoint(pxPoint.x + width, pxPoint.y - height);
       var ne = CustomPoint(pxPoint.x - width, pxPoint.y + height);
 
-      if (!widget.map.pixelBounds.containsPartialBounds(Bounds(sw, ne))) {
+      if (!widget.mapCamera.pixelBounds.containsPartialBounds(Bounds(sw, ne))) {
         continue;
       }
 
-      final pos = pxPoint - widget.map.pixelOrigin;
+      final pos = pxPoint - widget.mapCamera.pixelOrigin;
 
       var markerBuilder = marker.builder;
       if (widget.layerOptions.selectedMarkerBuilder != null &&
@@ -119,7 +126,7 @@ class _MarkerLayerState extends State<MarkerLayer>
 
         // Counter rotated marker to the map rotation
         markerWidget = Transform.rotate(
-          angle: -widget.map.rotationRad,
+          angle: -widget.mapCamera.rotationRad,
           origin: markerRotateOrigin,
           alignment: markerRotateAlignment,
           child: markerWithGestureDetector,
@@ -139,7 +146,7 @@ class _MarkerLayerState extends State<MarkerLayer>
         ),
       );
     }
-    lastZoom = widget.map.zoom;
+    lastZoom = widget.mapCamera.zoom;
 
     return Stack(children: markers);
   }
@@ -148,7 +155,7 @@ class _MarkerLayerState extends State<MarkerLayer>
     final markerLayerAnimation = widget.layerOptions.markerCenterAnimation;
     if (markerLayerAnimation == null) return;
 
-    final center = widget.map.center;
+    final center = widget.mapCamera.center;
     final tween = LatLngTween(begin: center, end: marker.point);
 
     Animation<double> animation = CurvedAnimation(
@@ -157,10 +164,9 @@ class _MarkerLayerState extends State<MarkerLayer>
     );
 
     void listener() {
-      widget.map.move(
+      widget.mapController.move(
         tween.evaluate(animation),
-        widget.map.zoom,
-        source: MapEventSource.custom,
+        widget.mapCamera.zoom,
       );
     }
 

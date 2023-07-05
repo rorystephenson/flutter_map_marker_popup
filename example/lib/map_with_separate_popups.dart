@@ -43,7 +43,7 @@ class _MapWithSeparatePopupsState extends State<MapWithSeparatePopups> {
         width: 40,
         height: 40,
         builder: (_) => Icon(Icons.location_on, size: 40, color: color),
-        anchorPos: AnchorPos.align(AnchorAlign.top),
+        anchorPos: const AnchorPos.align(AnchorAlign.top),
         rotateAlignment: AnchorAlign.top.rotationAlignment,
       );
 
@@ -68,8 +68,8 @@ class _MapWithSeparatePopupsState extends State<MapWithSeparatePopups> {
         },
         child: FlutterMap(
           options: MapOptions(
-            zoom: 5.0,
-            center: const LatLng(44.421, 10.404),
+            initialZoom: 5.0,
+            initialCenter: const LatLng(44.421, 10.404),
             onTap: (_, __) => _popupLayerController
                 .hideAllPopups(), // Hide popup when the map is tapped.
           ),

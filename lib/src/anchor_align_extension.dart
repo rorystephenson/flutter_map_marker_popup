@@ -20,9 +20,6 @@ extension FlutterMapMarkerPopupAnchorAlignExtension on AnchorAlign {
         return Alignment.topCenter;
       case AnchorAlign.bottomLeft:
         return Alignment.topRight;
-      // TODO: Remove none once flutter_map removes it.
-      // ignore: deprecated_member_use
-      case AnchorAlign.none:
       case AnchorAlign.center:
         return Alignment.center;
     }

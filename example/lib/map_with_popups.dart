@@ -137,8 +137,8 @@ class _MapWithPopupsState extends State<MapWithPopups> {
     return Scaffold(
       body: FlutterMap(
         options: MapOptions(
-          zoom: 5.0,
-          center: const LatLng(44.421, 10.404),
+          initialZoom: 5.0,
+          initialCenter: const LatLng(44.421, 10.404),
           onTap: (_, __) => widget.popupController
               .hideAllPopups(), // Hide popup when the map is tapped.
         ),

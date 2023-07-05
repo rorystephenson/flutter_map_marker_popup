@@ -34,7 +34,7 @@ class _PopupOutsideOfMapState extends State<PopupOutsideOfMap> {
               width: 40,
               height: 40,
               builder: (_) => const Icon(Icons.location_on, size: 40),
-              anchorPos: AnchorPos.align(AnchorAlign.top),
+              anchorPos: const AnchorPos.align(AnchorAlign.top),
             ))
         .toList();
   }
@@ -59,8 +59,8 @@ class _PopupOutsideOfMapState extends State<PopupOutsideOfMap> {
                   Expanded(
                     child: FlutterMap(
                       options: MapOptions(
-                        zoom: 5.0,
-                        center: const LatLng(44.421, 10.404),
+                        initialZoom: 5.0,
+                        initialCenter: const LatLng(44.421, 10.404),
                         onTap: (_, __) => _popupLayerController
                             .hideAllPopups(), // Hide popup when the map is tapped.
                       ),

@@ -55,44 +55,44 @@ abstract class PopupCalculations {
   }
 
   static double mapLeftToPointX(
-    FlutterMapState mapState,
+    MapCamera mapCamera,
     CustomPoint<num> point,
   ) {
     return point.x.toDouble();
   }
 
   static double mapRightToPointX(
-    FlutterMapState mapState,
+    MapCamera mapCamera,
     CustomPoint<num> point,
   ) {
-    return -(mapState.size.x - point.x).toDouble();
+    return -(mapCamera.size.x - point.x).toDouble();
   }
 
   static double mapCenterToPointX(
-    FlutterMapState mapState,
+    MapCamera mapCamera,
     CustomPoint<num> point,
   ) {
-    return -(mapState.size.x / 2 - point.x).toDouble();
+    return -(mapCamera.size.x / 2 - point.x).toDouble();
   }
 
   static double mapTopToPointY(
-    FlutterMapState mapState,
+    MapCamera mapCamera,
     CustomPoint<num> point,
   ) {
     return point.y.toDouble();
   }
 
   static double mapBottomToPointY(
-    FlutterMapState mapState,
+    MapCamera mapCamera,
     CustomPoint<num> point,
   ) {
-    return -(mapState.size.y - point.y).toDouble();
+    return -(mapCamera.size.y - point.y).toDouble();
   }
 
   static double mapCenterToPointY(
-    FlutterMapState mapState,
+    MapCamera mapCamera,
     CustomPoint<num> point,
   ) {
-    return -(mapState.size.y / 2 - point.y).toDouble();
+    return -(mapCamera.size.y / 2 - point.y).toDouble();
   }
 }

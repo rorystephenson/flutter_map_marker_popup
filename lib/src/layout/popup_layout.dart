@@ -26,33 +26,33 @@ class PopupLayout {
   });
 
   static PopupLayout calculate({
-    required FlutterMapState mapState,
+    required MapCamera mapCamera,
     required PopupSpec popupSpec,
     required PopupSnap snap,
   }) {
     switch (snap) {
       case PopupSnap.markerLeft:
-        return SnapToMarkerLayout.left(mapState, popupSpec);
+        return SnapToMarkerLayout.left(mapCamera, popupSpec);
       case PopupSnap.markerTop:
-        return SnapToMarkerLayout.top(mapState, popupSpec);
+        return SnapToMarkerLayout.top(mapCamera, popupSpec);
       case PopupSnap.markerRight:
-        return SnapToMarkerLayout.right(mapState, popupSpec);
+        return SnapToMarkerLayout.right(mapCamera, popupSpec);
       case PopupSnap.markerBottom:
-        return SnapToMarkerLayout.bottom(mapState, popupSpec);
+        return SnapToMarkerLayout.bottom(mapCamera, popupSpec);
       case PopupSnap.markerCenter:
-        return SnapToMarkerLayout.center(mapState, popupSpec);
+        return SnapToMarkerLayout.center(mapCamera, popupSpec);
       case PopupSnap.mapLeft:
-        return SnapToMapLayout.left(mapState);
+        return SnapToMapLayout.left(mapCamera);
       case PopupSnap.mapTop:
-        return SnapToMapLayout.top(mapState);
+        return SnapToMapLayout.top(mapCamera);
       case PopupSnap.mapRight:
-        return SnapToMapLayout.right(mapState);
+        return SnapToMapLayout.right(mapCamera);
       case PopupSnap.mapBottom:
-        return SnapToMapLayout.bottom(mapState);
+        return SnapToMapLayout.bottom(mapCamera);
       case PopupSnap.mapCenter:
-        return SnapToMapLayout.center(mapState);
+        return SnapToMapLayout.center(mapCamera);
       default:
-        return SnapToMarkerLayout.top(mapState, popupSpec);
+        return SnapToMarkerLayout.top(mapCamera, popupSpec);
     }
   }
 }

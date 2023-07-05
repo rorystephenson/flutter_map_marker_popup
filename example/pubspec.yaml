@@ -24,3 +24,9 @@ flutter:
     - family: AccurateMapIcon
       fonts:
         - asset: fonts/AccurateMapIcon.ttf
+
+dependency_overrides:
+  flutter_map:
+    git:
+      url: https://github.com/rorystephenson/flutter_map
+      ref: flutter-map-state-refactor

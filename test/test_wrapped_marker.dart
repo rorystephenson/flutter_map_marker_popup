@@ -40,7 +40,7 @@ class TestWrappedMarker implements Marker {
   int get hashCode => marker.hashCode;
 
   @override
-  AnchorPos? get anchorPos => marker.anchorPos;
+  Anchor? get anchor => marker.anchor;
 
   @override
   WidgetBuilder get builder => marker.builder;

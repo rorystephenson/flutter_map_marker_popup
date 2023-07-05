@@ -73,10 +73,8 @@ class _InheritOrCreatePopupScopeState extends State<InheritOrCreatePopupScope> {
       _popupState = popupState as PopupStateImpl;
     }
 
-    _mapSubscription ??= FlutterMapState.of(context)
-        .mapController
-        .mapEventStream
-        .listen(_onMapEvent);
+    _mapSubscription ??=
+        MapController.of(context).mapEventStream.listen(_onMapEvent);
 
     // Set the state listener.
     _setPopupStateListener();
@@ -115,13 +113,12 @@ class _InheritOrCreatePopupScopeState extends State<InheritOrCreatePopupScope> {
     _popupControllerSubscription?.cancel();
     _popupControllerSubscription =
         (widget.popupController as PopupControllerImpl).stream.listen((event) {
-      //widget.onPopupEvent?.call(event, _popupState.selectedMarkers);
       _popupState.applyEvent(event);
     });
   }
 
   void _onMapEvent(MapEvent mapEvent) {
-    final zoom = mapEvent.zoom.ceil();
+    final zoom = mapEvent.camera.zoom.ceil();
 
     if (_previousZoom == null || zoom < _previousZoom!) {
       widget.popupController.hidePopupsWhereSpec((popupSpec) =>
