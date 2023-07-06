@@ -1,3 +1,10 @@
+## [5.3.0] - 22/06/23
+
+* BREAKING: flutter_map v6.
+* BREAKING: Marker's now declare anchor instead of anchorPos, this was the case
+  case pre-5.2.0 but a change in flutter_map forced it to be changed in this
+  plugin. This has now been changed back.
+
 ## [5.2.0] - 22/06/23
 
 * BREAKING: flutter_map v5.
