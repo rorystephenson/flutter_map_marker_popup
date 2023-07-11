@@ -58,7 +58,8 @@ class _PopupMarkerLayerState extends State<PopupMarkerLayer> {
         children: [
           MarkerLayer(
             layerOptions: widget.options,
-            map: flutter_map.FlutterMapState.of(context),
+            mapCamera: flutter_map.MapCamera.of(context),
+            mapController: flutter_map.MapController.of(context),
             popupState: popupState,
             popupController: _popupControllerImpl,
           ),

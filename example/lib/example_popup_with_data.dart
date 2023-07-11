@@ -32,9 +32,11 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       body: FlutterMap(
         options: MapOptions(
-          center: const LatLng(48.857661, 2.295135),
-          zoom: 13.0,
-          interactiveFlags: InteractiveFlag.all,
+          initialCenter: const LatLng(48.857661, 2.295135),
+          initialZoom: 13.0,
+          interactionOptions: const InteractionOptions(
+            flags: InteractiveFlag.all,
+          ),
           onTap: (_, __) => _popupLayerController.hideAllPopups(),
         ),
         children: <Widget>[
@@ -55,7 +57,7 @@ class _MapPageState extends State<MapPage> {
                   ),
                 ),
                 Marker(
-                  anchorPos: AnchorPos.align(AnchorAlign.top),
+                  anchorPos: const AnchorPos.align(AnchorAlign.top),
                   point: const LatLng(48.859661, 2.305135),
                   height: Monument.size,
                   width: Monument.size,
@@ -98,7 +100,7 @@ class Monument {
 class MonumentMarker extends Marker {
   MonumentMarker({required this.monument})
       : super(
-          anchorPos: AnchorPos.align(AnchorAlign.top),
+          anchorPos: const AnchorPos.align(AnchorAlign.top),
           height: Monument.size,
           width: Monument.size,
           point: LatLng(monument.lat, monument.long),

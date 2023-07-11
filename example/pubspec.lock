@@ -50,25 +50,25 @@ packages:
     dependency: "direct dev"
     description:
       name: flutter_lints
-      sha256: aeb0b80a8b3709709c9cc496cdc027c5b3216796bc0af0ce1007eaf24464fd4c
+      sha256: "2118df84ef0c3ca93f96123a616ae8540879991b8b57af2f81b76a7ada49b2a4"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   flutter_map:
     dependency: "direct main"
     description:
       name: flutter_map
-      sha256: "5286f72f87deb132daa1489442d6cc46e986fc105cb727d9ae1b602b35b1d1f3"
+      sha256: "9243fcc8d0b544720af6fd3b827428f6a362364445b9c16f83a73a85ce939f90"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.0"
+    version: "6.0.0-dev.1"
   flutter_map_marker_popup:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "5.1.0"
+    version: "5.3.0-dev.1"
   http:
     dependency: transitive
     description:

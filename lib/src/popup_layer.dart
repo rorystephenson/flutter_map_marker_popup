@@ -9,7 +9,7 @@ import 'package:flutter_map_marker_popup/src/state/popup_state_impl.dart';
 /// useful when you wish to display other widgets on top of markers but below
 /// their popups or for plugins which manage markers themselves and only need
 /// to display popups. This layer is a FlutterMap layer and therefore requires
-/// FlutterMapState to be present in the build context.
+/// MapController to be present in the build context.
 ///
 /// If you just wish to show markers and popups with no widgets between them
 /// use [PopupMarkerLayer].
@@ -31,14 +31,14 @@ class PopupLayer extends StatelessWidget {
 
     if (popupAnimation == null) {
       return SimplePopupContainer(
-        mapState: FlutterMapState.of(context),
+        mapCamera: MapCamera.of(context),
         popupStateImpl: PopupState.of(context) as PopupStateImpl,
         snap: popupDisplayOptions.snap,
         popupBuilder: popupDisplayOptions.builder,
       );
     } else {
       return AnimatedPopupContainer(
-        mapState: FlutterMapState.of(context),
+        mapCamera: MapCamera.of(context),
         popupStateImpl: PopupState.of(context) as PopupStateImpl,
         snap: popupDisplayOptions.snap,
         popupBuilder: popupDisplayOptions.builder,

@@ -4,53 +4,47 @@ import 'package:flutter_map/plugin_api.dart';
 import 'popup_layout.dart';
 
 abstract class SnapToMapLayout {
-  static PopupLayout left(FlutterMapState mapState) {
+  static PopupLayout left(MapCamera mapCamera) {
     return _layoutWith(
       contentAlignment: Alignment.centerLeft,
-      mapRotationRad: mapState.rotationRad,
-      translateX: _sizeChangeDueToRotation(mapState).x / 2,
+      mapRotationRad: mapCamera.rotationRad,
+      translateX: _sizeChangeDueToRotation(mapCamera).x / 2,
     );
   }
 
-  static PopupLayout top(FlutterMapState mapState) {
+  static PopupLayout top(MapCamera mapCamera) {
     return _layoutWith(
       contentAlignment: Alignment.topCenter,
-      mapRotationRad: mapState.rotationRad,
-      translateY: _sizeChangeDueToRotation(mapState).y / 2,
+      mapRotationRad: mapCamera.rotationRad,
+      translateY: _sizeChangeDueToRotation(mapCamera).y / 2,
     );
   }
 
-  static PopupLayout right(FlutterMapState mapState) {
+  static PopupLayout right(MapCamera mapCamera) {
     return _layoutWith(
       contentAlignment: Alignment.centerRight,
-      mapRotationRad: mapState.rotationRad,
-      translateX: -_sizeChangeDueToRotation(mapState).x / 2,
+      mapRotationRad: mapCamera.rotationRad,
+      translateX: -_sizeChangeDueToRotation(mapCamera).x / 2,
     );
   }
 
-  static PopupLayout bottom(FlutterMapState mapState) {
+  static PopupLayout bottom(MapCamera mapCamera) {
     return _layoutWith(
       contentAlignment: Alignment.bottomCenter,
-      mapRotationRad: mapState.rotationRad,
-      translateY: -_sizeChangeDueToRotation(mapState).y / 2,
+      mapRotationRad: mapCamera.rotationRad,
+      translateY: -_sizeChangeDueToRotation(mapCamera).y / 2,
     );
   }
 
-  static PopupLayout center(FlutterMapState mapState) {
+  static PopupLayout center(MapCamera mapCamera) {
     return _layoutWith(
       contentAlignment: Alignment.center,
-      mapRotationRad: mapState.rotationRad,
+      mapRotationRad: mapCamera.rotationRad,
     );
   }
 
-  static CustomPoint<num> _sizeChangeDueToRotation(FlutterMapState mapState) {
-    // This actually isn't an unnecessary cast because CustomPoint<double> will
-    // not allow subtraction of CustomPoint<num> because the subtraction
-    // operator only allows subtraction with a CustomPoint of the same type.
-    //
-    // ignore: unnecessary_cast
-    return (mapState.size as CustomPoint<num>) - mapState.nonrotatedSize;
-  }
+  static CustomPoint<double> _sizeChangeDueToRotation(MapCamera mapCamera) =>
+      mapCamera.size - mapCamera.nonRotatedSize;
 
   static PopupLayout _layoutWith({
     required Alignment contentAlignment,

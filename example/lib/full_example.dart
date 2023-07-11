@@ -6,37 +6,47 @@ import 'package:latlong2/latlong.dart';
 import 'example_popup.dart';
 import 'font/accurate_map_icons.dart';
 
-class MapWithPopups extends StatefulWidget {
-  final PopupState popupState;
+class FullExample extends StatefulWidget {
   final PopupSnap snap;
   final bool rotate;
   final bool fade;
   final AnchorAlign markerAnchorAlign;
   final bool showMultiplePopups;
   final bool showPopups;
-  final PopupController popupController;
+  // This is passed in rather than accessed via PopupState.of() to simplify the
+  // moving of popups that occurs when certain options are changed in
+  // didUpdateWidget. Usually it would be better to use PopupState.of() to
+  // access the PopupState.
+  final PopupState popupState;
 
-  const MapWithPopups({
+  const FullExample({
     super.key,
-    required this.popupState,
     required this.snap,
     required this.rotate,
     required this.fade,
     required this.markerAnchorAlign,
     required this.showMultiplePopups,
     required this.showPopups,
-    required this.popupController,
+    required this.popupState,
   });
 
   @override
-  State<MapWithPopups> createState() => _MapWithPopupsState();
+  State<FullExample> createState() => _FullExampleState();
 }
 
-class _MapWithPopupsState extends State<MapWithPopups> {
+class _FullExampleState extends State<FullExample> {
+  late final PopupController _popupController;
   late List<Marker> _markers;
 
   @override
-  void didUpdateWidget(covariant MapWithPopups oldWidget) {
+  void initState() {
+    super.initState();
+    _popupController = PopupController();
+    _markers = _buildMarkers();
+  }
+
+  @override
+  void didUpdateWidget(FullExample oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     final selectedMarkers = widget.popupState.selectedMarkers;
@@ -55,10 +65,14 @@ class _MapWithPopupsState extends State<MapWithPopups> {
           .any((selectedMarker) => marker.point == selectedMarker.point));
 
       if (matchingMarkers.isNotEmpty) {
-        widget.popupController.showPopupsOnlyFor(matchingMarkers.toList(),
-            disableAnimation: true);
+        debugPrint('We here');
+        _popupController.showPopupsOnlyFor(
+          matchingMarkers.toList(),
+          disableAnimation: true,
+        );
       } else {
-        widget.popupController.hideAllPopups(disableAnimation: true);
+        debugPrint('We ova here');
+        _popupController.hideAllPopups(disableAnimation: true);
       }
     }
 
@@ -69,16 +83,9 @@ class _MapWithPopupsState extends State<MapWithPopups> {
           .any((selectedMarker) => marker.point == selectedMarker.point));
 
       if (matchingMarkers.length > 1) {
-        widget.popupController.showPopupsOnlyFor([matchingMarkers.first]);
+        _popupController.showPopupsOnlyFor([matchingMarkers.first]);
       }
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    _markers = _buildMarkers();
   }
 
   List<Marker> _buildMarkers() {
@@ -137,10 +144,9 @@ class _MapWithPopupsState extends State<MapWithPopups> {
     return Scaffold(
       body: FlutterMap(
         options: MapOptions(
-          zoom: 5.0,
-          center: const LatLng(44.421, 10.404),
-          onTap: (_, __) => widget.popupController
-              .hideAllPopups(), // Hide popup when the map is tapped.
+          initialZoom: 5.0,
+          initialCenter: const LatLng(44.421, 10.404),
+          onTap: (_, __) => _popupController.hideAllPopups(),
         ),
         children: [
           TileLayer(
@@ -151,6 +157,7 @@ class _MapWithPopupsState extends State<MapWithPopups> {
             options: PopupMarkerLayerOptions(
               markerCenterAnimation: const MarkerCenterAnimation(),
               markers: _markers,
+              popupController: _popupController,
               popupDisplayOptions: !widget.showPopups
                   ? null
                   : PopupDisplayOptions(

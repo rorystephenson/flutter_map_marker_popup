@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map_marker_popup_example/map_with_separate_popups.dart';
+import 'package:flutter_map_marker_popup_example/widget_between_popups_and_markers_page.dart';
 
-import 'popup_option_controls.dart';
-import 'popup_outside_of_map.dart';
-import 'selected_marker_builder.dart';
-import 'simple_map_with_popups.dart';
+import 'basic_example_page.dart';
+import 'full_example_page.dart';
+import 'popup_outside_of_map_page.dart';
+import 'selected_marker_builder_page.dart';
 
 void main() => runApp(const MyApp());
 
@@ -14,15 +14,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Marker Popup Demo',
+      title: 'Marker Popup Examples',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const PopupOptionControls(),
+      home: const BasicExamplePage(),
       routes: <String, WidgetBuilder>{
-        PopupOptionControls.route: (context) => const PopupOptionControls(),
-        SimpleMapWithPopups.route: (context) => const SimpleMapWithPopups(),
-        SelectedMarkerBuilder.route: (context) => const SelectedMarkerBuilder(),
-        PopupOutsideOfMap.route: (context) => const PopupOutsideOfMap(),
-        MapWithSeparatePopups.route: (context) => const MapWithSeparatePopups(),
+        BasicExamplePage.route: (context) => const BasicExamplePage(),
+        FullExamplePage.route: (context) => const FullExamplePage(),
+        SelectedMarkerBuilderPage.route: (context) =>
+            const SelectedMarkerBuilderPage(),
+        PopupOutsideOfMapPage.route: (context) => const PopupOutsideOfMapPage(),
+        WidgetBetweenPopupsAndMarkersPage.route: (context) =>
+            const WidgetBetweenPopupsAndMarkersPage(),
       },
     );
   }

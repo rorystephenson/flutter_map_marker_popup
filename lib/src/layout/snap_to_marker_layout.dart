@@ -20,67 +20,69 @@ import 'popup_layout.dart';
 /// of the map container such that it still contains the whole map view.
 abstract class SnapToMarkerLayout {
   static PopupLayout left(
-    FlutterMapState mapState,
+    MapCamera mapCamera,
     PopupSpec popupSpec,
   ) {
     return PopupLayout(
       contentAlignment: Alignment.centerRight,
       rotationAlignment: Alignment.centerRight,
       transformationMatrix: popupSpec.markerRotate
-          ? PopupContainerTransform.toLeftOfRotatedMarker(mapState, popupSpec)
-          : PopupContainerTransform.toLeftOfMarker(mapState, popupSpec),
+          ? PopupContainerTransform.toLeftOfRotatedMarker(mapCamera, popupSpec)
+          : PopupContainerTransform.toLeftOfMarker(mapCamera, popupSpec),
     );
   }
 
   static PopupLayout top(
-    FlutterMapState mapState,
+    MapCamera mapCamera,
     PopupSpec popupSpec,
   ) {
     return PopupLayout(
       contentAlignment: Alignment.bottomCenter,
       rotationAlignment: Alignment.bottomCenter,
       transformationMatrix: popupSpec.markerRotate
-          ? PopupContainerTransform.toTopOfRotatedMarker(mapState, popupSpec)
-          : PopupContainerTransform.toTopOfMarker(mapState, popupSpec),
+          ? PopupContainerTransform.toTopOfRotatedMarker(mapCamera, popupSpec)
+          : PopupContainerTransform.toTopOfMarker(mapCamera, popupSpec),
     );
   }
 
   static PopupLayout right(
-    FlutterMapState mapState,
+    MapCamera mapCamera,
     PopupSpec popupSpec,
   ) {
     return PopupLayout(
       contentAlignment: Alignment.centerLeft,
       rotationAlignment: Alignment.centerLeft,
       transformationMatrix: popupSpec.markerRotate
-          ? PopupContainerTransform.toRightOfRotatedMarker(mapState, popupSpec)
-          : PopupContainerTransform.toRightOfMarker(mapState, popupSpec),
+          ? PopupContainerTransform.toRightOfRotatedMarker(mapCamera, popupSpec)
+          : PopupContainerTransform.toRightOfMarker(mapCamera, popupSpec),
     );
   }
 
   static PopupLayout bottom(
-    FlutterMapState mapState,
+    MapCamera mapCamera,
     PopupSpec popupSpec,
   ) {
     return PopupLayout(
       contentAlignment: Alignment.topCenter,
       rotationAlignment: Alignment.topCenter,
       transformationMatrix: popupSpec.markerRotate
-          ? PopupContainerTransform.toBottomOfRotatedMarker(mapState, popupSpec)
-          : PopupContainerTransform.toBottomOfMarker(mapState, popupSpec),
+          ? PopupContainerTransform.toBottomOfRotatedMarker(
+              mapCamera, popupSpec)
+          : PopupContainerTransform.toBottomOfMarker(mapCamera, popupSpec),
     );
   }
 
   static PopupLayout center(
-    FlutterMapState mapState,
+    MapCamera mapCamera,
     PopupSpec popupSpec,
   ) {
     return PopupLayout(
       contentAlignment: Alignment.center,
       rotationAlignment: Alignment.center,
       transformationMatrix: popupSpec.markerRotate
-          ? PopupContainerTransform.toCenterOfRotatedMarker(mapState, popupSpec)
-          : PopupContainerTransform.toCenterOfMarker(mapState, popupSpec),
+          ? PopupContainerTransform.toCenterOfRotatedMarker(
+              mapCamera, popupSpec)
+          : PopupContainerTransform.toCenterOfMarker(mapCamera, popupSpec),
     );
   }
 }

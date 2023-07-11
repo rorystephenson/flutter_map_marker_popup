@@ -8,7 +8,7 @@ import 'package:flutter_map_marker_popup/src/state/popup_event.dart';
 import 'package:flutter_map_marker_popup/src/state/popup_state_impl.dart';
 
 mixin PopupContainerMixin {
-  FlutterMapState get mapState;
+  MapCamera get mapCamera;
 
   PopupStateImpl get popupStateImpl;
 
@@ -33,7 +33,7 @@ mixin PopupContainerMixin {
   @nonVirtual
   PopupLayout popupLayout(PopupSpec popupSpec) {
     return PopupLayout.calculate(
-      mapState: mapState,
+      mapCamera: mapCamera,
       popupSpec: popupSpec,
       snap: snap,
     );
