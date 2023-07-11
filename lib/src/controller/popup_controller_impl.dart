@@ -72,7 +72,10 @@ class PopupControllerImpl implements PopupController {
   @override
   void togglePopupSpec(PopupSpec popupSpec, {bool disableAnimation = false}) {
     _streamController.add(
-      TogglePopupControllerEvent(popupSpec, disableAnimation: false),
+      TogglePopupControllerEvent(
+        popupSpec,
+        disableAnimation: disableAnimation,
+      ),
     );
   }
 
@@ -81,35 +84,50 @@ class PopupControllerImpl implements PopupController {
     List<Marker> markers, {
     bool disableAnimation = false,
   }) =>
-      hidePopupsOnlyForSpecs(markers.map(PopupSpec.wrap).toList());
+      hidePopupsOnlyForSpecs(
+        markers.map(PopupSpec.wrap).toList(),
+        disableAnimation: disableAnimation,
+      );
 
   @override
   void hidePopupsWhere(
     bool Function(Marker marker) test, {
     bool disableAnimation = false,
   }) =>
-      hidePopupsWhereSpec((popupSpec) => test(popupSpec.marker));
+      hidePopupsWhereSpec(
+        (popupSpec) => test(popupSpec.marker),
+        disableAnimation: disableAnimation,
+      );
 
   @override
   void showPopupsAlsoFor(
     List<Marker> markers, {
     bool disableAnimation = false,
   }) =>
-      showPopupsAlsoForSpecs(markers.map(PopupSpec.wrap).toList());
+      showPopupsAlsoForSpecs(
+        markers.map(PopupSpec.wrap).toList(),
+        disableAnimation: disableAnimation,
+      );
 
   @override
   void showPopupsOnlyFor(
     List<Marker> markers, {
     bool disableAnimation = false,
   }) =>
-      showPopupsOnlyForSpecs(markers.map(PopupSpec.wrap).toList());
+      showPopupsOnlyForSpecs(
+        markers.map(PopupSpec.wrap).toList(),
+        disableAnimation: disableAnimation,
+      );
 
   @override
   void togglePopup(
     Marker marker, {
     bool disableAnimation = false,
   }) =>
-      togglePopupSpec(PopupSpec.wrap(marker));
+      togglePopupSpec(
+        PopupSpec.wrap(marker),
+        disableAnimation: disableAnimation,
+      );
 
   @override
   void dispose() {

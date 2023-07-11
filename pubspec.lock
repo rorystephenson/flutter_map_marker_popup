@@ -73,12 +73,11 @@ packages:
   flutter_map:
     dependency: "direct main"
     description:
-      path: "."
-      ref: flutter-map-state-refactor
-      resolved-ref: "150213eefac88204d29907287d44e0a9b7df8528"
-      url: "https://github.com/rorystephenson/flutter_map"
-    source: git
-    version: "5.0.0"
+      name: flutter_map
+      sha256: "9243fcc8d0b544720af6fd3b827428f6a362364445b9c16f83a73a85ce939f90"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.0-dev.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter

@@ -6,16 +6,17 @@ import 'package:latlong2/latlong.dart';
 import 'drawer.dart';
 import 'example_popup.dart';
 
-class SimpleMapWithPopups extends StatefulWidget {
-  static const route = 'simpleMapWithPopups';
+class SelectedMarkerBuilderPage extends StatefulWidget {
+  static const route = 'selectedMarkerBuilderPage';
 
-  const SimpleMapWithPopups({Key? key}) : super(key: key);
+  const SelectedMarkerBuilderPage({Key? key}) : super(key: key);
 
   @override
-  State<SimpleMapWithPopups> createState() => _SimpleMapWithPopupsState();
+  State<SelectedMarkerBuilderPage> createState() =>
+      _SelectedMarkerBuilderPageState();
 }
 
-class _SimpleMapWithPopupsState extends State<SimpleMapWithPopups> {
+class _SelectedMarkerBuilderPageState extends State<SelectedMarkerBuilderPage> {
   late final List<Marker> _markers;
 
   /// Used to trigger showing/hiding of popups.
@@ -43,24 +44,17 @@ class _SimpleMapWithPopupsState extends State<SimpleMapWithPopups> {
   }
 
   @override
-  void dispose() {
-    _popupLayerController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Simple map with popups'),
+        title: const Text('Selected Marker Builder'),
       ),
-      drawer: buildDrawer(context, SimpleMapWithPopups.route),
+      drawer: buildDrawer(context, SelectedMarkerBuilderPage.route),
       body: FlutterMap(
         options: MapOptions(
           initialZoom: 5.0,
           initialCenter: const LatLng(44.421, 10.404),
-          onTap: (_, __) => _popupLayerController
-              .hideAllPopups(), // Hide popup when the map is tapped.
+          onTap: (_, __) => _popupLayerController.hideAllPopups(),
         ),
         children: [
           TileLayer(
@@ -74,6 +68,11 @@ class _SimpleMapWithPopupsState extends State<SimpleMapWithPopups> {
               popupDisplayOptions: PopupDisplayOptions(
                 builder: (BuildContext context, Marker marker) =>
                     ExamplePopup(marker),
+              ),
+              selectedMarkerBuilder: (context, marker) => const Icon(
+                Icons.location_on,
+                size: 40,
+                color: Colors.red,
               ),
             ),
           ),

@@ -5,16 +5,16 @@ import 'package:latlong2/latlong.dart';
 
 import 'drawer.dart';
 
-class PopupOutsideOfMap extends StatefulWidget {
-  static const route = 'popupOutsideOfMapExample';
+class PopupOutsideOfMapPage extends StatefulWidget {
+  static const route = 'popupOutsideOfMapPage';
 
-  const PopupOutsideOfMap({Key? key}) : super(key: key);
+  const PopupOutsideOfMapPage({Key? key}) : super(key: key);
 
   @override
-  State<PopupOutsideOfMap> createState() => _PopupOutsideOfMapState();
+  State<PopupOutsideOfMapPage> createState() => _PopupOutsideOfMapPageState();
 }
 
-class _PopupOutsideOfMapState extends State<PopupOutsideOfMap> {
+class _PopupOutsideOfMapPageState extends State<PopupOutsideOfMapPage> {
   static final positions = [
     const LatLng(45.246, 5.783),
     const LatLng(45.683, 10.839),
@@ -49,8 +49,8 @@ class _PopupOutsideOfMapState extends State<PopupOutsideOfMap> {
   Widget build(BuildContext context) {
     return PopupScope(
       child: Scaffold(
-        appBar: AppBar(title: const Text('Popup outside of map')),
-        drawer: buildDrawer(context, PopupOutsideOfMap.route),
+        appBar: AppBar(title: const Text('Popup Outside of Map')),
+        drawer: buildDrawer(context, PopupOutsideOfMapPage.route),
         body: Stack(
           children: [
             Positioned.fill(
@@ -61,8 +61,7 @@ class _PopupOutsideOfMapState extends State<PopupOutsideOfMap> {
                       options: MapOptions(
                         initialZoom: 5.0,
                         initialCenter: const LatLng(44.421, 10.404),
-                        onTap: (_, __) => _popupLayerController
-                            .hideAllPopups(), // Hide popup when the map is tapped.
+                        onTap: (_, __) => _popupLayerController.hideAllPopups(),
                       ),
                       children: [
                         TileLayer(
@@ -81,10 +80,7 @@ class _PopupOutsideOfMapState extends State<PopupOutsideOfMap> {
                     ),
                   ),
                   Container(
-                    height: 150,
-                    color: Colors.white,
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: const Text(
                       'This example demonstrates how you can place popups '
                       'wherever you want. In this case they will appear above '
@@ -114,7 +110,7 @@ class CustomPopupsDisplay extends StatelessWidget {
     final markersWithPopups = PopupState.maybeOf(context)!.selectedMarkers;
     final selectedMarkerNumbers = markersWithPopups
         .map((marker) =>
-            _PopupOutsideOfMapState.positions.indexOf(marker.point) + 1)
+            _PopupOutsideOfMapPageState.positions.indexOf(marker.point) + 1)
         .toList()
       ..sort();
     final selectedMarkersText = selectedMarkerNumbers.join(', ');
@@ -122,10 +118,10 @@ class CustomPopupsDisplay extends StatelessWidget {
     if (markersWithPopups.isEmpty) return const SizedBox.shrink();
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 100),
+      padding: const EdgeInsets.only(bottom: 50),
       child: GestureDetector(
         onTap: () {
-          debugPrint('tap');
+          debugPrint('Tap');
         },
         child: Card(
           elevation: 5,

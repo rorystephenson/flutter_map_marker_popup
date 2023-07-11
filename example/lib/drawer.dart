@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map_marker_popup_example/map_with_separate_popups.dart';
+import 'package:flutter_map_marker_popup_example/widget_between_popups_and_markers_page.dart';
 
-import 'popup_option_controls.dart';
-import 'popup_outside_of_map.dart';
-import 'selected_marker_builder.dart';
-import 'simple_map_with_popups.dart';
+import 'basic_example_page.dart';
+import 'full_example_page.dart';
+import 'popup_outside_of_map_page.dart';
+import 'selected_marker_builder_page.dart';
 
 Widget _buildMenuItem(
   BuildContext context,
@@ -38,32 +38,32 @@ Drawer buildDrawer(BuildContext context, String currentRoute) {
         ),
         _buildMenuItem(
           context,
-          const Text('Full example'),
-          PopupOptionControls.route,
+          const Text('Basic Example'),
+          BasicExamplePage.route,
           currentRoute,
         ),
         _buildMenuItem(
           context,
-          const Text('Simple map with popups'),
-          SimpleMapWithPopups.route,
+          const Text('Full Example'),
+          FullExamplePage.route,
           currentRoute,
         ),
         _buildMenuItem(
           context,
-          const Text('Selected marker builder'),
-          SelectedMarkerBuilder.route,
+          const Text('Selected Marker Builder'),
+          SelectedMarkerBuilderPage.route,
           currentRoute,
         ),
         _buildMenuItem(
           context,
-          const Text('Popup outside of map example'),
-          PopupOutsideOfMap.route,
+          const Text('Popup Outside of Map'),
+          PopupOutsideOfMapPage.route,
           currentRoute,
         ),
         _buildMenuItem(
           context,
-          const Text('Map with separate popups'),
-          MapWithSeparatePopups.route,
+          const Text('Widget Between Popups and Markers'),
+          WidgetBetweenPopupsAndMarkersPage.route,
           currentRoute,
         ),
       ],
