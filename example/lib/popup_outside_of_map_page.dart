@@ -66,8 +66,7 @@ class _PopupOutsideOfMapPageState extends State<PopupOutsideOfMapPage> {
                       children: [
                         TileLayer(
                           urlTemplate:
-                              'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                          subdomains: const ['a', 'b', 'c'],
+                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                         ),
                         PopupMarkerLayer(
                           options: PopupMarkerLayerOptions(
