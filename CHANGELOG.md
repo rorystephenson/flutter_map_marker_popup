@@ -1,3 +1,7 @@
+## 6.1.0 - 15/10/23
+
+* BUGFIX: Correct the popup position when the map is rotated.
+
 ## 6.0.0 - 15/10/23
 
 * BREAKING: flutter_map 6.0.0
