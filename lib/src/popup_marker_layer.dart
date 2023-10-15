@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_map/plugin_api.dart' as flutter_map;
+import 'package:flutter_map/flutter_map.dart' as flutter_map;
 import 'package:flutter_map_marker_popup/src/controller/popup_controller_impl.dart';
 import 'package:flutter_map_marker_popup/src/state/inherit_or_create_popup_scope.dart';
 

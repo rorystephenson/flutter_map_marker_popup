@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/src/popup_builder.dart';
 import 'package:flutter_map_marker_popup/src/popup_container/popup_container_mixin.dart';
 import 'package:flutter_map_marker_popup/src/popup_snap.dart';

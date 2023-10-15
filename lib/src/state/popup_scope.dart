@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:flutter_map_marker_popup/src/controller/popup_controller_event.dart';
 import 'package:flutter_map_marker_popup/src/controller/popup_controller_impl.dart';
@@ -16,7 +16,7 @@ class PopupScope extends StatefulWidget {
   /// If provided may be used to show/hide popups.
   final PopupController? popupController;
 
-  /// The PopupSpecs for which a popup should be initially visible.popupscope
+  /// The PopupSpecs for which a popup should be initially visible.
   final List<PopupSpec>? initiallySelected;
 
   /// An optional callback which can be used to react to [PopupControllerEvent]s. The

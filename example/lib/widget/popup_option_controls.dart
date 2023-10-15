@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:flutter_map_marker_popup_example/widget/grid_select.dart';
 
@@ -10,7 +9,7 @@ class PopupOptionControls extends StatefulWidget {
     PopupSnap popupSnap,
     bool rotate,
     bool fade,
-    AnchorAlign markerAnchorAlign,
+    Alignment markerAlignment,
     bool showMultiplePopups,
     bool showPopups,
   ) builder;
@@ -25,7 +24,7 @@ class PopupOptionControls extends StatefulWidget {
 }
 
 class _PopupOptionControls extends State<PopupOptionControls> {
-  static const List<AlignmentGeometry> alignments = [
+  static const List<Alignment> alignments = [
     Alignment.centerLeft,
     Alignment.topCenter,
     Alignment.centerRight,
@@ -36,8 +35,8 @@ class _PopupOptionControls extends State<PopupOptionControls> {
   bool _rotate = true;
   bool _fade = true;
   bool _snapToMarker = true;
-  AlignmentGeometry _popupAlignment = alignments[1];
-  AlignmentGeometry _anchorAlignment = alignments[1];
+  Alignment _popupAlignment = alignments[1];
+  Alignment _markerAlignment = alignments[1];
   bool _showMultiplePopups = false;
   bool _showPopups = true;
 
@@ -52,7 +51,7 @@ class _PopupOptionControls extends State<PopupOptionControls> {
             _popupSnap,
             _rotate,
             _fade,
-            _markerAnchorAlign,
+            _markerAlignment,
             _showMultiplePopups,
             _showPopups,
           ),
@@ -128,7 +127,7 @@ class _PopupOptionControls extends State<PopupOptionControls> {
                       initialAlignment: Alignment.topCenter,
                       onSelect: (alignment) {
                         setState(() {
-                          _anchorAlignment = alignment;
+                          _markerAlignment = alignment;
                         });
                       },
                     ),
@@ -185,23 +184,9 @@ class _PopupOptionControls extends State<PopupOptionControls> {
     );
   }
 
-  AnchorAlign get _markerAnchorAlign {
-    return <AlignmentGeometry, AnchorAlign>{
-      Alignment.topLeft: AnchorAlign.topLeft,
-      Alignment.topCenter: AnchorAlign.top,
-      Alignment.topRight: AnchorAlign.topRight,
-      Alignment.centerLeft: AnchorAlign.left,
-      Alignment.center: AnchorAlign.center,
-      Alignment.centerRight: AnchorAlign.right,
-      Alignment.bottomLeft: AnchorAlign.bottomLeft,
-      Alignment.bottomCenter: AnchorAlign.bottom,
-      Alignment.bottomRight: AnchorAlign.bottomRight,
-    }[_anchorAlignment]!;
-  }
-
   PopupSnap get _popupSnap {
     if (_snapToMarker) {
-      return <AlignmentGeometry, PopupSnap>{
+      return <Alignment, PopupSnap>{
         Alignment.centerLeft: PopupSnap.markerLeft,
         Alignment.topCenter: PopupSnap.markerTop,
         Alignment.centerRight: PopupSnap.markerRight,
@@ -209,7 +194,7 @@ class _PopupOptionControls extends State<PopupOptionControls> {
         Alignment.center: PopupSnap.markerCenter,
       }[_popupAlignment]!;
     } else {
-      return <AlignmentGeometry, PopupSnap>{
+      return <Alignment, PopupSnap>{
         Alignment.centerLeft: PopupSnap.mapLeft,
         Alignment.topCenter: PopupSnap.mapTop,
         Alignment.centerRight: PopupSnap.mapRight,

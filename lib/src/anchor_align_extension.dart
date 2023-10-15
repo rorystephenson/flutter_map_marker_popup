@@ -1,27 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_map/plugin_api.dart';
 
-extension FlutterMapMarkerPopupAnchorAlignExtension on AnchorAlign {
-  AlignmentGeometry get rotationAlignment {
-    switch (this) {
-      case AnchorAlign.left:
-        return Alignment.centerRight;
-      case AnchorAlign.topLeft:
-        return Alignment.bottomRight;
-      case AnchorAlign.top:
-        return Alignment.bottomCenter;
-      case AnchorAlign.topRight:
-        return Alignment.bottomLeft;
-      case AnchorAlign.right:
-        return Alignment.centerLeft;
-      case AnchorAlign.bottomRight:
-        return Alignment.topLeft;
-      case AnchorAlign.bottom:
-        return Alignment.topCenter;
-      case AnchorAlign.bottomLeft:
-        return Alignment.topRight;
-      case AnchorAlign.center:
-        return Alignment.center;
-    }
-  }
+extension FlutterMapMarkerPopupAnchorAlignExtension on Alignment {
+  Alignment get opposite => const Alignment(0, 0) - this;
 }

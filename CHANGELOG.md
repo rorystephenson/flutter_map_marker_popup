@@ -1,3 +1,7 @@
+## 6.0.0 - 15/10/23
+
+* BREAKING: flutter_map 6.0.0
+
 ## [5.3.0-dev.1] - 11/07/23
 
 * BREAKING: flutter_map 6.0.0-dev.1.

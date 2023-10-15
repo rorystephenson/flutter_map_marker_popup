@@ -36,7 +36,7 @@ class _FullExamplePageState extends State<FullExamplePage> {
               snap: popupSnap,
               rotate: rotate,
               fade: fade,
-              markerAnchorAlign: markerAnchorAlign,
+              markerAlignment: markerAnchorAlign,
               showMultiplePopups: showMultiplePopups,
               showPopups: showPopups,
               popupState: PopupState.of(context),

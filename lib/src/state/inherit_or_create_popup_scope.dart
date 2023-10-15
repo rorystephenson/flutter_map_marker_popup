@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:flutter_map_marker_popup/src/controller/popup_controller_event.dart';
 import 'package:flutter_map_marker_popup/src/controller/popup_controller_impl.dart';

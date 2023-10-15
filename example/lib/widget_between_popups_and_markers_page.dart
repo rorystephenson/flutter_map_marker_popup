@@ -44,9 +44,8 @@ class _WidgetBetweenPopupsAndMarkersPageState
         point: latLng,
         width: 40,
         height: 40,
-        builder: (_) => Icon(Icons.location_on, size: 40, color: color),
-        anchorPos: const AnchorPos.align(AnchorAlign.top),
-        rotateAlignment: AnchorAlign.top.rotationAlignment,
+        alignment: Alignment.topCenter,
+        child: Icon(Icons.location_on, size: 40, color: color),
       );
 
   @override

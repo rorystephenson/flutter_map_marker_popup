@@ -10,7 +10,7 @@ class FullExample extends StatefulWidget {
   final PopupSnap snap;
   final bool rotate;
   final bool fade;
-  final AnchorAlign markerAnchorAlign;
+  final Alignment markerAlignment;
   final bool showMultiplePopups;
   final bool showPopups;
   // This is passed in rather than accessed via PopupState.of() to simplify the
@@ -24,7 +24,7 @@ class FullExample extends StatefulWidget {
     required this.snap,
     required this.rotate,
     required this.fade,
-    required this.markerAnchorAlign,
+    required this.markerAlignment,
     required this.showMultiplePopups,
     required this.showPopups,
     required this.popupState,
@@ -50,7 +50,7 @@ class _FullExampleState extends State<FullExample> {
     super.didUpdateWidget(oldWidget);
 
     final selectedMarkers = widget.popupState.selectedMarkers;
-    if (widget.markerAnchorAlign != oldWidget.markerAnchorAlign ||
+    if (widget.markerAlignment != oldWidget.markerAlignment ||
         widget.rotate != oldWidget.rotate) {
       setState(() {
         _markers = _buildMarkers();
@@ -94,19 +94,20 @@ class _FullExampleState extends State<FullExample> {
         point: const LatLng(44.421, 10.404),
         width: 40,
         height: 40,
-        builder: (_) => const Icon(
+        child: const Icon(
           AccurateMapIcons.locationOnBottomAligned,
           size: 40,
         ),
-        anchorPos: AnchorPos.align(widget.markerAnchorAlign),
+        alignment: widget.markerAlignment,
         rotate: widget.rotate,
-        rotateAlignment: widget.markerAnchorAlign.rotationAlignment,
       ),
       Marker(
         point: const LatLng(45.683, 10.839),
         width: 20,
         height: 40,
-        builder: (_) => Container(
+        alignment: widget.markerAlignment,
+        rotate: widget.rotate,
+        child: Container(
           decoration: BoxDecoration(
             color: Colors.black54,
             border: Border.all(color: Colors.black, width: 0.0),
@@ -115,15 +116,14 @@ class _FullExampleState extends State<FullExample> {
           width: 20,
           height: 40,
         ),
-        anchorPos: AnchorPos.align(widget.markerAnchorAlign),
-        rotate: widget.rotate,
-        rotateAlignment: widget.markerAnchorAlign.rotationAlignment,
       ),
       Marker(
         point: const LatLng(45.246, 5.783),
         width: 40,
         height: 20,
-        builder: (_) => Container(
+        alignment: widget.markerAlignment,
+        rotate: widget.rotate,
+        child: Container(
           decoration: BoxDecoration(
             color: Colors.blue.withOpacity(0.5),
             border: Border.all(color: Colors.black, width: 0.0),
@@ -132,9 +132,6 @@ class _FullExampleState extends State<FullExample> {
           width: 40,
           height: 20,
         ),
-        anchorPos: AnchorPos.align(widget.markerAnchorAlign),
-        rotate: widget.rotate,
-        rotateAlignment: widget.markerAnchorAlign.rotationAlignment,
       ),
     ];
   }

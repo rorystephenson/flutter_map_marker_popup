@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/src/popup_spec.dart';
 import 'package:latlong2/latlong.dart';
 
 final markerA = Marker(
-  builder: (context) => Container(
+  child: Container(
     color: Colors.blue,
     child: const Text('markerA'),
   ),
@@ -16,7 +16,7 @@ final popupSpecA = PopupSpec.wrap(markerA);
 final wrappedMarkerA = TestWrappedMarker(markerA);
 
 final markerB = Marker(
-  builder: (context) => Container(
+  child: Container(
     color: Colors.green,
     child: const Text('markerB'),
   ),
@@ -40,10 +40,10 @@ class TestWrappedMarker implements Marker {
   int get hashCode => marker.hashCode;
 
   @override
-  Anchor? get anchor => marker.anchor;
+  Alignment? get alignment => marker.alignment;
 
   @override
-  WidgetBuilder get builder => marker.builder;
+  Widget get child => marker.child;
 
   @override
   double get height => marker.height;
@@ -56,12 +56,6 @@ class TestWrappedMarker implements Marker {
 
   @override
   bool? get rotate => marker.rotate;
-
-  @override
-  AlignmentGeometry? get rotateAlignment => marker.rotateAlignment;
-
-  @override
-  Offset? get rotateOrigin => marker.rotateOrigin;
 
   @override
   double get width => marker.width;

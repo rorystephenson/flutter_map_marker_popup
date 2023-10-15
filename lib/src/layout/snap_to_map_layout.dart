@@ -1,5 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/widgets.dart';
-import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map/flutter_map.dart';
 
 import 'popup_layout.dart';
 
@@ -43,7 +45,7 @@ abstract class SnapToMapLayout {
     );
   }
 
-  static CustomPoint<double> _sizeChangeDueToRotation(MapCamera mapCamera) =>
+  static Point<double> _sizeChangeDueToRotation(MapCamera mapCamera) =>
       mapCamera.size - mapCamera.nonRotatedSize;
 
   static PopupLayout _layoutWith({
