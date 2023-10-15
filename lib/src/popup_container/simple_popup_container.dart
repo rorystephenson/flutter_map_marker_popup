@@ -76,13 +76,15 @@ class _SimplePopupContainerState extends State<SimplePopupContainer>
   Widget build(BuildContext context) {
     if (_selectedPopupSpecs.isEmpty) return Container();
 
-    return Stack(
-      children: _selectedPopupSpecs
-          .map((popupSpec) => inPosition(
-                popupSpec,
-                popupWithStateKeepAlive(popupSpec, widget.popupBuilder),
-              ))
-          .toList(),
+    return MobileLayerTransformer(
+      child: Stack(
+        children: _selectedPopupSpecs
+            .map((popupSpec) => inPosition(
+                  popupSpec,
+                  popupWithStateKeepAlive(popupSpec, widget.popupBuilder),
+                ))
+            .toList(),
+      ),
     );
   }
 

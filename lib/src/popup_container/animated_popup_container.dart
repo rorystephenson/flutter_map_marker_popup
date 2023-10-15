@@ -95,12 +95,14 @@ class _AnimatedPopupContainerState extends State<AnimatedPopupContainer>
   @override
   Widget build(BuildContext context) {
     return Positioned.fill(
-      child: AnimatedStack(
-        initialItemCount: _animatedStackManager.length,
-        key: _animatedStackKey,
-        itemBuilder: (context, index, animation) => _buildPopup(
-          _animatedStackManager[index],
-          animation,
+      child: MobileLayerTransformer(
+        child: AnimatedStack(
+          initialItemCount: _animatedStackManager.length,
+          key: _animatedStackKey,
+          itemBuilder: (context, index, animation) => _buildPopup(
+            _animatedStackManager[index],
+            animation,
+          ),
         ),
       ),
     );
