@@ -20,13 +20,6 @@ class PopupSpec {
   /// using a marker snap.
   final LatLng? markerPointOverride;
 
-  /// Override the marker's rotateAlignment. This will only affect popup
-  /// placement when using a marker snap.
-  final AlignmentGeometry? markerRotateAlignmentOverride;
-
-  /// Remove the marker's rotateOrigin.
-  final bool removeMarkerRotateOrigin;
-
   /// Override the marker's anchor. This will only affect popup placement when
   /// using a marker snap.
   final Alignment? markerAlignmentOverride;
@@ -36,8 +29,6 @@ class PopupSpec {
     this.removeIfZoomLessThan,
     this.namespace,
     this.markerPointOverride,
-    this.markerRotateAlignmentOverride,
-    this.removeMarkerRotateOrigin = false,
     this.markerAlignmentOverride,
   }) : key = GlobalKey();
 
@@ -48,8 +39,6 @@ class PopupSpec {
         removeIfZoomLessThan = null,
         namespace = null,
         markerPointOverride = null,
-        markerRotateAlignmentOverride = null,
-        removeMarkerRotateOrigin = false,
         markerAlignmentOverride = null;
 
   /// A convenience method for extracting the marker from a PopupSpec.

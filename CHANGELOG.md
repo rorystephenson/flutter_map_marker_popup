@@ -1,3 +1,7 @@
+## 6.1.1 - 15/10/23
+
+* BUGFIX: Remove unused PopupSpec variables.
+
 ## 6.1.0 - 15/10/23
 
 * BUGFIX: Correct the popup position when the map is rotated.
