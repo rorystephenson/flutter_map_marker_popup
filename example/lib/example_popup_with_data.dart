@@ -56,12 +56,12 @@ class _MapPageState extends State<MapPage> {
                     long: 2.295135,
                   ),
                 ),
-                Marker(
-                  anchorPos: const AnchorPos.align(AnchorAlign.top),
-                  point: const LatLng(48.859661, 2.305135),
+                const Marker(
+                  alignment: Alignment.topCenter,
+                  point: LatLng(48.859661, 2.305135),
                   height: Monument.size,
                   width: Monument.size,
-                  builder: (BuildContext ctx) => const Icon(Icons.shop),
+                  child: Icon(Icons.shop),
                 ),
               ],
               popupController: _popupLayerController,
@@ -100,11 +100,11 @@ class Monument {
 class MonumentMarker extends Marker {
   MonumentMarker({required this.monument})
       : super(
-          anchorPos: const AnchorPos.align(AnchorAlign.top),
+          alignment: Alignment.topCenter,
           height: Monument.size,
           width: Monument.size,
           point: LatLng(monument.lat, monument.long),
-          builder: (BuildContext ctx) => const Icon(Icons.camera_alt),
+          child: const Icon(Icons.camera_alt),
         );
 
   final Monument monument;

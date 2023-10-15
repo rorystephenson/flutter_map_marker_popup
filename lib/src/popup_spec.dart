@@ -22,23 +22,23 @@ class PopupSpec {
 
   /// Override the marker's rotateAlignment. This will only affect popup
   /// placement when using a marker snap.
-  final AlignmentGeometry? markerRotateAlignmentOveride;
+  final AlignmentGeometry? markerRotateAlignmentOverride;
 
   /// Remove the marker's rotateOrigin.
   final bool removeMarkerRotateOrigin;
 
   /// Override the marker's anchor. This will only affect popup placement when
   /// using a marker snap.
-  final Anchor? markerAnchorOverride;
+  final Alignment? markerAlignmentOverride;
 
   PopupSpec({
     required this.marker,
     this.removeIfZoomLessThan,
     this.namespace,
     this.markerPointOverride,
-    this.markerRotateAlignmentOveride,
+    this.markerRotateAlignmentOverride,
     this.removeMarkerRotateOrigin = false,
-    this.markerAnchorOverride,
+    this.markerAlignmentOverride,
   }) : key = GlobalKey();
 
   /// A convenience constructor for creating a PopupSpec without setting
@@ -48,9 +48,9 @@ class PopupSpec {
         removeIfZoomLessThan = null,
         namespace = null,
         markerPointOverride = null,
-        markerRotateAlignmentOveride = null,
+        markerRotateAlignmentOverride = null,
         removeMarkerRotateOrigin = false,
-        markerAnchorOverride = null;
+        markerAlignmentOverride = null;
 
   /// A convenience method for extracting the marker from a PopupSpec.
   /// Particularly handy for lists e.g. popupSpecs.map(PopupSpec.unwrap).
@@ -74,14 +74,8 @@ class PopupSpec {
 
   LatLng get markerPoint => markerPointOverride ?? marker.point;
 
-  Anchor get markerAnchor =>
-      markerAnchorOverride ??
-      marker.anchor ??
-      Anchor.fromPos(
-        AnchorPos.defaultAnchorPos,
-        marker.width,
-        marker.height,
-      );
+  Alignment get markerAlignment =>
+      markerAlignmentOverride ?? marker.alignment ?? Alignment.center;
 
   ////////////////////////////
   /// Marker method proxies //

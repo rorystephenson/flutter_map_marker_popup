@@ -33,8 +33,8 @@ class _PopupOutsideOfMapPageState extends State<PopupOutsideOfMapPage> {
               point: markerPosition,
               width: 40,
               height: 40,
-              builder: (_) => const Icon(Icons.location_on, size: 40),
-              anchorPos: const AnchorPos.align(AnchorAlign.top),
+              alignment: Alignment.topCenter,
+              child: const Icon(Icons.location_on, size: 40),
             ))
         .toList();
   }

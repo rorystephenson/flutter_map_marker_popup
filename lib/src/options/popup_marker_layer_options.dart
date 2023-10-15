@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:flutter_map_marker_popup/src/state/popup_event.dart';
 
@@ -8,7 +8,7 @@ class PopupMarkerLayerOptions {
   final List<Marker> markers;
 
   /// Controls the appearance of popups. Leave null if you wish to show popups
-  /// elsewhere either using PopupLayerPopups or by manually constucting the
+  /// elsewhere either using PopupLayerPopups or by manually constructing the
   /// popup using PopupScope/PopupState.
   final PopupDisplayOptions? popupDisplayOptions;
 
@@ -81,8 +81,4 @@ class PopupMarkerLayerOptions {
     this.onPopupEvent,
   }) : markerTapBehavior =
             markerTapBehavior ?? MarkerTapBehavior.togglePopupAndHideRest();
-
-  @Deprecated('Use the AnchorAlign\'s rotationAlignment method instead.')
-  static AlignmentGeometry rotationAlignmentFor(AnchorAlign anchorAlign) =>
-      anchorAlign.rotationAlignment;
 }

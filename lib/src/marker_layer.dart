@@ -1,10 +1,16 @@
+import 'dart:math';
+
 import 'package:flutter/widgets.dart';
-import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_marker_popup/src/lat_lng_tween.dart';
+import 'package:flutter_map_marker_popup/src/options/popup_marker_layer_options.dart';
+import 'package:flutter_map_marker_popup/src/popup_spec.dart';
+import 'package:flutter_map_marker_popup/src/state/popup_state.dart';
 import 'package:provider/provider.dart';
 
-import '../flutter_map_marker_popup.dart';
-import 'lat_lng_tween.dart';
+import 'controller/popup_controller.dart';
 
+@immutable
 class MarkerLayer extends StatefulWidget {
   final PopupMarkerLayerOptions layerOptions;
   final MapCamera mapCamera;
@@ -13,13 +19,13 @@ class MarkerLayer extends StatefulWidget {
   final PopupController popupController;
 
   const MarkerLayer({
-    Key? key,
+    super.key,
     required this.layerOptions,
     required this.mapCamera,
     required this.mapController,
     required this.popupState,
     required this.popupController,
-  }) : super(key: key);
+  });
 
   @override
   State<MarkerLayer> createState() => _MarkerLayerState();
@@ -27,27 +33,12 @@ class MarkerLayer extends StatefulWidget {
 
 class _MarkerLayerState extends State<MarkerLayer>
     with SingleTickerProviderStateMixin {
-  var lastZoom = -1.0;
-
-  /// List containing cached pixel positions of markers
-  /// Should be discarded when zoom changes
-  // Has a fixed length of markerOpts.markers.length - better performance:
-  // https://stackoverflow.com/questions/15943890/is-there-a-performance-benefit-in-using-fixed-length-lists-in-dart
-  var _pxCache = <CustomPoint>[];
-
   late AnimationController _centerMarkerController;
   void Function()? _animationListener;
-
-  // Calling this every time markerOpts change should guarantee proper length
-  List<CustomPoint> generatePxCache() => List.generate(
-        widget.layerOptions.markers.length,
-        (i) => widget.mapCamera.project(widget.layerOptions.markers[i].point),
-      );
 
   @override
   void initState() {
     super.initState();
-    _pxCache = generatePxCache();
     _centerMarkerController = AnimationController(
       vsync: this,
       duration: widget.layerOptions.markerCenterAnimation?.duration,
@@ -55,100 +46,86 @@ class _MarkerLayerState extends State<MarkerLayer>
   }
 
   @override
-  void didUpdateWidget(covariant MarkerLayer oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    lastZoom = -1.0;
-    _pxCache = generatePxCache();
-    _centerMarkerController.duration =
-        widget.layerOptions.markerCenterAnimation?.duration;
+  void dispose() {
+    _centerMarkerController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final map = MapCamera.of(context);
+
     if (widget.layerOptions.selectedMarkerBuilder != null) {
       context.watch<PopupState>();
     }
-    var markers = <Widget>[];
-    final sameZoom = widget.mapCamera.zoom == lastZoom;
-    for (var i = 0; i < widget.layerOptions.markers.length; i++) {
-      var marker = widget.layerOptions.markers[i];
 
-      // Decide whether to use cached point or calculate it
-      var pxPoint =
-          sameZoom ? _pxCache[i] : widget.mapCamera.project(marker.point);
-      if (!sameZoom) {
-        _pxCache[i] = pxPoint;
-      }
+    return MobileLayerTransformer(
+      child: Stack(
+        // ignore: avoid_types_on_closure_parameters
+        children: (List<Marker> markers) sync* {
+          for (final m in markers) {
+            // Resolve real alignment
+            final left =
+                0.5 * m.width * ((m.alignment ?? Alignment.center).x + 1);
+            final top =
+                0.5 * m.height * ((m.alignment ?? Alignment.center).y + 1);
+            final right = m.width - left;
+            final bottom = m.height - top;
 
-      // Anchor is calculated not stored so we assign to a variable.
-      final anchor = marker.anchor ??
-          Anchor.fromPos(
-            AnchorPos.defaultAnchorPos,
-            marker.width,
-            marker.height,
-          );
-      final width = marker.width - anchor.left;
-      final height = marker.height - anchor.top;
-      var sw = CustomPoint(pxPoint.x + width, pxPoint.y - height);
-      var ne = CustomPoint(pxPoint.x - width, pxPoint.y + height);
+            // Perform projection
+            final pxPoint = map.project(m.point);
 
-      if (!widget.mapCamera.pixelBounds.containsPartialBounds(Bounds(sw, ne))) {
-        continue;
-      }
+            // Cull if out of bounds
+            if (!map.pixelBounds.containsPartialBounds(
+              Bounds(
+                Point(pxPoint.x + left, pxPoint.y - bottom),
+                Point(pxPoint.x - right, pxPoint.y + top),
+              ),
+            )) continue;
 
-      final pos = pxPoint - widget.mapCamera.pixelOrigin;
+            // Apply map camera to marker position
+            final pos = pxPoint.subtract(map.pixelOrigin);
 
-      var markerBuilder = marker.builder;
-      if (widget.layerOptions.selectedMarkerBuilder != null &&
-          widget.popupState.isSelected(marker)) {
-        markerBuilder = (context) =>
-            widget.layerOptions.selectedMarkerBuilder!(context, marker);
-      }
-      final markerWithGestureDetector = GestureDetector(
-        onTap: () {
-          if (!widget.popupState.selectedMarkers.contains(marker)) {
-            _centerMarker(marker);
+            var markerChild = m.child;
+            if (widget.layerOptions.selectedMarkerBuilder != null &&
+                widget.popupState.isSelected(m)) {
+              markerChild =
+                  widget.layerOptions.selectedMarkerBuilder!(context, m);
+            }
+            final markerWithGestureDetector = GestureDetector(
+              onTap: () {
+                if (!widget.popupState.selectedMarkers.contains(m)) {
+                  _centerMarker(m);
+                }
+
+                widget.layerOptions.markerTapBehavior.apply(
+                  PopupSpec.wrap(m),
+                  widget.popupState,
+                  widget.popupController,
+                );
+              },
+              child: markerChild,
+            );
+
+            yield Positioned(
+              key: m.key,
+              width: m.width,
+              height: m.height,
+              left: pos.x - right,
+              top: pos.y - bottom,
+              child: (m.rotate == true)
+                  ? Transform.rotate(
+                      angle: -map.rotationRad,
+                      alignment: (m.alignment ?? Alignment.center) * -1,
+                      child: markerWithGestureDetector,
+                    )
+                  : markerWithGestureDetector,
+            );
           }
-
-          widget.layerOptions.markerTapBehavior.apply(
-            PopupSpec.wrap(marker),
-            widget.popupState,
-            widget.popupController,
-          );
-        },
-        child: markerBuilder(context),
-      );
-
-      Widget markerWidget;
-      if (marker.rotate == true) {
-        final markerRotateOrigin = marker.rotateOrigin;
-        final markerRotateAlignment = marker.rotateAlignment;
-
-        // Counter rotated marker to the map rotation
-        markerWidget = Transform.rotate(
-          angle: -widget.mapCamera.rotationRad,
-          origin: markerRotateOrigin,
-          alignment: markerRotateAlignment,
-          child: markerWithGestureDetector,
-        );
-      } else {
-        markerWidget = markerWithGestureDetector;
-      }
-
-      markers.add(
-        Positioned(
-          key: marker.key,
-          width: marker.width,
-          height: marker.height,
-          left: pos.x - width,
-          top: pos.y - height,
-          child: markerWidget,
-        ),
-      );
-    }
-    lastZoom = widget.mapCamera.zoom;
-
-    return Stack(children: markers);
+        }(widget.layerOptions.markers)
+            .toList(),
+      ),
+    );
   }
 
   void _centerMarker(Marker marker) {
@@ -181,11 +158,5 @@ class _MarkerLayerState extends State<MarkerLayer>
         ..reset();
       _animationListener = null;
     });
-  }
-
-  @override
-  void dispose() {
-    _centerMarkerController.dispose();
-    super.dispose();
   }
 }

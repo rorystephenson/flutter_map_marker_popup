@@ -1,5 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/rendering.dart';
-import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/src/popup_spec.dart';
 
 import 'popup_calculations.dart';
@@ -196,10 +198,11 @@ abstract class PopupContainerTransform {
     )..rotateZ(-mapCamera.rotationRad);
   }
 
-  static CustomPoint<num> _markerPoint(
+  static Point<num> _markerPoint(
     MapCamera mapCamera,
     PopupSpec popupSpec,
   ) {
-    return mapCamera.project(popupSpec.markerPoint) - mapCamera.pixelOrigin;
+    return mapCamera.project(popupSpec.markerPoint) -
+        mapCamera.pixelOrigin.toDoublePoint();
   }
 }
