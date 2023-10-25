@@ -1,3 +1,9 @@
+## 6.1.2 - 25/10/23
+
+* BREAKING: flutter_map 6.0.1, despite the minor version change this introduced
+  a breaking change which required a small fix.
+* CHORE: Bump deps, fix some analysis issues from the new flutter lints.
+
 ## 6.1.1 - 15/10/23
 
 * BUGFIX: Remove unused PopupSpec variables.
