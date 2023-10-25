@@ -9,7 +9,7 @@ import 'example_popup.dart';
 class WidgetBetweenPopupsAndMarkersPage extends StatefulWidget {
   static const route = 'widgetBetweenPopupsAndMarkersPage';
 
-  const WidgetBetweenPopupsAndMarkersPage({Key? key}) : super(key: key);
+  const WidgetBetweenPopupsAndMarkersPage({super.key});
 
   @override
   State<WidgetBetweenPopupsAndMarkersPage> createState() =>

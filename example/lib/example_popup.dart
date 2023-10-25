@@ -4,7 +4,7 @@ import 'package:flutter_map/flutter_map.dart';
 class ExamplePopup extends StatefulWidget {
   final Marker marker;
 
-  const ExamplePopup(this.marker, {Key? key}) : super(key: key);
+  const ExamplePopup(this.marker, {super.key});
 
   @override
   State<StatefulWidget> createState() => _ExamplePopupState();

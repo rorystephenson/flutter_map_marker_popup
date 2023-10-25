@@ -8,7 +8,7 @@ import 'drawer.dart';
 class PopupOutsideOfMapPage extends StatefulWidget {
   static const route = 'popupOutsideOfMapPage';
 
-  const PopupOutsideOfMapPage({Key? key}) : super(key: key);
+  const PopupOutsideOfMapPage({super.key});
 
   @override
   State<PopupOutsideOfMapPage> createState() => _PopupOutsideOfMapPageState();
@@ -102,7 +102,7 @@ class _PopupOutsideOfMapPageState extends State<PopupOutsideOfMapPage> {
 }
 
 class CustomPopupsDisplay extends StatelessWidget {
-  const CustomPopupsDisplay({Key? key}) : super(key: key);
+  const CustomPopupsDisplay({super.key});
 
   @override
   Widget build(BuildContext context) {

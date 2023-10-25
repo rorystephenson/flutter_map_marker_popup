@@ -6,7 +6,7 @@ import 'package:latlong2/latlong.dart';
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MapPage extends StatefulWidget {
-  const MapPage({Key? key}) : super(key: key);
+  const MapPage({super.key});
 
   @override
   State<MapPage> createState() => _MapPageState();
@@ -110,8 +110,7 @@ class MonumentMarker extends Marker {
 }
 
 class MonumentMarkerPopup extends StatelessWidget {
-  const MonumentMarkerPopup({Key? key, required this.monument})
-      : super(key: key);
+  const MonumentMarkerPopup({super.key, required this.monument});
   final Monument monument;
 
   @override

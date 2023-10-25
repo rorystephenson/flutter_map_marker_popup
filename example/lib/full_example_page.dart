@@ -8,7 +8,7 @@ import 'drawer.dart';
 class FullExamplePage extends StatefulWidget {
   static const route = 'fullExamplePage';
 
-  const FullExamplePage({Key? key}) : super(key: key);
+  const FullExamplePage({super.key});
 
   @override
   State<FullExamplePage> createState() => _FullExamplePageState();

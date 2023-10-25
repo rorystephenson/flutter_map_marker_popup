@@ -24,8 +24,8 @@ class AnimatedPopupContainer extends StatefulWidget {
     required this.snap,
     required this.popupBuilder,
     required this.popupAnimation,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<StatefulWidget> createState() => _AnimatedPopupContainerState();

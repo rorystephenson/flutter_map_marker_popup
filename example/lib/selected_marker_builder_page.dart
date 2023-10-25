@@ -9,7 +9,7 @@ import 'example_popup.dart';
 class SelectedMarkerBuilderPage extends StatefulWidget {
   static const route = 'selectedMarkerBuilderPage';
 
-  const SelectedMarkerBuilderPage({Key? key}) : super(key: key);
+  const SelectedMarkerBuilderPage({super.key});
 
   @override
   State<SelectedMarkerBuilderPage> createState() =>

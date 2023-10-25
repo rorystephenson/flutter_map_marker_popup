@@ -9,7 +9,7 @@ import 'example_popup.dart';
 class BasicExamplePage extends StatelessWidget {
   static const route = 'basicExamplePage';
 
-  const BasicExamplePage({Key? key}) : super(key: key);
+  const BasicExamplePage({super.key});
 
   static final List<Marker> _markers = [
     const LatLng(44.421, 10.404),
