@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_map_marker_popup/src/lat_lng_tween.dart';
 import 'package:flutter_map_marker_popup/src/options/popup_marker_layer_options.dart';
 import 'package:flutter_map_marker_popup/src/popup_spec.dart';
 import 'package:flutter_map_marker_popup/src/state/popup_state.dart';
