@@ -1,6 +1,6 @@
 name: flutter_map_marker_popup
 description: Marker popups for flutter_map.
-version: 6.1.2
+version: 7.0.0-dev.1
 homepage: https://github.com/rorystephenson/flutter_map_marker_popup
 topics:
   - flutter-map
