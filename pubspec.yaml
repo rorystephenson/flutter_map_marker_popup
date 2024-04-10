@@ -15,7 +15,7 @@ dependencies:
     sdk: flutter
 
   animated_stack_widget: ^0.0.4
-  flutter_map: ^6.0.1
+  flutter_map: ^7.0.0-dev.1
   latlong2: ^0.9.0
   provider: ^6.0.5
 
