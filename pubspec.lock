@@ -49,14 +49,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.18.0"
-  dart_earcut:
-    dependency: transitive
-    description:
-      name: dart_earcut
-      sha256: "41b493147e30a051efb2da1e3acb7f38fe0db60afba24ac1ea5684cee272721e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -82,10 +74,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_map
-      sha256: ead3532d99548140346684cf737a4c0a6f59f02f62ee4e406597f8364afbf1a2
+      sha256: "87cc8349b8fa5dccda5af50018c7374b6645334a0d680931c1fe11bce88fa5bb"
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.0"
+    version: "6.2.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
