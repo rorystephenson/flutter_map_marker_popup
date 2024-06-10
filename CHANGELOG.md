@@ -1,3 +1,7 @@
+## 7.0.0 - 10/06/24
+
+* BREAKING: flutter_map 7.0.0. Thanks to @marcelo-soares-souza and @pento
+
 ## 6.1.2 - 25/10/23
 
 * BREAKING: flutter_map 6.0.1, despite the minor version change this introduced
