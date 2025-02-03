@@ -50,8 +50,7 @@ class _FullExampleState extends State<FullExample> {
     super.didUpdateWidget(oldWidget);
 
     final selectedMarkers = widget.popupState.selectedMarkers;
-    if (widget.markerAlignment != oldWidget.markerAlignment ||
-        widget.rotate != oldWidget.rotate) {
+    if (widget.markerAlignment != oldWidget.markerAlignment || widget.rotate != oldWidget.rotate) {
       setState(() {
         _markers = _buildMarkers();
       });
@@ -61,8 +60,7 @@ class _FullExampleState extends State<FullExample> {
       /// anchor point change). If we can match one of the new Markers to the
       /// old Marker that had the popup then we can show the popup for that
       /// Marker.
-      final matchingMarkers = _markers.where((marker) => selectedMarkers
-          .any((selectedMarker) => marker.point == selectedMarker.point));
+      final matchingMarkers = _markers.where((marker) => selectedMarkers.any((selectedMarker) => marker.point == selectedMarker.point));
 
       if (matchingMarkers.isNotEmpty) {
         debugPrint('We here');
@@ -79,8 +77,7 @@ class _FullExampleState extends State<FullExample> {
     /// If we change to show only one popup at a time we should hide all popups
     /// apart from the first one.
     if (!widget.showMultiplePopups && oldWidget.showMultiplePopups) {
-      final matchingMarkers = _markers.where((marker) => selectedMarkers
-          .any((selectedMarker) => marker.point == selectedMarker.point));
+      final matchingMarkers = _markers.where((marker) => selectedMarkers.any((selectedMarker) => marker.point == selectedMarker.point));
 
       if (matchingMarkers.length > 1) {
         _popupController.showPopupsOnlyFor([matchingMarkers.first]);
@@ -125,7 +122,7 @@ class _FullExampleState extends State<FullExample> {
         rotate: widget.rotate,
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.blue.withOpacity(0.5),
+            color: Colors.blue.withValues(alpha: 0.5),
             border: Border.all(color: Colors.black, width: 0.0),
             borderRadius: const BorderRadius.all(Radius.elliptical(40, 20)),
           ),
@@ -157,17 +154,11 @@ class _FullExampleState extends State<FullExample> {
               popupDisplayOptions: !widget.showPopups
                   ? null
                   : PopupDisplayOptions(
-                      builder: (BuildContext context, Marker marker) =>
-                          ExamplePopup(marker),
+                      builder: (BuildContext context, Marker marker) => ExamplePopup(marker),
                       snap: widget.snap,
-                      animation: widget.fade
-                          ? const PopupAnimation.fade(
-                              duration: Duration(milliseconds: 700))
-                          : null,
+                      animation: widget.fade ? const PopupAnimation.fade(duration: Duration(milliseconds: 700)) : null,
                     ),
-              markerTapBehavior: widget.showMultiplePopups
-                  ? MarkerTapBehavior.togglePopup()
-                  : MarkerTapBehavior.togglePopupAndHideRest(),
+              markerTapBehavior: widget.showMultiplePopups ? MarkerTapBehavior.togglePopup() : MarkerTapBehavior.togglePopupAndHideRest(),
               onPopupEvent: (event, selectedMarkers) {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(

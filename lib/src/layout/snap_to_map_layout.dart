@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 
@@ -10,7 +8,7 @@ abstract class SnapToMapLayout {
     return _layoutWith(
       contentAlignment: Alignment.centerLeft,
       mapRotationRad: mapCamera.rotationRad,
-      translateX: _sizeChangeDueToRotation(mapCamera).x / 2,
+      translateX: _sizeChangeDueToRotation(mapCamera).dx / 2,
     );
   }
 
@@ -18,7 +16,7 @@ abstract class SnapToMapLayout {
     return _layoutWith(
       contentAlignment: Alignment.topCenter,
       mapRotationRad: mapCamera.rotationRad,
-      translateY: _sizeChangeDueToRotation(mapCamera).y / 2,
+      translateY: _sizeChangeDueToRotation(mapCamera).dy / 2,
     );
   }
 
@@ -26,7 +24,7 @@ abstract class SnapToMapLayout {
     return _layoutWith(
       contentAlignment: Alignment.centerRight,
       mapRotationRad: mapCamera.rotationRad,
-      translateX: -_sizeChangeDueToRotation(mapCamera).x / 2,
+      translateX: -_sizeChangeDueToRotation(mapCamera).dx / 2,
     );
   }
 
@@ -34,7 +32,7 @@ abstract class SnapToMapLayout {
     return _layoutWith(
       contentAlignment: Alignment.bottomCenter,
       mapRotationRad: mapCamera.rotationRad,
-      translateY: -_sizeChangeDueToRotation(mapCamera).y / 2,
+      translateY: -_sizeChangeDueToRotation(mapCamera).dy / 2,
     );
   }
 
@@ -45,8 +43,7 @@ abstract class SnapToMapLayout {
     );
   }
 
-  static Point<double> _sizeChangeDueToRotation(MapCamera mapCamera) =>
-      mapCamera.size - mapCamera.nonRotatedSize;
+  static Offset _sizeChangeDueToRotation(MapCamera mapCamera) => (mapCamera.size - mapCamera.nonRotatedSize) as Offset;
 
   static PopupLayout _layoutWith({
     required Alignment contentAlignment,

@@ -12,12 +12,10 @@ class WidgetBetweenPopupsAndMarkersPage extends StatefulWidget {
   const WidgetBetweenPopupsAndMarkersPage({super.key});
 
   @override
-  State<WidgetBetweenPopupsAndMarkersPage> createState() =>
-      _WidgetBetweenPopupsAndMarkersPageState();
+  State<WidgetBetweenPopupsAndMarkersPage> createState() => _WidgetBetweenPopupsAndMarkersPageState();
 }
 
-class _WidgetBetweenPopupsAndMarkersPageState
-    extends State<WidgetBetweenPopupsAndMarkersPage> {
+class _WidgetBetweenPopupsAndMarkersPageState extends State<WidgetBetweenPopupsAndMarkersPage> {
   late final List<Marker> _markersA;
   late final List<Marker> _markersB;
 
@@ -74,13 +72,11 @@ class _WidgetBetweenPopupsAndMarkersPageState
                 options: MapOptions(
                   initialZoom: 5.0,
                   initialCenter: const LatLng(44.421, 10.404),
-                  onTap: (_, __) => _popupLayerController
-                      .hideAllPopups(), // Hide popup when the map is tapped.
+                  onTap: (_, __) => _popupLayerController.hideAllPopups(), // Hide popup when the map is tapped.
                 ),
                 children: [
                   TileLayer(
-                    urlTemplate:
-                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                   ),
                   PopupMarkerLayer(
                     options: PopupMarkerLayerOptions(
@@ -92,12 +88,10 @@ class _WidgetBetweenPopupsAndMarkersPageState
                       markers: _markersB,
                     ),
                   ),
-                  IgnorePointer(
-                      child: Container(color: Colors.red.withOpacity(0.2))),
+                  IgnorePointer(child: Container(color: Colors.red.withValues(alpha: 0.2))),
                   PopupLayer(
                     popupDisplayOptions: PopupDisplayOptions(
-                      builder: (BuildContext context, Marker marker) =>
-                          ExamplePopup(marker),
+                      builder: (BuildContext context, Marker marker) => ExamplePopup(marker),
                     ),
                   ),
                 ],
