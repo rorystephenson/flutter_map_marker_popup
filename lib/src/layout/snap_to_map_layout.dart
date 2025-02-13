@@ -10,7 +10,7 @@ abstract class SnapToMapLayout {
     return _layoutWith(
       contentAlignment: Alignment.centerLeft,
       mapRotationRad: mapCamera.rotationRad,
-      translateX: _sizeChangeDueToRotation(mapCamera).x / 2,
+      translateX: _sizeChangeDueToRotation(mapCamera).dx / 2,
     );
   }
 
@@ -18,7 +18,7 @@ abstract class SnapToMapLayout {
     return _layoutWith(
       contentAlignment: Alignment.topCenter,
       mapRotationRad: mapCamera.rotationRad,
-      translateY: _sizeChangeDueToRotation(mapCamera).y / 2,
+      translateY: _sizeChangeDueToRotation(mapCamera).dy / 2,
     );
   }
 
@@ -26,7 +26,7 @@ abstract class SnapToMapLayout {
     return _layoutWith(
       contentAlignment: Alignment.centerRight,
       mapRotationRad: mapCamera.rotationRad,
-      translateX: -_sizeChangeDueToRotation(mapCamera).x / 2,
+      translateX: -_sizeChangeDueToRotation(mapCamera).dx / 2,
     );
   }
 
@@ -34,7 +34,7 @@ abstract class SnapToMapLayout {
     return _layoutWith(
       contentAlignment: Alignment.bottomCenter,
       mapRotationRad: mapCamera.rotationRad,
-      translateY: -_sizeChangeDueToRotation(mapCamera).y / 2,
+      translateY: -_sizeChangeDueToRotation(mapCamera).dy / 2,
     );
   }
 
@@ -45,8 +45,7 @@ abstract class SnapToMapLayout {
     );
   }
 
-  static Point<double> _sizeChangeDueToRotation(MapCamera mapCamera) =>
-      mapCamera.size - mapCamera.nonRotatedSize;
+  static Offset _sizeChangeDueToRotation(MapCamera mapCamera) => Offset(mapCamera.size.width - mapCamera.nonRotatedSize.width, mapCamera.size.height - mapCamera.nonRotatedSize.height);
 
   static PopupLayout _layoutWith({
     required Alignment contentAlignment,

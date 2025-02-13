@@ -1,6 +1,6 @@
 name: flutter_map_marker_popup_example
 description: Example for Flutter Map Marker Popups.
-publish_to: 'none'
+publish_to: "none"
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -11,7 +11,7 @@ dependencies:
     sdk: flutter
 
   latlong2: ^0.9.0
-  flutter_map: ^7.0.0
+  flutter_map: ^8.0.0
   flutter_map_marker_popup:
     path: ../
 
