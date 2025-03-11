@@ -57,44 +57,46 @@ abstract class PopupCalculations {
   }
 
   static double mapLeftToPointX(
-    MapCamera mapCamera,
-    Point<num> point,
-  ) {
+      MapCamera mapCamera,
+      Point<num> point,
+      ) {
     return point.x.toDouble();
   }
 
   static double mapRightToPointX(
-    MapCamera mapCamera,
-    Point<num> point,
-  ) {
-    return -(mapCamera.size.x - point.x).toDouble();
+      MapCamera mapCamera,
+      Point<num> point,
+      ) {
+    // Replace .x with .width
+    return -(mapCamera.size.width - point.x).toDouble();
   }
 
   static double mapCenterToPointX(
-    MapCamera mapCamera,
-    Point<num> point,
-  ) {
-    return -(mapCamera.size.x / 2 - point.x).toDouble();
+      MapCamera mapCamera,
+      Point<num> point,
+      ) {
+    return -(mapCamera.size.width / 2 - point.x).toDouble();
   }
 
   static double mapTopToPointY(
-    MapCamera mapCamera,
-    Point<num> point,
-  ) {
+      MapCamera mapCamera,
+      Point<num> point,
+      ) {
     return point.y.toDouble();
   }
 
   static double mapBottomToPointY(
-    MapCamera mapCamera,
-    Point<num> point,
-  ) {
-    return -(mapCamera.size.y - point.y).toDouble();
+      MapCamera mapCamera,
+      Point<num> point,
+      ) {
+    // Replace .y with .height
+    return -(mapCamera.size.height - point.y).toDouble();
   }
 
   static double mapCenterToPointY(
-    MapCamera mapCamera,
-    Point<num> point,
-  ) {
-    return -(mapCamera.size.y / 2 - point.y).toDouble();
+      MapCamera mapCamera,
+      Point<num> point,
+      ) {
+    return -(mapCamera.size.height / 2 - point.y).toDouble();
   }
 }
