@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'dart:math';
 
 import 'package:flutter/rendering.dart';
@@ -198,11 +199,19 @@ abstract class PopupContainerTransform {
     )..rotateZ(-mapCamera.rotationRad);
   }
 
-  static Point<num> _markerPoint(
-    MapCamera mapCamera,
-    PopupSpec popupSpec,
-  ) {
-    return mapCamera.project(popupSpec.markerPoint) -
-        mapCamera.pixelOrigin.toDoublePoint();
+  static Point<double> _markerPoint(MapCamera mapCamera, PopupSpec popupSpec) {
+    // “projectAtZoom” often returns an Offset:
+    final projectedOffset = mapCamera.projectAtZoom(
+      popupSpec.markerPoint,
+      mapCamera.zoom,
+    );
+
+    // Convert from Offset to Point<double> and subtract pixelOrigin:
+    return Point<double>(
+      projectedOffset.dx - mapCamera.pixelOrigin.dx,
+      projectedOffset.dy - mapCamera.pixelOrigin.dy,
+    );
   }
+
+
 }
