@@ -76,7 +76,7 @@ class _MarkerLayerState extends State<MarkerLayer>
 
             // Cull if out of bounds
             if (
-              !map.pixelBounds.contains(Offset(pxPoint.dx + left, pxPoint.dy - bottom)) ||
+              !map.pixelBounds.contains(Offset(pxPoint.dx + left, pxPoint.dy - bottom)) &&
               !map.pixelBounds.contains(Offset(pxPoint.dx - right, pxPoint.dy + top))
             ) {
               continue;
