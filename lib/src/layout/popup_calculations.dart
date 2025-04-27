@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/src/popup_spec.dart';
@@ -58,43 +59,43 @@ abstract class PopupCalculations {
 
   static double mapLeftToPointX(
     MapCamera mapCamera,
-    Point<num> point,
+    Offset point,
   ) {
-    return point.x.toDouble();
+    return point.dx.toDouble();
   }
 
   static double mapRightToPointX(
     MapCamera mapCamera,
-    Point<num> point,
+    Offset point,
   ) {
-    return -(mapCamera.size.x - point.x).toDouble();
+    return -(mapCamera.size.width - point.dx).toDouble();
   }
 
   static double mapCenterToPointX(
     MapCamera mapCamera,
-    Point<num> point,
+    Offset point,
   ) {
-    return -(mapCamera.size.x / 2 - point.x).toDouble();
+    return -(mapCamera.size.width / 2 - point.dx).toDouble();
   }
 
   static double mapTopToPointY(
     MapCamera mapCamera,
-    Point<num> point,
+    Offset point,
   ) {
-    return point.y.toDouble();
+    return point.dy.toDouble();
   }
 
   static double mapBottomToPointY(
     MapCamera mapCamera,
-    Point<num> point,
+    Offset point,
   ) {
-    return -(mapCamera.size.y - point.y).toDouble();
+    return -(mapCamera.size.height - point.dy).toDouble();
   }
 
   static double mapCenterToPointY(
     MapCamera mapCamera,
-    Point<num> point,
+    Offset point,
   ) {
-    return -(mapCamera.size.y / 2 - point.y).toDouble();
+    return -(mapCamera.size.height / 2 - point.dy).toDouble();
   }
 }
