@@ -39,21 +39,19 @@ class MarkerTapBehavior {
   /// popups exclusively with the [PopupController].
   MarkerTapBehavior.none(
       Function(
-    PopupSpec popupSpec,
-    PopupState popupState,
-    PopupController popupController,
-  )
-          onTap)
+        PopupSpec popupSpec,
+        PopupState popupState,
+        PopupController popupController,
+      ) onTap)
       : _onTap = ((_, __, ___) {});
 
   /// Define your own custom behavior when tapping a marker.
   MarkerTapBehavior.custom(
       Function(
-    PopupSpec popupSpec,
-    PopupState popupState,
-    PopupController popupController,
-  )
-          onTap)
+        PopupSpec popupSpec,
+        PopupState popupState,
+        PopupController popupController,
+      ) onTap)
       : _onTap = onTap;
 
   void apply(

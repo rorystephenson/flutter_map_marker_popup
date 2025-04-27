@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -45,7 +44,9 @@ abstract class SnapToMapLayout {
     );
   }
 
-  static Offset _sizeChangeDueToRotation(MapCamera mapCamera) => Offset(mapCamera.size.width - mapCamera.nonRotatedSize.width, mapCamera.size.height - mapCamera.nonRotatedSize.height);
+  static Offset _sizeChangeDueToRotation(MapCamera mapCamera) => Offset(
+      mapCamera.size.width - mapCamera.nonRotatedSize.width,
+      mapCamera.size.height - mapCamera.nonRotatedSize.height);
 
   static PopupLayout _layoutWith({
     required Alignment contentAlignment,

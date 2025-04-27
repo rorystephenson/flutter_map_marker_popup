@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/rendering.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -40,8 +39,10 @@ abstract class PopupContainerTransform {
     final markerPoint = _markerPoint(mapCamera, popupSpec);
 
     return Matrix4.translationValues(
-      PopupCalculations.mapRightToPointX(mapCamera, markerPoint) + PopupCalculations.centerOffsetX(popupSpec),
-      PopupCalculations.mapCenterToPointY(mapCamera, markerPoint) + PopupCalculations.centerOffsetY(popupSpec),
+      PopupCalculations.mapRightToPointX(mapCamera, markerPoint) +
+          PopupCalculations.centerOffsetX(popupSpec),
+      PopupCalculations.mapCenterToPointY(mapCamera, markerPoint) +
+          PopupCalculations.centerOffsetY(popupSpec),
       0.0,
     )
       ..rotateZ(-mapCamera.rotationRad)
@@ -75,8 +76,10 @@ abstract class PopupContainerTransform {
     final markerPoint = _markerPoint(mapCamera, popupSpec);
 
     return Matrix4.translationValues(
-      PopupCalculations.mapCenterToPointX(mapCamera, markerPoint) + PopupCalculations.centerOffsetX(popupSpec),
-      PopupCalculations.mapBottomToPointY(mapCamera, markerPoint) + PopupCalculations.centerOffsetY(popupSpec),
+      PopupCalculations.mapCenterToPointX(mapCamera, markerPoint) +
+          PopupCalculations.centerOffsetX(popupSpec),
+      PopupCalculations.mapBottomToPointY(mapCamera, markerPoint) +
+          PopupCalculations.centerOffsetY(popupSpec),
       0.0,
     )
       ..rotateZ(-mapCamera.rotationRad)
@@ -111,8 +114,10 @@ abstract class PopupContainerTransform {
     final markerPoint = _markerPoint(mapCamera, popupSpec);
 
     return Matrix4.translationValues(
-      PopupCalculations.mapLeftToPointX(mapCamera, markerPoint) + PopupCalculations.centerOffsetX(popupSpec),
-      PopupCalculations.mapCenterToPointY(mapCamera, markerPoint) + PopupCalculations.centerOffsetY(popupSpec),
+      PopupCalculations.mapLeftToPointX(mapCamera, markerPoint) +
+          PopupCalculations.centerOffsetX(popupSpec),
+      PopupCalculations.mapCenterToPointY(mapCamera, markerPoint) +
+          PopupCalculations.centerOffsetY(popupSpec),
       0.0,
     )
       ..rotateZ(-mapCamera.rotationRad)
@@ -146,8 +151,10 @@ abstract class PopupContainerTransform {
     final markerPoint = _markerPoint(mapCamera, popupSpec);
 
     return Matrix4.translationValues(
-      PopupCalculations.mapCenterToPointX(mapCamera, markerPoint) + PopupCalculations.centerOffsetX(popupSpec),
-      PopupCalculations.mapTopToPointY(mapCamera, markerPoint) + PopupCalculations.centerOffsetY(popupSpec),
+      PopupCalculations.mapCenterToPointX(mapCamera, markerPoint) +
+          PopupCalculations.centerOffsetX(popupSpec),
+      PopupCalculations.mapTopToPointY(mapCamera, markerPoint) +
+          PopupCalculations.centerOffsetY(popupSpec),
       0.0,
     )
       ..rotateZ(-mapCamera.rotationRad)
@@ -182,8 +189,10 @@ abstract class PopupContainerTransform {
     final markerPoint = _markerPoint(mapCamera, popupSpec);
 
     return Matrix4.translationValues(
-      PopupCalculations.mapCenterToPointX(mapCamera, markerPoint) + PopupCalculations.centerOffsetX(popupSpec),
-      PopupCalculations.mapCenterToPointY(mapCamera, markerPoint) + PopupCalculations.centerOffsetY(popupSpec),
+      PopupCalculations.mapCenterToPointX(mapCamera, markerPoint) +
+          PopupCalculations.centerOffsetX(popupSpec),
+      PopupCalculations.mapCenterToPointY(mapCamera, markerPoint) +
+          PopupCalculations.centerOffsetY(popupSpec),
       0.0,
     )..rotateZ(-mapCamera.rotationRad);
   }
@@ -193,6 +202,7 @@ abstract class PopupContainerTransform {
     PopupSpec popupSpec,
   ) {
     final pxPoint = mapCamera.projectAtZoom(popupSpec.markerPoint);
-    return Offset(pxPoint.dx - mapCamera.pixelOrigin.dx, pxPoint.dy - mapCamera.pixelOrigin.dy);
+    return Offset(pxPoint.dx - mapCamera.pixelOrigin.dx,
+        pxPoint.dy - mapCamera.pixelOrigin.dy);
   }
 }

@@ -1,3 +1,9 @@
+## 7.0.0 - 27/04/25
+
+* BREAKING: flutter_map 8.0.0. Thanks to @enricostrijks for the PR as well as
+  @joaovvrodrigues and @pablodelolmo who submitted similar PRs that could have
+  been merged instead.
+
 ## 7.0.0 - 10/06/24
 
 * BREAKING: flutter_map 7.0.0. Thanks to @marcelo-soares-souza and @pento
