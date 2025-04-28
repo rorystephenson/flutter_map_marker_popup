@@ -74,11 +74,13 @@ class _MarkerLayerState extends State<MarkerLayer>
             // Perform projection
             final pxPoint = map.projectAtZoom(m.point);
 
-            final width = (pxPoint.dx + left) - (pxPoint.dx - right);
-            final height = (pxPoint.dy + top) - (pxPoint.dy - bottom);
-
             // Cull if out of bounds
-            if (!map.pixelBounds.contains(Offset(width, height))) {
+            if (!map.pixelBounds.overlaps(
+              Rect.fromPoints(
+                Offset(pxPoint.dx + left, pxPoint.dy - bottom),
+                Offset(pxPoint.dx - right, pxPoint.dy + top),
+              ),
+            )) {
               continue;
             }
 

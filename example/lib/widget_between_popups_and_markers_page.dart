@@ -93,7 +93,8 @@ class _WidgetBetweenPopupsAndMarkersPageState
                     ),
                   ),
                   IgnorePointer(
-                      child: Container(color: Colors.red.withOpacity(0.2))),
+                      child:
+                          Container(color: Colors.red.withValues(alpha: 0.2))),
                   PopupLayer(
                     popupDisplayOptions: PopupDisplayOptions(
                       builder: (BuildContext context, Marker marker) =>

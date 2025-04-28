@@ -1,4 +1,9 @@
-## 7.0.0 - 27/04/25
+## 8.0.1 - 28/04/25
+
+* BUGFIX: Fix a bug that prevented markers from being shown
+* Update example app's Gradle config
+
+## 8.0.0 - 27/04/25
 
 * BREAKING: flutter_map 8.0.0. Thanks to @enricostrijks for the PR as well as
   @joaovvrodrigues and @pablodelolmo who submitted similar PRs that could have

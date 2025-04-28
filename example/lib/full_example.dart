@@ -125,7 +125,7 @@ class _FullExampleState extends State<FullExample> {
         rotate: widget.rotate,
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.blue.withOpacity(0.5),
+            color: Colors.blue.withValues(alpha: 0.5),
             border: Border.all(color: Colors.black, width: 0.0),
             borderRadius: const BorderRadius.all(Radius.elliptical(40, 20)),
           ),
