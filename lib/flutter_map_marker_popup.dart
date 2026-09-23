@@ -13,3 +13,4 @@ export 'src/popup_marker_layer.dart';
 export 'src/popup_snap.dart';
 export 'src/state/popup_scope.dart';
 export 'src/state/popup_state.dart';
+export 'src/state/popup_event.dart';
